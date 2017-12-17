@@ -3,8 +3,15 @@ import App from './App.vue';
 import store from './stores/store';
 import router from './router';
 import { sync } from 'vuex-router-sync';
+import Component from 'vue-class-component';
 
-import APIService from '@/services/API.service';
+import APIService from './services/API.service';
+
+Component.registerHooks([
+    'beforeRouteEnter',
+    'beforeRouteLeave',
+    'beforeRouteUpdate'
+]);
 
 // Bootstrap
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
