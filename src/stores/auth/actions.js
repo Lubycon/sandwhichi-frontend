@@ -1,5 +1,5 @@
 import Q from 'q';
-import APIService from 'src/services/API.service';
+import APIService from '@/services/API.service';
 
 export function setToken (store, { accessToken, refreshToken }) {
     let defer = Q.defer();

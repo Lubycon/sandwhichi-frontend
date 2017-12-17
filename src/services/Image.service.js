@@ -1,4 +1,4 @@
-import { DEFAULT_USER_PROFILE } from 'src/constants';
+import { DEFAULT_USER_PROFILE } from '@/constants';
 
 class ImageService {
     constructor (DEFAULT_USER_PROFILE) {

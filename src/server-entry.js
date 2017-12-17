@@ -1,6 +1,6 @@
 /* Main application bootstrapper */
 import { createApp } from './app';
-import CookieService from 'src/services/Cookie.service';
+import CookieService from '@/services/Cookie.service';
 
 export default context => {
     return new Promise((resolve, reject) => {

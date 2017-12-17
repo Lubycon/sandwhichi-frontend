@@ -1,4 +1,4 @@
-import { DEFAULT_USER_PROFILE } from 'src/constants';
+import { DEFAULT_USER_PROFILE } from '@/constants';
 
 export const AuthState = {
     user: null,

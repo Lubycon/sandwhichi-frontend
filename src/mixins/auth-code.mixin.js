@@ -1,4 +1,4 @@
-import APIService from 'src/services/API.service';
+import APIService from '@/services/API.service';
 
 export const AuthCodeMixin = {
     data () {

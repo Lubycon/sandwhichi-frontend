@@ -4,7 +4,7 @@ import store from './stores/store';
 import router from './router';
 import { sync } from 'vuex-router-sync';
 
-import APIService from 'src/services/API.service';
+import APIService from '@/services/API.service';
 
 // Bootstrap
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';

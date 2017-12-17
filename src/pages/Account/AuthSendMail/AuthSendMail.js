@@ -1,4 +1,4 @@
-import SendMailForm from 'src/components/forms/SendMail.form.vue';
+import SendMailForm from '@/components/forms/SendMail.form.vue';
 
 export default {
     name: 'AuthSendMail',

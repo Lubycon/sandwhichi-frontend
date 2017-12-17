@@ -2,7 +2,7 @@ import axios from 'axios';
 import Q from 'q';
 
 import { CUSTOM_HEADER_PREFIX } from '../constants';
-import { API_BASE_URL } from 'src/constants/env.constant';
+import { API_BASE_URL } from '@/constants/env.constant';
 import { API_LIST } from '../constants/api.constant';
 
 class APIService {

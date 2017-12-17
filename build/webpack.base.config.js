@@ -11,9 +11,9 @@ module.exports = {
     },
     resolve: {
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-        extensions: ['.js', '.vue'],
+        extensions: ['.js', '.ts', '.vue'],
         alias: {
-            'src': path.resolve(__dirname, '../src'),
+            '@': path.resolve(__dirname, '../src'),
             'assets': path.resolve(__dirname, '../src/assets'),
             'components': path.resolve(__dirname, '../src/components')
         }
@@ -48,6 +48,14 @@ module.exports = {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: vueConfig
+            },
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader',
+                exclude: /node_modules/,
+                options: {
+                    appendTsSuffixTo: [/\.vue$/]
+                }
             },
             {
                 test: /\.js$/,

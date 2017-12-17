@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex';
-import { AuthCodeMixin } from 'src/mixins/auth-code.mixin';
+import { AuthCodeMixin } from '@/mixins/auth-code.mixin';
 
 export default {
     name: 'AuthGradeLanding',

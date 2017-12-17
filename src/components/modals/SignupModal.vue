@@ -41,9 +41,9 @@ div[data-name="form-signin"] {
 
 <script>
 import { mapActions } from 'vuex';
-import { ModalChildMixin } from 'src/mixins/modal-child.mixin';
-import APIService from 'src/services/API.service';
-import SignupForm from 'src/components/forms/Signup.form.vue';
+import { ModalChildMixin } from '@/mixins/modal-child.mixin';
+import APIService from '@/services/API.service';
+import SignupForm from '@/components/forms/Signup.form.vue';
 
 export default {
     name: 'SignupModal',

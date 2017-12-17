@@ -69,9 +69,9 @@ small {
 </style>
 
 <script>
-import { isExistUserMixin } from 'src/mixins/is-exist-user.mixin';
-import { PasswordMixin } from 'src/mixins/password.mixin';
-import ValidateService from 'src/services/Validate.service';
+import { isExistUserMixin } from '@/mixins/is-exist-user.mixin';
+import { PasswordMixin } from '@/mixins/password.mixin';
+import ValidateService from '@/services/Validate.service';
 
 export default {
     name: 'Signup-form',

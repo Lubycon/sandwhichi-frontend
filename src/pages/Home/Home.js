@@ -1,4 +1,4 @@
-import SignupModal from 'src/components/modals/SignupModal.vue';
+import SignupModal from '@/components/modals/SignupModal.vue';
 
 export default {
     name: 'Home',

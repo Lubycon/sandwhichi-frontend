@@ -1,5 +1,5 @@
-import APIService from 'src/services/API.service';
-import CookieService from 'src/services/Cookie.service';
+import APIService from '@/services/API.service';
+import CookieService from '@/services/Cookie.service';
 
 export function SET_TOKEN (state, { accessToken, refreshToken }) {
     state.accessToken = accessToken;

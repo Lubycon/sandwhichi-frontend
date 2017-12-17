@@ -1,7 +1,7 @@
 import { mapActions } from 'vuex';
-import { LOGO } from 'src/constants';
-import APIService from 'src/services/API.service';
-import SigninForm from 'src/components/forms/Signin.form.vue';
+import { LOGO } from '@/constants';
+import APIService from '@/services/API.service';
+import SigninForm from '@/components/forms/Signin.form.vue';
 
 export default {
     name: 'Signin',

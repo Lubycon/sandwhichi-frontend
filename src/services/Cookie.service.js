@@ -1,5 +1,5 @@
 import Cookie from 'js-cookie';
-import Base64Service from 'src/services/Base64.service';
+import Base64Service from '@/services/Base64.service';
 
 class CookieService {
     save ({ key, value }) {

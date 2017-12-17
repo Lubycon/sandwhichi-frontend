@@ -1,5 +1,5 @@
-import APIService from 'src/services/API.service';
-import SigndropForm from 'src/components/forms/Signdrop.form.vue';
+import APIService from '@/services/API.service';
+import SigndropForm from '@/components/forms/Signdrop.form.vue';
 
 export default {
     name: 'Signdrop',

@@ -59,8 +59,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { LOGO } from 'src/constants';
-import SignupModal from 'src/components/modals/SignupModal.vue';
+import { LOGO } from '@/constants';
+import SignupModal from '@/components/modals/SignupModal.vue';
 
 export default {
     name: 'GlobalHeader',

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import APIService from 'src/services/API.service';
+import APIService from '@/services/API.service';
 
 export default {
     name: 'AuthGrade',

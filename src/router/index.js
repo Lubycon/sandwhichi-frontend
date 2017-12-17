@@ -3,27 +3,27 @@ import VueRouter from 'vue-router';
 import VueMeta from 'vue-meta';
 
 /* Global Components */
-import Header from 'src/components/Header.vue';
-import Footer from 'src/components/Footer.vue';
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
 /* /Global Components */
 
 /* PAGES */
-import Home from 'src/pages/Home/Home.vue';
-import ErrorView from 'src/pages/ErrorView/ErrorView.vue';
+import Home from '@/pages/Home/Home.vue';
+import ErrorView from '@/pages/ErrorView/ErrorView.vue';
 
-import Signin from 'src/pages/Account/Signin/Signin.vue';
-import Signup from 'src/pages/Account/Signup/Signup.vue';
-import Signdrop from 'src/pages/Account/Signdrop/Signdrop.vue';
-import AuthSendMail from 'src/pages/Account/AuthSendMail/AuthSendMail.vue';
+import Signin from '@/pages/Account/Signin/Signin.vue';
+import Signup from '@/pages/Account/Signup/Signup.vue';
+import Signdrop from '@/pages/Account/Signdrop/Signdrop.vue';
+import AuthSendMail from '@/pages/Account/AuthSendMail/AuthSendMail.vue';
 
-import AuthGrade from 'src/pages/Auth/AuthGrade/AuthGrade.vue';
-import AuthGradeLanding from 'src/pages/Auth/AuthGradeLanding/AuthGradeLanding.vue';
-import AuthPassword from 'src/pages/Auth/AuthPassword/AuthPassword.vue';
-import AuthPasswordLanding from 'src/pages/Auth/AuthPasswordLanding/AuthPasswordLanding.vue';
+import AuthGrade from '@/pages/Auth/AuthGrade/AuthGrade.vue';
+import AuthGradeLanding from '@/pages/Auth/AuthGradeLanding/AuthGradeLanding.vue';
+import AuthPassword from '@/pages/Auth/AuthPassword/AuthPassword.vue';
+import AuthPasswordLanding from '@/pages/Auth/AuthPasswordLanding/AuthPasswordLanding.vue';
 
-import Docs from 'src/pages/Docs/Docs.vue';
-import PrivacyPolicy from 'src/pages/Docs/PrivacyPolicy/PrivacyPolicy.vue';
-import TermsOfService from 'src/pages/Docs/TermsOfService/TermsOfService.vue';
+import Docs from '@/pages/Docs/Docs.vue';
+import PrivacyPolicy from '@/pages/Docs/PrivacyPolicy/PrivacyPolicy.vue';
+import TermsOfService from '@/pages/Docs/TermsOfService/TermsOfService.vue';
 /* /PAGES */
 
 Vue.use(VueRouter);
