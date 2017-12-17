@@ -1,0 +1,25 @@
+$breakpoints: (
+    'sm': (max-width: 767px),
+    'md': (max-width: 959px),
+    'lg': (max-width: 1139px)
+);
+
+@mixin mq($breakpoint) {
+    $raw-query: map-get($breakpoints, $breakpoint);
+
+    @if $raw-query {
+        $query: if(
+            type-of($raw-query) == 'string',
+            unquote($raw-query),
+            inspect($raw-query)
+        );
+
+        @media screen and #{$query} {
+            @content;
+        }
+    }
+    @else {
+        @error 'No value found for `#{$breakpoint}`.' +
+               'Please make sure it is defined in `#{$breakpoints}` map';
+    }
+}
