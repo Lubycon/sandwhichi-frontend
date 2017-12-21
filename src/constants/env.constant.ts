@@ -1,8 +1,13 @@
 const env = process.env.NODE_ENV;
 
-function get (env) {
-    let apiBaseUrl = '';
-    let s3BaseUrl = '';
+interface ENV_CONFIG {
+    API_BASE_URL: string;
+    S3_BASE_URL: string;
+}
+
+function getEnv (env: string): ENV_CONFIG {
+    let apiBaseUrl: string = '';
+    let s3BaseUrl: string = '';
 
     if (env === 'production') {
         apiBaseUrl = 'https://api.pixelstairs.com/v1';
@@ -26,4 +31,4 @@ function get (env) {
 export const {
     API_BASE_URL,
     S3_BASE_URL,
-} = get(env);
+} = getEnv(env);
