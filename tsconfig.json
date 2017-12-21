@@ -14,5 +14,9 @@
     "include": [
         "src/**/*.ts"
     ],
-    "compileOnSave": false
+    "compileOnSave": false,
+    "files": [
+        "./src/typings/index.d.ts",
+        "./src/typings/json.d.ts"
+    ]
 }
