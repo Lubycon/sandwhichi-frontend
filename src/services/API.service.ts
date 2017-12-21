@@ -1,14 +1,23 @@
 import axios from 'axios';
 import Q from 'q';
 
-import { CUSTOM_HEADER_PREFIX } from '../constants';
+import { Store } from 'vuex';
+import { CUSTOM_HEADER_PREFIX } from '@/constants';
 import { API_BASE_URL } from '@/constants/env.constant';
 import { API_LIST } from '../constants/api.constant';
 
 class APIService {
-    constructor (axios, API_LIST) {
-        this._axios = axios.create({ baseURL: API_BASE_URL });
-        this._apilist = this.generateAPI(API_LIST);
+    private axios: any;
+    private apilist: any;
+    private router: any;
+    private store: Store<any>;
+
+    private myAuthToken: string;
+    private myRefreshToken: string;
+
+    constructor (axios: any, API_LIST: any) {
+        this.axios = axios.create({ baseURL: API_BASE_URL });
+        this.apilist = this.generateAPI(API_LIST);
     }
 
     init ({ router, store }) {
@@ -16,32 +25,32 @@ class APIService {
         this.store = store;
     }
 
-    set authToken (newToken) {
-        this._myAuthToken = newToken;
-        this._axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+    set authToken (newAuthToken: string) {
+        this.myAuthToken = newAuthToken;
+        this.axios.defaults.headers.common.Authorization = `Bearer ${newAuthToken}`;
     }
 
-    get authToken () {
-        return this._myAuthToken;
+    get authToken (): string {
+        return this.myAuthToken;
     }
 
-    set refreshToken (newToken) {
-        this._myRefreshToken = newToken;
-        this._axios.defaults.headers.common[`${CUSTOM_HEADER_PREFIX}refresh-token`] = newToken;
+    set refreshToken (newRefreshToken: string) {
+        this.myRefreshToken = newRefreshToken;
+        this.axios.defaults.headers.common[`${CUSTOM_HEADER_PREFIX}refresh-token`] = newRefreshToken;
     }
 
-    get refreshToken () {
-        return this._myRefreshToken;
+    get refreshToken (): string {
+        return this.myRefreshToken;
     }
 
-    destroyToken () {
-        this._myAuthToken = null;
-        this._myRefreshToken = null;
-        delete this._axios.defaults.headers.common.Authorization;
-        delete this._axios.defaults.headers.common[`${CUSTOM_HEADER_PREFIX}refresh-token`];
+    public destroyToken (): void {
+        this.myAuthToken = null;
+        this.myRefreshToken = null;
+        delete this.axios.defaults.headers.common.Authorization;
+        delete this.axios.defaults.headers.common[`${CUSTOM_HEADER_PREFIX}refresh-token`];
     }
 
-    resource (api, id = null) {
+    public resource (api: string, id: number|string = null): any {
         return {
             get: (params) => this.GET(api, id, params),
             post: (data) => this.POST(api, id, data),
@@ -50,11 +59,11 @@ class APIService {
         };
     }
 
-    GET (api, id, params) {
+    private GET (api: string, id: number|string = null, params: any): Promise<any> {
         let defer = Q.defer();
         api = this.getURI(api, id);
 
-        this._axios.get(api, { params })
+        this.axios.get(api, { params })
         .then(res => {
             console.log('GET res => ', res.data);
             defer.resolve(res.data);
@@ -76,11 +85,11 @@ class APIService {
         return defer.promise;
     }
 
-    POST (api, id, data) {
+    private POST (api: string, id: number|string = null, data: any): Promise<any> {
         let defer = Q.defer();
         api = this.getURI(api, id);
 
-        this._axios.post(api, data)
+        this.axios.post(api, data)
         .then(res => {
             defer.resolve(res.data);
         }, err => {
@@ -100,11 +109,11 @@ class APIService {
         return defer.promise;
     }
 
-    PUT (api, id, data) {
+    private PUT (api: string, id: number|string = null, data: any): Promise<any> {
         let defer = Q.defer();
         api = this.getURI(api, id);
 
-        this._axios.put(api, data)
+        this.axios.put(api, data)
         .then(res => {
             defer.resolve(res.data);
         }, err => {
@@ -124,11 +133,11 @@ class APIService {
         return defer.promise;
     }
 
-    DELETE (api, id, data) {
+    private DELETE (api: string, id: number|string, data: any): Promise<any> {
         let defer = Q.defer();
         api = this.getURI(api, id);
 
-        this._axios.delete(api, data)
+        this.axios.delete(api, data)
         .then(res => {
             defer.resolve(res.data);
         }, err => {
@@ -148,10 +157,10 @@ class APIService {
         return defer.promise;
     }
 
-    RETRY (config) {
+    private RETRY (config: any): Promise<any> {
         let defer = Q.defer();
 
-        this._axios({
+        this.axios({
             method: config.method,
             url: config.url,
             data: config.data,
@@ -165,12 +174,12 @@ class APIService {
         return defer.promise;
     }
 
-    REISSUANCE () {
+    private REISSUANCE (): Promise<any> {
         console.log('[log] REISSUANCE START!');
         let defer = Q.defer();
         let api = this.getURI('users.refreshToken');
         console.log(api);
-        this._axios.get(api).then(res => {
+        this.axios.get(api).then(res => {
             console.log('[log] REISSUANCE => TRUE');
             console.log('[log] NEW AUTH TOKEN => ', res.data.result);
             console.log('[log] REFRESH TOKEN => ', this.refreshToken);
@@ -192,13 +201,13 @@ class APIService {
         return defer.promise;
     }
 
-    errorHandler (err) {
+    private errorHandler (err): Promise<any> {
         // defer.resolve => 200
         // defer.reject => error
         let defer = Q.defer();
 
-        const IS_REFRESH_API = err.config.url.indexOf('/refresh') > -1;
-        const IS_EXPIRED = err.response.status === 419;
+        const IS_REFRESH_API: boolean = err.config.url.indexOf('/refresh') > -1;
+        const IS_EXPIRED: boolean = err.response.status === 419;
 
         console.log('API GET ERROR FROM => ', err.config.url);
         console.log('ERROR: ', err.response.status);
@@ -232,9 +241,9 @@ class APIService {
         return defer.promise;
     }
 
-    getURI (api, id, uri, list = this._apilist, index = 0) {
-        let tmp = api.split('.');
-        let type = typeof list[tmp[index]];
+    private getURI (api: string, id: number|string = null, uri: string = null, list: any = this.apilist, index: number = 0): string {
+        let tmp: string[] = api.split('.');
+        let type: string = typeof list[tmp[index]];
 
         if (list[tmp[index]]) {
             if (type === 'string') {
@@ -250,12 +259,12 @@ class APIService {
         }
     }
 
-    setParamsToAPI (uri, uriParams) {
-        const regx = /\{\w+\}/gi;
-        const braketRegx = /[{|}]/g;
+    private setParamsToAPI (uri: string, uriParams: any): string {
+        const regx: RegExp = /\{\w+\}/gi;
+        const braketRegx: RegExp = /[{|}]/g;
 
-        let params = uri.match(regx);
-        if (!params) {
+        let params: string[] = uri.match(regx);
+        if (!params || !params.length) {
             return uri;
         }
 
@@ -275,8 +284,8 @@ class APIService {
         return uriArr.join('/');
     }
 
-    generateAPI (API_LIST) {
-        let tmp = {};
+    private generateAPI (API_LIST: any): any {
+        let tmp: any = {};
 
         Object.keys(API_LIST).forEach(v => {
             if (API_LIST[v] instanceof Function) {
