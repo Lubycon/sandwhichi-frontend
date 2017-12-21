@@ -84,6 +84,7 @@ class SignupModal extends Vue {
             else {
                 alert(`[Error - ${err.status}] Unknown Error`);
             }
+            this.isBusy = false;
         });
     }
 }

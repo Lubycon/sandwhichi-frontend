@@ -5,7 +5,7 @@
             <b-form-input
                 type="email"
                 name="email"
-                v-model.trim="email"
+                v-model.trim="signupData.email"
                 placeholder="ex) evan1125@pixelstairs.com"
                 v-validate="'required|email|existEmail'"
                 :class="{ 'has-error': errors.has('email') }"
@@ -17,7 +17,7 @@
             <b-form-input
                 type="password"
                 name="password"
-                v-model.trim="password"
+                v-model.trim="signupData.password"
                 v-validate="'required|security'"
                 :class="{ 'has-error': errors.has('password') }"
             />
@@ -26,11 +26,21 @@
                 Security Level: {{ passwordLevel }}
             </b-form-text>
         </b-form-group>
-        <b-form-group label="Name">
+        <b-form-group label="First Name">
             <b-form-input
                 type="text"
-                name="name"
-                v-model.trim="name"
+                name="firstName"
+                v-model.trim="signupData.firstName"
+                v-validate="{ rules: { required: true, regex: regex.name, existName: true } }"
+                :class="{ 'has-error': errors.has('name') }"
+            />
+            <b-form-text v-if="errors.has('name')" class="is-invalid">{{ errors.first('name') }}</b-form-text>
+        </b-form-group>
+        <b-form-group label="Last Name">
+            <b-form-input
+                type="text"
+                name="lastName"
+                v-model.trim="signupData.lastName"
                 v-validate="{ rules: { required: true, regex: regex.name, existName: true } }"
                 :class="{ 'has-error': errors.has('name') }"
             />
