@@ -24,7 +24,7 @@
 <style lang="scss" scoped>
 @import 'src/styles/utils/__module__';
 
-#app-header {
+nav {
     margin: 0;
     height: $global-header-height;
     border-bottom: 1px solid $grey-400;
@@ -39,44 +39,36 @@
     .header--global-logo {
         text-align: center;
         img {
+            width: 50px;
             height: 100%;
         }
     }
     .header--user-menu {
         text-align: right;
-        & > div{
-            display:inline-block;
-            &:nth-child(1){
-                margin-right: 30px;
-            }
-        }
-        i {
-            color: $white;
-        }
     }
 }
 </style>
 
-<script>
-import { mapGetters } from 'vuex';
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+import { State, Getter } from 'vuex-class';
 import { LOGO } from '@/constants';
 import SignupModal from '@/components/modals/SignupModal.vue';
 
-export default {
+@Component({
     name: 'GlobalHeader',
     components: {
         SignupModal,
     },
-    data () {
-        return {
-            logoSrc: LOGO,
-            msg: 'This is Global Header',
-        };
-    },
-    computed: {
-        ...mapGetters({
-            isAuthorized: 'isAuthorized',
-        }),
-    },
-};
+})
+
+class GlobalHeader extends Vue {
+    logoSrc: string = LOGO;
+    msg: string = 'This is Global Header';
+
+    @State('auth') AuthState;
+    @Getter('isAuthorized') isAuthorized;
+}
+
+export default GlobalHeader;
 </script>
