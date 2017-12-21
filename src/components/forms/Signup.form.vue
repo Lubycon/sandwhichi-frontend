@@ -68,45 +68,50 @@ small {
 }
 </style>
 
-<script>
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { isExistUserMixin } from '@/mixins/is-exist-user.mixin';
 import { PasswordMixin } from '@/mixins/password.mixin';
-import ValidateService from '@/services/Validate.service';
+import { UserSignupData } from '@/interfaces/User.interface';
+import ValidateService from '@/services/Validate.service.js';
 
-export default {
-    name: 'Signup-form',
+@Component({
+    name: 'SignupForm',
     mixins: [ isExistUserMixin, PasswordMixin ],
-    props: {
-        isBusy: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    data () {
-        return {
+})
+class SignupForm extends Vue {
+    signupData: UserSignupData;
+    errors: any;
+    regex: any;
+
+    constructor () {
+        super();
+
+        this.signupData = {
             email: null,
             password: null,
-            name: null,
-            newsletter: true,
-            regex: { name: ValidateService.getRegex('name') },
+            firstName: null,
+            lastName: null,
+            termsOfServiceAccepted: false,
         };
-    },
-    methods: {
-        submit () {
-            this.$validator.validateAll();
-            if (this.errors.any()) {
-                console.log(this.errors);
-            }
-            else {
-                this.$emit('submit', {
-                    email: this.email,
-                    password: this.password,
-                    nickname: this.name,
-                    newsletterAccepted: this.newsletter,
-                    termsOfServiceAccepted: true,
-                });
-            }
-        },
-    },
-};
+        this.regex = {
+            name: ValidateService.getRegex('name'),
+        };
+    }
+
+    @Prop() isBusy: boolean = false;
+
+    submit (): void {
+        const signupData: UserSignupData = this.signupData;
+
+        this.$validator.validateAll();
+        if (this.errors.any()) {
+            console.log(this.errors);
+        }
+        else {
+            this.$emit('submit', signupData);
+        }
+    }
+}
+export default SignupForm;
 </script>
