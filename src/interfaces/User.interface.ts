@@ -8,3 +8,11 @@ export interface User {
     profileImg: Image;
     newsletterAccepted?: number;
 }
+
+export interface UserSignupData {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    termsOfServiceAccepted: boolean;
+}
