@@ -16,7 +16,7 @@
 $footer-margin: 20px;
 $menu-margin: $footer-margin / 2;
 
-#app-footer {
+nav {
     border-top: 1px solid $grey-400;
     margin: 0;
     padding: {
@@ -52,23 +52,30 @@ ul {
 }
 </style>
 
-<script>
-export default {
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+
+interface FooterMenu {
+    name: string;
+    link: string;
+}
+
+@Component({
     name: 'GlobalFooter',
-    data () {
-        return {
-            navMenus: [{
-                name: 'Menu1',
-                link: 'home',
-            }, {
-                name: 'Menu2',
-                link: 'home',
-            }, {
-                name: 'Menu3',
-                link: 'home',
-            }],
-            msg: 'This is Global Footer',
-        };
-    },
-};
+})
+class GlobalFooter extends Vue {
+    navMenus: FooterMenu[];
+    msg: string;
+
+    constructor () {
+        super();
+
+        this.navMenus = [{
+            name: 'Menu1',
+            link: 'home',
+        }];
+        this.msg = 'This is Global Footer';
+    }
+}
+export default GlobalFooter;
 </script>

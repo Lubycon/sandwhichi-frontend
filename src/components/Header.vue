@@ -63,8 +63,15 @@ import SignupModal from '@/components/modals/SignupModal.vue';
 })
 
 class GlobalHeader extends Vue {
-    logoSrc: string = LOGO;
-    msg: string = 'This is Global Header';
+    logoSrc: string;
+    msg: string;
+
+    constructor () {
+        super();
+        
+        this.logoSrc = LOGO;
+        this.msg = 'This is Global Header';
+    }
 
     @State('auth') AuthState;
     @Getter('isAuthorized') isAuthorized;
