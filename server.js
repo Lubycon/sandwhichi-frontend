@@ -123,7 +123,7 @@ else {
 }
 
 if(isLocal) {
-    let host = 'local.pixelstairs.com';
+    let host = 'local.sandwhichi.com';
     app.listen(port, host, () => {
         console.log(`server started at ${host}:${port}`);
     });
