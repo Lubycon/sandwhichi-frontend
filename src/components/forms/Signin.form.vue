@@ -41,34 +41,38 @@
 }
 </style>
 
-<script>
-export default {
-    name: 'Signin-form',
-    props: {
-        isBusy: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    data () {
-        return {
-            email: null,
-            password: null,
-        };
-    },
-    methods: {
-        submit () {
-            this.$validator.validateAll();
-            if (this.errors.any()) {
-                alert(this.errors.items[0].msg);
-            }
-            else {
-                this.$emit('submit', {
-                    email: this.email,
-                    password: this.password,
-                });
-            }
-        },
-    },
-};
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator';
+
+@Component({
+    name: 'SigninForm',
+})
+class SigninForm extends Vue {
+    email: string;
+    password: string;
+    errors: any;
+
+    constructor () {
+        super();
+
+        this.email = null;
+        this.password = null;
+    }
+
+    @Prop() isBusy: boolean = false;
+
+    submit (): void {
+        this.$validator.validateAll();
+        if (this.errors.any()) {
+            alert(this.errors.items[0].msg);
+        }
+        else {
+            this.$emit('submit', {
+                email: this.email,
+                password: this.password,
+            });
+        }
+    }
+}
+export default SigninForm;
 </script>
