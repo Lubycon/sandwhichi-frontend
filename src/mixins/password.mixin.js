@@ -1,4 +1,4 @@
-import ValidateService from '@/services/Validate.service';
+import ValidateService from '@/services/Validate.service.ts';
 
 export const PasswordMixin = {
     computed: {

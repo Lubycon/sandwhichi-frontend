@@ -83,7 +83,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { isExistUserMixin } from '@/mixins/is-exist-user.mixin';
 import { PasswordMixin } from '@/mixins/password.mixin';
 import { UserSignupData } from '@/interfaces/User.interface';
-import ValidateService from '@/services/Validate.service.js';
+import ValidateService from '@/services/Validate.service';
 
 @Component({
     name: 'SignupForm',
