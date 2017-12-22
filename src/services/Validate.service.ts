@@ -1,12 +1,8 @@
-/*
-    @name: Validate.service.js
-    @desc: 픽셀스테어스 폼 밸리데이션 서비스
-    @authro: Evan Moon
-    @created_ar: 2017.09.19
-*/
 import { Validator } from 'vee-validate';
 
 class ValidateService {
+    private regex: any;
+
     constructor () {
         this.regex = {
             name: /[^!@#$%^&*.,`"'\s]+$/,
@@ -21,11 +17,11 @@ class ValidateService {
         };
     }
 
-    getRegex (name) {
+    public getRegex (name): any {
         return this.regex[name];
     }
 
-    getValidateMsgs () {
+    public getValidateMsgs (): any {
         return {
             en: {
                 custom: {
@@ -44,33 +40,11 @@ class ValidateService {
         };
     }
 
-    getPasswordTestList () {
-        return [{
-            score: 1,
-            regex: this.regex.lowercase,
-        }, {
-            score: 1,
-            regex: this.regex.uppercase,
-        }, {
-            score: 1,
-            regex: this.regex.number,
-        }, {
-            score: 2,
-            regex: this.regex.password.specialChars,
-        }, {
-            score: 5,
-            regex: this.regex.password.repeat,
-        }, {
-            score: 10,
-            regex: this.regex.password.minlength,
-        }];
-    }
-
-    getPasswordTotalScore () {
+    public getPasswordTotalScore () {
         return this.getPasswordTestList().map(v => v.score).reduce((p, v) => p + v);
     }
 
-    getPasswordLevel (score) {
+    public getPasswordLevel (score) {
         if (score >= 100) {
             return 'perfect';
         }
@@ -85,7 +59,7 @@ class ValidateService {
         }
     }
 
-    calcPasswordScore (password, max) {
+    public calcPasswordScore (password, max) {
         let score = 0;
 
         if (password && password.length > 0) {
@@ -109,6 +83,28 @@ class ValidateService {
         score = score > 0 ? (score / max) * 100 : 0;
 
         return score;
+    }
+
+    private getPasswordTestList (): any {
+        return [{
+            score: 1,
+            regex: this.regex.lowercase,
+        }, {
+            score: 1,
+            regex: this.regex.uppercase,
+        }, {
+            score: 1,
+            regex: this.regex.number,
+        }, {
+            score: 2,
+            regex: this.regex.password.specialChars,
+        }, {
+            score: 5,
+            regex: this.regex.password.repeat,
+        }, {
+            score: 10,
+            regex: this.regex.password.minlength,
+        }];
     }
 }
 
