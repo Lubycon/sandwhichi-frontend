@@ -25,7 +25,30 @@
 </div>
 </template>
 
-<script>
-    import AuthSendMail from './AuthSendMail';
-    export default AuthSendMail;
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+import SendMailForm from '@/components/forms/SendMail.form.vue';
+
+@Component({
+    name: 'AuthSendMail',
+    components: { SendMailForm },
+})
+class AuthSendMail extends Vue {
+    email: string;
+    isDone: boolean;
+
+    constructor () {
+        super();
+        this.email = null;
+        this.isDone = false;
+    }
+
+    submit ({ res, email }): void {
+        if (res.status.code === '000') {
+            this.isDone = true;
+            this.$set(this, 'email', email);
+        }
+    }
+}
+export default AuthSendMail;
 </script>
