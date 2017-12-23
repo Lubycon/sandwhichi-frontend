@@ -10,7 +10,13 @@
 </template>
 
 <style lang="scss" scoped>
-@import './Home';
+@import '~@/styles/utils/__module__';
+
+h1 {
+    margin: 50px 0;
+    color: $bluegrey-800;
+    text-align: center;
+}
 </style>
 
 <script lang="ts">

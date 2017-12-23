@@ -10,7 +10,7 @@ import Footer from '@/components/Footer.vue';
 /* /Global Components */
 
 /* PAGES */
-import Home from '@/pages/Home/Home.vue';
+import Home from '@/pages/Home.vue';
 import ErrorView from '@/pages/ErrorView/ErrorView.vue';
 
 import Signin from '@/pages/Account/Signin/Signin.vue';
