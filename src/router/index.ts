@@ -11,7 +11,7 @@ import Footer from '@/components/Footer.vue';
 
 /* PAGES */
 import Home from '@/pages/Home.vue';
-import ErrorView from '@/pages/ErrorView/ErrorView.vue';
+import ErrorView from '@/pages/ErrorView.vue';
 
 import Signin from '@/pages/Account/Signin/Signin.vue';
 import Signup from '@/pages/Account/Signup/Signup.vue';

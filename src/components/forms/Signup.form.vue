@@ -109,7 +109,8 @@ class SignupForm extends Vue {
         };
     }
 
-    @Prop() isBusy: boolean = false;
+    @Prop()
+    isBusy: boolean = false;
 
     submit (): void {
         const signupData: UserSignupData = this.signupData;
