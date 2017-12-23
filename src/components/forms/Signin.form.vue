@@ -59,8 +59,8 @@ class SigninForm extends Vue {
         this.password = null;
     }
 
-    @Prop()
-    isBusy: boolean = false;
+    @Prop({ default: false })
+    isBusy: boolean;
 
     submit (): void {
         this.$validator.validateAll();

@@ -18,10 +18,10 @@ import Signup from '@/pages/Account/Signup/Signup.vue';
 import Signdrop from '@/pages/Account/Signdrop/Signdrop.vue';
 import AuthSendMail from '@/pages/Account/AuthSendMail/AuthSendMail.vue';
 
-import AuthGrade from '@/pages/Auth/AuthGrade/AuthGrade.vue';
-import AuthGradeLanding from '@/pages/Auth/AuthGradeLanding/AuthGradeLanding.vue';
+import AuthGrade from '@/pages/Auth/AuthGrade.vue';
+import AuthGradeLanding from '@/pages/Auth/AuthGradeLanding.vue';
 import AuthPassword from '@/pages/Auth/AuthPassword/AuthPassword.vue';
-import AuthPasswordLanding from '@/pages/Auth/AuthPasswordLanding/AuthPasswordLanding.vue';
+import AuthPasswordLanding from '@/pages/Auth/AuthPasswordLanding.vue';
 
 import Docs from '@/pages/Docs/Docs.vue';
 import PrivacyPolicy from '@/pages/Docs/PrivacyPolicy/PrivacyPolicy.vue';

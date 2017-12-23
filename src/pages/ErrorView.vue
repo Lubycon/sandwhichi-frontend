@@ -35,8 +35,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
     name: 'ErrorView',
 })
 class ErrorView extends Vue {
-    @Prop()
-    code: string = '500';
+    @Prop({ default: '500' })
+    code: string;
 
     get errorMessage (): string {
         let output: string;
