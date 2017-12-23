@@ -64,6 +64,7 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@types/moment": "^2.13.0",
     "@types/node": "^8.5.1",
     "autoprefixer": "^7.1.4",
     "babel-core": "^6.25.2",
