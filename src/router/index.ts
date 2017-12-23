@@ -20,7 +20,7 @@ import AuthSendMail from '@/pages/Account/AuthSendMail/AuthSendMail.vue';
 
 import AuthGrade from '@/pages/Auth/AuthGrade.vue';
 import AuthGradeLanding from '@/pages/Auth/AuthGradeLanding.vue';
-import AuthPassword from '@/pages/Auth/AuthPassword/AuthPassword.vue';
+import AuthPassword from '@/pages/Auth/AuthPassword.vue';
 import AuthPasswordLanding from '@/pages/Auth/AuthPasswordLanding.vue';
 
 import Docs from '@/pages/Docs/Docs.vue';
