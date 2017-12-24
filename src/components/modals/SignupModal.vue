@@ -42,7 +42,7 @@ div[data-name="form-signin"] {
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
-import { ModalChildMixin } from '@/mixins/modal-child.mixin';
+import { ModalChildMixin } from '@/mixins/ModalChild.mixin';
 import { UserSignupData } from '@/interfaces/User.interface';
 import APIService from '@/services/API.service';
 import SignupForm from '@/components/forms/Signup.form.vue';

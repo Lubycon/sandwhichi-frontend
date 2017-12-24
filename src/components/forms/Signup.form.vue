@@ -80,8 +80,8 @@ small {
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { isExistUserMixin } from '@/mixins/is-exist-user.mixin';
-import { PasswordMixin } from '@/mixins/password.mixin';
+import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
+import { PasswordMixin } from '@/mixins/Password.mixin';
 import { UserSignupData } from '@/interfaces/User.interface';
 import ValidateService from '@/services/Validate.service';
 
@@ -90,6 +90,9 @@ import ValidateService from '@/services/Validate.service';
     mixins: [ isExistUserMixin, PasswordMixin ],
 })
 class SignupForm extends Vue {
+    isExistEmail: Function;
+    isExistName: Function;
+
     signupData: UserSignupData;
     errors: any;
     regex: any;

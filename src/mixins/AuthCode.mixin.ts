@@ -12,7 +12,7 @@ export class AuthCodeMixin extends Vue {
     }
 
     fetchCodeValidation (api: string, code: string ): Promise<any> {
-        let defer = Q.defer();
+        const defer = Q.defer();
 
         APIService.resource(api).post({ code })
         .then(res => {

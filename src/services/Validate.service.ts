@@ -17,7 +17,7 @@ class ValidateService {
         };
     }
 
-    public getRegex (name): any {
+    public getRegex (name: string): any {
         return this.regex[name];
     }
 
@@ -40,11 +40,11 @@ class ValidateService {
         };
     }
 
-    public getPasswordTotalScore () {
+    public getPasswordTotalScore (): number {
         return this.getPasswordTestList().map(v => v.score).reduce((p, v) => p + v);
     }
 
-    public getPasswordLevel (score) {
+    public getPasswordLevel (score: number) {
         if (score >= 100) {
             return 'perfect';
         }
@@ -59,7 +59,7 @@ class ValidateService {
         }
     }
 
-    public calcPasswordScore (password, max) {
+    public calcPasswordScore (password: string, max: number): number {
         let score = 0;
 
         if (password && password.length > 0) {
