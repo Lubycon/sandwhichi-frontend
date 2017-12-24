@@ -1,0 +1,29 @@
+{
+    "app": {
+        "name": "Sandwhichi",
+        "description": "당신의 사이드 프로젝트를 찾아보세요!",
+        "author": "Lubycon",
+        "subject": "Toy Project",
+        "publisher": "Lubycon",
+        "keywords": "Lubycon, Side Project, Toy Project, Community",
+        "generator": "webpack",
+        "email": "contact@sandwhichi.com"
+    },
+    "copyrights": {
+        "year": "2017",
+        "owner": "Lubycon"
+    },
+    "og": {
+        "title": "Sandwhichi",
+        "description": "당신의 사이드 프로젝트를 찾아보세요!",
+        "image": "@/assets/avatar.png",
+        "url": "https://url.url"
+    },
+    "ld": {
+        "host": "sandwhichi",
+        "logo": "Lubycon",
+        "tel": "+82)10-4755-6185",
+        "email": "contact@sandwhichi.com",
+        "owner": "Lubycon"
+    }
+}
