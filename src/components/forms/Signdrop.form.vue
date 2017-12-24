@@ -24,18 +24,15 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { UserSigndropData } from '@/interfaces/User.interface';
 import APIService from '@/services/API.service';
-
-interface SigndropData {
-    answerIds: number[]
-}
 
 @Component({
     name: 'SigndropForm',
 })
 class SigndropForm extends Vue {
     options: any[];
-    signdropData: SigndropData;
+    signdropData: UserSigndropData;
 
     constructor () {
         super();

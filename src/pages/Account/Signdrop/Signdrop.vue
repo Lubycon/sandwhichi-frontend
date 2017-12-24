@@ -11,11 +11,23 @@
 </div>
 </template>
 
-<style lang="scss">
-    @import './Signdrop';
-</style>
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+import { UserSigndropData } from '@/interfaces/User.interface';
+import SigndropForm from '@/components/forms/Signdrop.form.vue';
+import APIService from '@/services/API.service';
 
-<script>
-    import Signdrop from './Signdrop';
-    export default Signdrop;
+@Component({
+    name: 'Signdrop',
+    components: { SigndropForm },
+})
+class Signdrop extends Vue {
+    postData (signdropData: UserSigndropData): void {
+        APIService.resource('users.signdrop').delete(signdropData)
+        .then(res => {
+            // Do nothing
+        });
+    }
+}
+export default Signdrop;
 </script>
