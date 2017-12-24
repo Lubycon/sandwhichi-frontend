@@ -34,6 +34,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 import { LOGO } from '@/constants';
+import { UserSignupData } from '@/interfaces/User.interface';
 import APIService from '@/services/API.service';
 import SignupForm from '@/components/forms/Signup.form.vue';
 
@@ -56,9 +57,9 @@ class Signup extends Vue {
     @Action('setToken') setToken;
     @Action('setUserByAPI') setUserByAPI;
 
-    postData (authData) {
+    postData (signupData: UserSignupData) {
         this.isBusy = true;
-        APIService.resource('users.signup').post(authData)
+        APIService.resource('users.signup').post(signupData)
         .then(res => {
             this.setToken({
                 accessToken: res.result.access_token,
