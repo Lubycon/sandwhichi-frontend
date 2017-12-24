@@ -3,13 +3,13 @@
     <b-form @submit.prevent="submit" autocomplete="off" novalidate>
         <b-form-group
             :key="opt.question_id"
-            :label="opt.question.en"
+            :label="opt.question.ko"
             v-for="(opt,idx) in options"
         >
             <b-form-select
                 :options="opt.answer"
                 value-field="id"
-                text-field="en"
+                text-field="ko"
                 v-model="signdropData.answerIds[idx]"
             />
         </b-form-group>
@@ -23,31 +23,45 @@
 </style>
 
 <script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
 import APIService from '@/services/API.service';
 
-export default {
-    name: 'Signdrop-form',
-    data () {
-        return {
-            options: [],
-            signdropData: {
-                answerIds: [],
-            },
+interface SigndropData {
+    answerIds: number[]
+}
+
+@Component({
+    name: 'SigndropForm',
+})
+class SigndropForm extends Vue {
+    options: any[];
+    signdropData: SigndropData;
+
+    constructor () {
+        super();
+
+        this.options = [];
+        this.signdropData = {
+            answerIds: [],
         };
-    },
-    methods: {
-        fetchOptions () {
-            return APIService.resource('users.signdropSurvey')
-            .get().then(res => {
-                this.$set(this, 'options', res.result);
-            });
-        },
-        submit () {
-            this.$emit('submit', this.signdropData);
-        },
-    },
+    }
+
+    fetchOptions (): void {
+        APIService.resource('users.signdropSurvey').get()
+        .then(res => {
+            this.$set(this, 'options', res.result);
+        }, err => {
+            if (err) {}
+        });
+    }
+
+    submit (): void {
+        this.$emit('submit', this.signdropData);
+    }
+
     created () {
         this.fetchOptions();
-    },
-};
+    }
+}
+export default SigndropForm;
 </script>
