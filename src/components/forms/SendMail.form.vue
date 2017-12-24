@@ -16,38 +16,40 @@
 </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import APIService from '@/services/API.service';
 
-export default {
+@Component({
     name: 'SendMailForm',
-    props: {
-        api: {
-            type: String,
-            required: true,
-        },
-    },
-    data () {
-        return {
-            email: null,
-            isBusy: false,
-        };
-    },
-    methods: {
-        submit () {
-            this.isBusy = true;
-            return APIService.resource(this.api).post({ email: this.email })
-            .then(res => {
-                this.isBusy = false;
-                this.$emit('submit', {
-                    res,
-                    email: this.email,
-                });
-            }, err => {
-                if (err) {}
-                this.isBusy = false;
+})
+class SendMailForm extends Vue {
+    email: string;
+    isBusy: boolean;
+
+    constructor () {
+        super();
+        this.email = null;
+        this.isBusy = false;
+    }
+
+    @Prop({ required: true })
+    api: string;
+
+    submit (): void {
+        this.isBusy = true;
+        APIService.resource(this.api).post({ email: this.email })
+        .then(res => {
+            this.isBusy = false;
+            this.$emit('submit', {
+                res,
+                email: this.email,
             });
-        },
-    },
-};
+        }, err => {
+            if (err) {}
+            this.isBusy = false;
+        });
+    }
+}
+export default SendMailForm;
 </script>

@@ -22,7 +22,7 @@
 
 </style>
 
-<script>
+<script lang="ts">
 import APIService from '@/services/API.service';
 
 export default {
