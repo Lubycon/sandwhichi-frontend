@@ -16,3 +16,8 @@ export interface UserSignupData {
     lastName: string;
     termsOfServiceAccepted: boolean;
 }
+
+export interface UserSigninData {
+    email: string;
+    password: string;
+}
