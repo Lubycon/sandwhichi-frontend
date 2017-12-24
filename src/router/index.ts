@@ -13,7 +13,7 @@ import Footer from '@/components/Footer.vue';
 import Home from '@/pages/Home.vue';
 import ErrorView from '@/pages/ErrorView.vue';
 
-import Signin from '@/pages/Account/Signin/Signin.vue';
+import Signin from '@/pages/Account/Signin.vue';
 import Signup from '@/pages/Account/Signup.vue';
 import Signdrop from '@/pages/Account/Signdrop/Signdrop.vue';
 import AuthSendMail from '@/pages/Account/AuthSendMail.vue';
