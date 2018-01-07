@@ -90,10 +90,18 @@ app.get('*', (req, res) => {
      * Render Start
      */
     const context = { url: req.url, cookie: req.cookies };
-    console.log(context);
     if (!context.url) {
         console.error('[ERR] context url is not exist!!', context);
     }
+    // SET GA ID
+    context.env = process.env.NODE_ENV;
+    if (isProd) {
+        context.uaid = 'UA-112072597-1';
+    }
+    else {
+        context.uaid = 'UA-112015469-1';
+    }
+    // END SET GA ID
 
     renderer.renderToStream(context)
     .once('data', () => {
