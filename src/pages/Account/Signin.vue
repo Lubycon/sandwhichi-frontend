@@ -58,7 +58,7 @@ import { Vue, Component } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
 import { LOGO } from '@/constants';
 import { UserSigninData } from '@/interfaces/User.interface';
-import APIService from '@/services/API.service';
+import APIAuth from '@/api/APIAuth';
 import SigninForm from '@/components/forms/Signin.form.vue';
 
 @Component({
@@ -79,33 +79,24 @@ class Signin extends Vue {
     @Action('setToken') setToken;
     @Action('setUserByAPI') setUserByAPI;
 
-    postData (signinData: UserSigninData): void {
+    async postData (signinData: UserSigninData): Promise<any> {
         this.isBusy = true;
-        APIService.resource('users.signin').post(signinData)
-        .then(res => {
+        try {
+            const email: string = signinData.email;
+            const password: string = signinData.password;
+            const signinResponse = await APIAuth.signin(email, password);
             this.setToken({
-                accessToken: res.result.access_token,
-                refreshToken: res.result.refresh_token,
+                accessToken: signinResponse.result.access_token,
+                refreshToken: signinResponse.result.refresh_token,
             });
-            this.setUserByAPI()
-            .then(res => {
-                this.authResolve();
-            }, err => {
-                if (err) {
-                    this.authReject(err);
-                }
-                else {
-                    this.authReject();
-                }
-            });
-        }, err => {
-            if (err) {
-                this.authReject(err);
-            }
-            else {
-                this.authReject();
-            }
-        });
+            this.setUserByAPI().then(
+                res => this.authResolve(),
+                err => this.authReject(err)
+            );
+        }
+        catch (e) {
+            this.authReject(e);
+        }
     }
 
     authResolve (): void {

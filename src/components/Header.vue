@@ -7,7 +7,9 @@
         </router-link>
     </div>
     <div class="col-4 header--user-menu">
-        <div v-if="isAuthorized">isAuthorized</div>
+        <div v-if="isAuthorized">
+            <b-button @click="signout">Signout</b-button>
+        </div>
         <div v-else>
             <router-link class="btn btn-round" :to="{ name: 'signin' }">
                 Login
@@ -51,8 +53,9 @@ nav {
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { State, Getter } from 'vuex-class';
+import { State, Getter, Action } from 'vuex-class';
 import { LOGO } from '@/constants';
+import APIAuth from '@/api/APIAuth';
 import SignupModal from '@/components/modals/SignupModal.vue';
 
 @Component({
@@ -75,6 +78,11 @@ class GlobalHeader extends Vue {
 
     @State('auth') AuthState;
     @Getter('isAuthorized') isAuthorized;
+    @Action('destroy') destoryToken;
+
+    signout () {
+        APIAuth.signout();
+    }
 }
 
 export default GlobalHeader;
