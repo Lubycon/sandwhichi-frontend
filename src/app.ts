@@ -4,8 +4,7 @@ import store from './stores/store';
 import router from './router';
 import { sync } from 'vuex-router-sync';
 import Component from 'vue-class-component';
-
-import APIService from './services/API.service';
+import { APICore } from '@/api/APICore';
 
 Component.registerHooks([
     'beforeRouteEnter',
@@ -31,7 +30,7 @@ Vue.use(VueMoment);
 // }
 
 // Service init
-APIService.init({ store, router });
+APICore.store = store;
 
 export function createApp () {
     sync(store, router);
