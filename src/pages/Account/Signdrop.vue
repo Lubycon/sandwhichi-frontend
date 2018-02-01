@@ -15,18 +15,16 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { UserSigndropData } from '@/interfaces/User.interface';
 import SigndropForm from '@/components/forms/Signdrop.form.vue';
-import APIService from '@/services/API.service';
+import APIAuth from '@/api/APIAuth';
 
 @Component({
     name: 'Signdrop',
     components: { SigndropForm },
 })
 class Signdrop extends Vue {
-    postData (signdropData: UserSigndropData): void {
-        APIService.resource('users.signdrop').delete(signdropData)
-        .then(res => {
-            // Do nothing
-        });
+    postData (data: UserSigndropData): void {
+        console.log(data);
+        APIAuth.signdrop(data);
     }
 }
 export default Signdrop;

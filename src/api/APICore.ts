@@ -103,10 +103,10 @@ export class APICore {
         return defer.promise;
     }
 
-    protected async delete (api) {
+    protected async delete (api: string, data?: any) {
         const defer = Q.defer();
         try {
-            const response = await this.axios.delete(api);
+            const response = await this.axios.delete(api, data);
             defer.resolve(response.data);
         }
         catch (e) {

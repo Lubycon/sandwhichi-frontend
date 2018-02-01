@@ -5,7 +5,7 @@
  */
 import { APICore } from '@/api/APICore';
 import { API_BASE_URL } from '@/constants/env.constant';
-import { UserSigninData, UserSignupData } from '@/interfaces/User.interface';
+import { UserSigninData, UserSignupData, UserSigndropData } from '@/interfaces/User.interface';
 
 class APIAuth extends APICore {
     constructor () {
@@ -28,9 +28,14 @@ class APIAuth extends APICore {
         APICore.store.dispatch('destroyToken', { reload: true });
     }
 
-    public signdrop (): Promise<any> {
+    public signdrop (data: UserSigndropData): Promise<any> {
         const endpoint: string = '/members/signdrop';
-        return this.delete(endpoint);
+        return this.delete(endpoint, data);
+    }
+
+    public getSigndropSurvey (): Promise<any> {
+        const endpoint = '/members/signdrop/survey/list';
+        return this.get(endpoint);
     }
 }
 
