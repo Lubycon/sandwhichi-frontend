@@ -2,14 +2,14 @@ import { Mutation, MutationTree } from 'vuex';
 import { AuthState } from './state';
 import { User } from '@/interfaces/User.interface';
 
-import APIService from '@/services/API.service';
+import { APICore } from '@/api/APICore';
 import CookieService from '@/services/Cookie.service';
 
 export function SET_TOKEN (state: AuthState, { accessToken, refreshToken }) {
     state.accessToken = accessToken;
     state.refreshToken = refreshToken;
-    APIService.authToken = accessToken;
-    APIService.refreshToken = refreshToken;
+    APICore.setAuthToken(accessToken);
+    APICore.setRefreshToken(refreshToken);
     CookieService.save({
         key: 'auth',
         value: accessToken,
@@ -46,7 +46,7 @@ export function DESTROY_TOKEN (state: AuthState, { reload }) {
         profileImg: null,
     };
     state.isAuthorized = false;
-    APIService.destroyToken();
+    APICore.destroyToken();
     CookieService.clear('auth');
     CookieService.clear('refresh');
     CookieService.clear('user');

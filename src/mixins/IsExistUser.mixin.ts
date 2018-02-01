@@ -1,7 +1,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Q from 'q';
 import _ from 'lodash';
-import APIUser from '@/api/APIUSer';
+import APIUser from '@/api/APIUser';
 
 interface IsExistUserModel {
     email: boolean;
