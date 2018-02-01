@@ -1,11 +1,12 @@
 <template>
 <div class="container-fluid">
-    <h1>{{ msg }}</h1>
-    <button @click="updateMsg">test</button>
-
-    <!-- MODAL -->
-    <signup-modal ref="signupModal"></signup-modal>
-    <!-- /MODAL -->
+    <ul>
+        <li
+            v-for="(item, index) in testRouters"
+            :key="index">
+            <b-button :to="item.route">{{ item.name }}</b-button>
+        </li>
+    </ul>
 </div>
 </template>
 
@@ -21,33 +22,33 @@ h1 {
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import SignupModal from '@/components/modals/SignupModal.vue';
+
+interface TestRouter {
+    name: string;
+    route: string;
+}
 
 @Component({
     name: 'Home',
-    components: {
-        SignupModal,
-    },
 })
 class Home extends Vue {
-    $refs: {
-        signupModal: any;
-    }
-
-    msg: string;
+    testRouters: TestRouter[] = [];
 
     constructor () {
         super();
-
-        this.msg = 'Hello, World';
-    }
-
-    hideModal () {
-        this.$refs.signupModal.hide();
-    }
-
-    updateMsg () {
-        this.msg = 'After Updated';
+        this.testRouters.push({
+            name: 'Sign in',
+            route: 'signin',
+        }, {
+            name: 'Sign up',
+            route: 'signup',
+        }, {
+            name: 'Sign Drop',
+            route: 'signdrop',
+        }, {
+            name: 'Find Password',
+            route: 'find-password',
+        });
     }
 }
 export default Home;
