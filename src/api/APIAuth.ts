@@ -5,6 +5,7 @@
  */
 import { APICore } from '@/api/APICore';
 import { API_BASE_URL } from '@/constants/env.constant';
+import { UserSigninData, UserSignupData } from '@/interfaces/User.interface';
 
 class APIAuth extends APICore {
     constructor () {
@@ -13,13 +14,23 @@ class APIAuth extends APICore {
         });
     }
 
-    public signin (email: string, password: string): Promise<any> {
+    public signin (data: UserSigninData): Promise<any> {
         const endpoint: string = '/members/signin';
-        return this.post(endpoint, { email, password });
+        return this.post(endpoint, data);
     }
 
-    public signout () {
+    public signup (data: UserSignupData): Promise<any> {
+        const endpoint: string = '/members/signup';
+        return this.post(endpoint, data);
+    }
+
+    public signout (): void {
         APICore.store.dispatch('destroyToken', { reload: true });
+    }
+
+    public signdrop (): Promise<any> {
+        const endpoint: string = '/members/signdrop';
+        return this.delete(endpoint);
     }
 }
 

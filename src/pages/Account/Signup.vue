@@ -35,7 +35,7 @@ import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 import { LOGO } from '@/constants';
 import { UserSignupData } from '@/interfaces/User.interface';
-import APIService from '@/services/API.service';
+import APIAuth from '@/api/APIAuth';
 import SignupForm from '@/components/forms/Signup.form.vue';
 
 @Component({
@@ -57,22 +57,20 @@ class Signup extends Vue {
     @Action('setToken') setToken;
     @Action('setUserByAPI') setUserByAPI;
 
-    postData (signupData: UserSignupData) {
+    async postData (signupData: UserSignupData) {
         this.isBusy = true;
-        APIService.resource('users.signup').post(signupData)
-        .then(res => {
+        try {
+            const signupResponse = await APIAuth.signup(signupData);
             this.setToken({
-                accessToken: res.result.access_token,
-                refreshToken: res.result.refresh_token,
+                accessToken: signupResponse.result.access_token,
+                refreshToken: signupResponse.result.refresh_token,
             });
             this.setUserByAPI().then(res => {
                 this.$router.push({ name: 'auth-grade' });
                 this.isBusy = false;
             });
-        }, err => {
-            if (err) {}
-            else {}
-        });
+        }
+        catch (e) {}
     }
 }
 export default Signup;

@@ -1,6 +1,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Q from 'q';
-import APIService from '@/services/API.service';
+import _ from 'lodash';
+import APIUser from '@/api/APIUSer';
 
 interface IsExistUserModel {
     email: boolean;
@@ -16,29 +17,15 @@ export class isExistUserMixin extends Vue {
         super();
     }
 
-    isExistEmail (email: string): Promise<any> {
+    async isExistEmail (email: string): Promise<any> {
         const defer = Q.defer();
-
-        APIService.resource('users.exists.email').post({ email })
-        .then(res => {
-            defer.resolve(!res.result);
-        }, err => {
+        try {
+            const response = await APIUser.isExistEmail(email);
+            defer.resolve(!response.result);
+        }
+        catch (e) {
             defer.reject(false);
-        });
-
-        return defer.promise;
-    }
-
-    isExistName (name: string): Promise<any> {
-        const defer = Q.defer();
-
-        APIService.resource('users.exists.name').post({ nickname: name })
-        .then(res => {
-            defer.resolve(!res.result);
-        }, err => {
-            defer.reject(false);
-        });
-
+        }
         return defer.promise;
     }
 
@@ -47,14 +34,6 @@ export class isExistUserMixin extends Vue {
             getMessage: field => `Your ${field} has already exist`,
             validate: value => {
                 return this.isExistEmail(value).then(res => {
-                    return { valid: res };
-                });
-            },
-        });
-        this.$validator.extend('existName', {
-            getMessage: field => `Your ${field} has already exist`,
-            validate: value => {
-                return this.isExistName(value).then(res => {
                     return { valid: res };
                 });
             },

@@ -3,7 +3,7 @@
     <div class="card card--center-form">
         <div class="message">
             <h1 data-name="error-code">{{ code }}</h1>
-            <h3 data-name="error-message">{{ message }}</h3>
+            <h3 data-name="error-message">{{ errorMessage }}</h3>
         </div>
 
         <b-button class="btn" @click="go">Go home</b-button>

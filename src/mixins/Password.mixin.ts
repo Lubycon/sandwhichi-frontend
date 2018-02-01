@@ -4,14 +4,12 @@ import ValidateService from '@/services/Validate.service';
 @Component({})
 export class PasswordMixin extends Vue {
     $validator: any;
-    password: string;
 
     constructor () {
         super();
     }
 
-    get passwordLevel (): string {
-        const password = this.password;
+    getPasswordLevel (password: string): string {
         const max = ValidateService.getPasswordTotalScore();
         const score = ValidateService.calcPasswordScore(password, max);
 
@@ -22,7 +20,7 @@ export class PasswordMixin extends Vue {
         this.$validator.extend('security', {
             getMessage: field => `Your ${field} must be more complicated`,
             validate: value => {
-                return this.passwordLevel !== 'invalid';
+                return this.getPasswordLevel(value) !== 'invalid';
             },
         });
     }
