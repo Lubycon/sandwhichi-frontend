@@ -22,9 +22,13 @@ import APIAuth from '@/api/APIAuth';
     components: { SigndropForm },
 })
 class Signdrop extends Vue {
-    postData (data: UserSigndropData): void {
-        console.log(data);
-        APIAuth.signdrop(data);
+    async postData (data: UserSigndropData): Promise<any> {
+        try {
+            const signdropResponse = APIAuth.signdrop(data);
+            APIAuth.signout();
+            return signdropResponse;
+        }
+        catch (e) {}
     }
 }
 export default Signdrop;

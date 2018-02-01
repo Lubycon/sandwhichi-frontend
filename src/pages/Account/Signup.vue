@@ -57,10 +57,10 @@ class Signup extends Vue {
     @Action('setToken') setToken;
     @Action('setUserByAPI') setUserByAPI;
 
-    async postData (signupData: UserSignupData) {
+    async postData (data: UserSignupData) {
         this.isBusy = true;
         try {
-            const signupResponse = await APIAuth.signup(signupData);
+            const signupResponse = await APIAuth.signup(data);
             this.setToken({
                 accessToken: signupResponse.result.access_token,
                 refreshToken: signupResponse.result.refresh_token,
@@ -70,7 +70,9 @@ class Signup extends Vue {
                 this.isBusy = false;
             });
         }
-        catch (e) {}
+        catch (e) {
+            this.isBusy = false;
+        }
     }
 }
 export default Signup;
