@@ -10,7 +10,7 @@
         </b-form-group>
         <b-button type="submit">
             <span v-show="!isBusy">Submit</span>
-            <i v-show="isBusy" class="loading-ico pxs-spinner-1 spin"></i>
+            <i v-show="isBusy" class="fas fa-spin fa-circle-notch"></i>
         </b-button>
     </b-form>
 </div>
@@ -18,37 +18,26 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import APIService from '@/services/API.service';
 
 @Component({
     name: 'SendMailForm',
 })
 class SendMailForm extends Vue {
     email: string;
-    isBusy: boolean;
 
     constructor () {
         super();
-        this.email = null;
-        this.isBusy = false;
+        this.email = '';
     }
 
+    @Prop({ default: false })
+    isBusy: boolean;
+
     @Prop({ required: true })
-    api: string;
+    type: string;
 
     submit (): void {
-        this.isBusy = true;
-        APIService.resource(this.api).post({ email: this.email })
-        .then(res => {
-            this.isBusy = false;
-            this.$emit('submit', {
-                res,
-                email: this.email,
-            });
-        }, err => {
-            if (err) {}
-            this.isBusy = false;
-        });
+        this.$emit('submit', { email: this.email });
     }
 }
 export default SendMailForm;

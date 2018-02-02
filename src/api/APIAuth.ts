@@ -37,6 +37,31 @@ class APIAuth extends APICore {
         const endpoint = '/members/signdrop/survey/list';
         return this.get(endpoint);
     }
+
+    public sendPasswordMail (email: string): Promise<any> {
+        const endpoint = '/members/password/mail';
+        return this.post(endpoint, { email });
+    }
+
+    public checkPassword (data: UserSigninData): Promise<any> {
+        const endpoint = '/certs/password';
+        return this.post(endpoint, data);
+    }
+
+    public checkPasswordCertCode (code: string): Promise<any> {
+        const endpoint = '/certs/password/code';
+        return this.post(endpoint, { code });
+    }
+
+    public createPasswordToken () {
+        const endpoint = '/members/password/token';
+        return this.post(endpoint);
+    }
+
+    public resetPassword (password: string, code: string): Promise<any> {
+        const endpoint = '/members/password/reset';
+        return this.post(endpoint, { newPassword: password, code });
+    }
 }
 
 const instance = new APIAuth();
