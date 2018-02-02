@@ -7,15 +7,13 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { AuthCodeMixin } from '@/mixins/AuthCode.mixin';
+import APIAuth from '@/api/APIAuth';
 
 @Component({
     name: 'AuthPasswordLanding',
-    mixins: [ AuthCodeMixin ],
 })
 class AuthPasswordLanding extends Vue {
     codeValidationResult: boolean;
-    fetchCodeValidation: Function;
 
     isLoaded: boolean;
     errCode: string;
@@ -23,24 +21,23 @@ class AuthPasswordLanding extends Vue {
     @Prop({ required: true })
     code: string;
 
-    created () {
-        this.fetchCodeValidation('certs.password.code', this.code)
-        .then(res => {
-            if (res.validity) {
+    async created () {
+        try {
+            const certCodeResponse = await APIAuth.checkPasswordCertCode(this.code);
+            if (certCodeResponse.result.validity) {
                 this.$router.push({
                     name: 'user-setting-password',
                     params: { code: this.code },
                 });
             }
             else {
-                // Do nothing
+                console.error('Failed cert code in password landing');
             }
-        }, err => {
-            this.$set(this, 'isLoaded', true);
-            if (err) {
-                this.$set(this, 'errCode', err.status);
-            }
-        });
+        }
+        catch (e) {
+            this.isLoaded = true;
+            this.$set(this, 'errCode', e.status);
+        }
     }
 }
 export default AuthPasswordLanding;

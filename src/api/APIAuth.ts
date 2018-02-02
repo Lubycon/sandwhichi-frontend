@@ -38,6 +38,21 @@ class APIAuth extends APICore {
         return this.get(endpoint);
     }
 
+    public sendSignupMail (): Promise<any> {
+        const endpoint = '/certs/signup/mail';
+        return this.post(endpoint);
+    }
+
+    public getSignupLeftTime (): Promise<any> {
+        const endpoint = '/certs/signup/time';
+        return this.get(endpoint);
+    }
+
+    public checkSignupCertCode (code: string): Promise<any> {
+        const endpoint = '/certs/signup/code';
+        return this.post(endpoint, { code });
+    }
+
     public sendPasswordMail (email: string): Promise<any> {
         const endpoint = '/members/password/mail';
         return this.post(endpoint, { email });
