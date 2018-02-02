@@ -24,8 +24,8 @@ class APIAuth extends APICore {
         return this.post(endpoint, data);
     }
 
-    public signout (): void {
-        APICore.store.dispatch('destroyToken', { reload: true });
+    public signout (reload: boolean = true): void {
+        APICore.store.dispatch('destroyToken', { reload });
     }
 
     public signdrop (data: UserSigndropData): Promise<any> {

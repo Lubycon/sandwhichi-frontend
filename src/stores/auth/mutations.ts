@@ -51,7 +51,7 @@ export function DESTROY_TOKEN (state: AuthState, { reload }) {
     CookieService.clear('refresh');
     CookieService.clear('user');
     if (process.browser && location && reload) {
-        // location.reload('/');
+        location.reload(true);
     }
 }
 

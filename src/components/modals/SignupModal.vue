@@ -65,28 +65,6 @@ class SignupModal extends Vue {
     @Action('setToken') setToken;
     @Action('setUserByAPI') setUserByAPI;
 
-    // postData (authData: UserSignupData): void {
-    //     this.isBusy = true;
-    //     APIService.resource('users.signup').post(authData)
-    //     .then(res => {
-    //         this.setToken({
-    //             accessToken: res.result.access_token,
-    //             refreshToken: res.result.refresh_token,
-    //         });
-    //         this.setUserByAPI().then(res => {
-    //             this.$router.push({ name: 'auth-grade' });
-    //             this.isBusy = false;
-    //         });
-    //     }, err => {
-    //         if (err) {
-    //             alert(`[Error - ${err.status}_${err.data.status.code}] ${err.data.status.msg}`);
-    //         }
-    //         else {
-    //             alert(`[Error - ${err.status}] Unknown Error`);
-    //         }
-    //         this.isBusy = false;
-    //     });
-    // }
     async postData (data: UserSignupData) {
         this.isBusy = true;
         try {
