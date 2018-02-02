@@ -5,10 +5,10 @@
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 
-import Signin from '@/pages/Account/Signin.vue';
-import Signup from '@/pages/Account/Signup.vue';
-import Signdrop from '@/pages/Account/Signdrop.vue';
-import AuthSendMail from '@/pages/Account/AuthSendMail.vue';
+import Signin from '@/pages/Auth/Signin.vue';
+import Signup from '@/pages/Auth/Signup.vue';
+import Signdrop from '@/pages/Auth/Signdrop.vue';
+import AuthSendMail from '@/pages/Auth/AuthSendMail.vue';
 
 import AuthGrade from '@/pages/Auth/AuthGrade.vue';
 import AuthGradeLanding from '@/pages/Auth/AuthGradeLanding.vue';
