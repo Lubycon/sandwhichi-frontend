@@ -3,18 +3,18 @@ import { AuthState } from './state';
 import { User } from '@/interfaces/User.interface';
 
 import { APICore } from '@/api/APICore';
-import CookieService from '@/services/Cookie.service';
+import Cookie from '@/helpers/Cookie';
 
 export function SET_TOKEN (state: AuthState, { accessToken, refreshToken }) {
     state.accessToken = accessToken;
     state.refreshToken = refreshToken;
     APICore.setAuthToken(accessToken);
     APICore.setRefreshToken(refreshToken);
-    CookieService.save({
+    Cookie.save({
         key: 'auth',
         value: accessToken,
     });
-    CookieService.save({
+    Cookie.save({
         key: 'refresh',
         value: refreshToken,
     });
@@ -23,7 +23,7 @@ export function SET_TOKEN (state: AuthState, { accessToken, refreshToken }) {
 export function SET_USER (state: AuthState, user: User) {
     state.user = user;
     state.isAuthorized = true;
-    CookieService.save({
+    Cookie.save({
         key: 'user',
         value: user,
     });
@@ -47,9 +47,9 @@ export function DESTROY_TOKEN (state: AuthState, { reload }) {
     };
     state.isAuthorized = false;
     APICore.destroyToken();
-    CookieService.clear('auth');
-    CookieService.clear('refresh');
-    CookieService.clear('user');
+    Cookie.clear('auth');
+    Cookie.clear('refresh');
+    Cookie.clear('user');
     if (process.browser && location && reload) {
         location.reload(true);
     }

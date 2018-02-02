@@ -1,10 +1,10 @@
-import Cookie from 'js-cookie';
-import Base64Service from '@/services/Base64.service';
+import JSCookie from 'js-cookie';
+import Base64 from '@/helpers/Base64';
 
-class CookieService {
+class Cookie {
     Cookie: any;
     constructor () {
-        this.Cookie = Cookie;
+        this.Cookie = JSCookie;
     }
 
     public save ({ key, value }): void {
@@ -15,13 +15,13 @@ class CookieService {
 
     public get (key): any {
         const KEY: string = this.encodeKey(key);
-        const VALUE: string = Cookie.get(KEY);
+        const VALUE: string = this.Cookie.get(KEY);
         return this.decode(VALUE);
     }
 
     public clear (key): void {
         const KEY: string = this.encodeKey(key);
-        Cookie.remove(KEY);
+        this.Cookie.remove(KEY);
     }
 
     public encodeKey (key: string = null): string {
@@ -29,7 +29,7 @@ class CookieService {
             return null;
         }
         else {
-            return Base64Service.encode(`lubycon-${key}`).split('').reverse().join('');
+            return Base64.encode(`lubycon-${key}`).split('').reverse().join('');
         }
     }
 
@@ -39,7 +39,7 @@ class CookieService {
         }
         else {
             const encodedValue: string = JSON.stringify(value);
-            return Base64Service.encode(encodedValue);
+            return Base64.encode(encodedValue);
         }
     }
 
@@ -48,11 +48,11 @@ class CookieService {
             return null;
         }
         else {
-            const decodedValue: string = Base64Service.decode(encodedValue);
+            const decodedValue: string = Base64.decode(encodedValue);
             return JSON.parse(decodedValue);
         }
     }
 }
 
-const instance = new CookieService();
+const instance = new Cookie();
 export default instance;

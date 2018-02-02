@@ -84,7 +84,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 import { PasswordMixin } from '@/mixins/Password.mixin';
 import { UserSignupData } from '@/interfaces/User.interface';
-import ValidateService from '@/services/Validate.service';
+import Validate from '@/helpers/Validate';
 
 @Component({
     name: 'SignupForm',
@@ -109,7 +109,7 @@ class SignupForm extends Vue {
             termsOfServiceAccepted: false,
         };
         this.regex = {
-            name: ValidateService.getRegex('name'),
+            name: Validate.getRegex('name'),
         };
     }
 

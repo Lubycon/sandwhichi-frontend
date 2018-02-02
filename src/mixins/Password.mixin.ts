@@ -1,5 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator';
-import ValidateService from '@/services/Validate.service';
+import Validate from '@/helpers/Validate';
 
 @Component({})
 export class PasswordMixin extends Vue {
@@ -10,10 +10,10 @@ export class PasswordMixin extends Vue {
     }
 
     getPasswordLevel (password: string): string {
-        const max = ValidateService.getPasswordTotalScore();
-        const score = ValidateService.calcPasswordScore(password, max);
+        const max = Validate.getPasswordTotalScore();
+        const score = Validate.calcPasswordScore(password, max);
 
-        return ValidateService.getPasswordLevel(score);
+        return Validate.getPasswordLevel(score);
     }
 
     created () {
