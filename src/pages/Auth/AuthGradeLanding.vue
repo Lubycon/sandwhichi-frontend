@@ -41,7 +41,7 @@ div[data-name="error"] {
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
-import APIAUth from '@/api/APIAuth';
+import APIAuth from '@/api/APIAuth';
 
 @Component({
     name: 'AuthGradeLanding',
