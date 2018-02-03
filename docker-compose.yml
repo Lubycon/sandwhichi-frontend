@@ -11,4 +11,3 @@ services:
         restart: always
         volumes:
           - "./:/usr/src/app"
-        command: sh /usr/src/app/entrypoint.sh
