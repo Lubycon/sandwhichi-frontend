@@ -1,7 +1,7 @@
 declare function escape(s: string): string;
 declare function unescape(s: string): string;
 
-class Base64Service {
+class Base64 {
     private KEY_STR: string;
     private REGX: RegExp;
 
@@ -117,5 +117,5 @@ class Base64Service {
     }
 }
 
-const instance = new Base64Service();
+const instance = new Base64();
 export default instance;

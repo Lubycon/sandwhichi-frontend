@@ -2,30 +2,27 @@ import { Store, ActionTree, ActionContext } from 'vuex';
 import { AuthState } from './state';
 import { User } from '@/interfaces/User.interface';
 import Q from 'q';
-import APIService from '@/services/API.service';
+import APIUser from '@/api/APIUser';
 
 export function setToken(store: ActionContext<AuthState, any>, { accessToken, refreshToken }) {
-    let defer = Q.defer();
+    const defer = Q.defer();
     store.commit('SET_TOKEN', { accessToken, refreshToken });
     defer.resolve();
     return defer.promise;
 }
 
-export function setUserByAPI(store: ActionContext<AuthState, any>) {
-    let defer = Q.defer();
-    APIService.resource('users.me').get()
-    .then(res => {
-        console.log('setUser => ', res);
-        let user = res.result;
-        store.commit('SET_USER', user);
+export async function setUserByAPI(store: ActionContext<AuthState, any>) {
+    const defer = Q.defer();
+    try {
+        const myDataResponse = await APIUser.getMyData();
+        const myData = myDataResponse.result;
+        store.commit('SET_USER', myData);
         defer.resolve();
-    }, err => {
-        if (err) {
-            console.error(err);
-        }
+    }
+    catch (e) {
+        console.error(e);
         defer.reject();
-    });
-
+    }
     return defer.promise;
 }
 

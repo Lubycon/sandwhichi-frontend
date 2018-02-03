@@ -2,8 +2,13 @@
  * @class
  * @name APICore
  * @desc API 코어 모듈
- * @prop { Any } axios
- * @prop { String } authToken
+ * 
+ * @static @public @prop { Store<any> } store
+ * @static @private @prop { String } _authToken
+ * @static @private @prop { String } _refreshToken
+ * 
+ * @public @prop { Any } axios
+ * @private @prop { Any } router
  */
 import axios from 'axios';
 import Q from 'q';
@@ -12,35 +17,60 @@ import { CUSTOM_HEADER_PREFIX } from '@/constants';
 import { API_BASE_URL } from '@/constants/env.constant';
 
 export class APICore {
-    public axios: any;
     public static store: Store<any>;
+    public axios: any;
 
-    private _authToken: string;
-    private _refreshToken: string;
+    private static APIList: APICore[] = [];
+    private static _authToken: string;
+    private static _refreshToken: string;
     private router: any;
 
     constructor (options) {
         this.axios = axios.create(options);
-        this._authToken = '';
-        this._refreshToken = '';
+        APICore._authToken = '';
+        APICore._refreshToken = '';
+        APICore.APIList.push(this);
+    }
+
+    public static setAuthToken (newToken: string) {
+        APICore._authToken = newToken;
+        APICore.APIList.forEach(instance => instance.authToken = newToken);
+    }
+
+    public static setRefreshToken (newToken: string) {
+        APICore._refreshToken = newToken;
+        APICore.APIList.forEach(instance => instance.refreshToken = newToken);
     }
 
     public set authToken (newToken: string) {
-        this._authToken = newToken;
-        this.axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+        if (newToken) {
+            this.axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+        }
+        else {
+            delete this.axios.defaults.headers.common.Authorization;
+        }
     }
 
-    public get authToken () {
-        return this._authToken;
+    public set refreshToken (newToken: string) {
+        if (newToken) {
+            this.axios.defaults.headers.common[`${CUSTOM_HEADER_PREFIX}refresh-token`] = newToken;
+        }
+        else {
+            delete this.axios.defaults.headers.common[`${CUSTOM_HEADER_PREFIX}refresh-token`];
+        }
     }
 
-    public set refreshToken (newToken) {
-        this._refreshToken = newToken;
-        this.axios.defaults.headers.common[`${CUSTOM_HEADER_PREFIX}refresh-token`] = newToken;
+    public static get authToken () {
+        return APICore._authToken;
     }
 
-    public get refreshToken () {
-        return this._refreshToken;
+    public static get refreshToken () {
+        return APICore._refreshToken;
+    }
+
+    public static destroyToken () {
+        APICore._authToken = '';
+        APICore._refreshToken = '';
     }
 
     protected async get (api: string, params?: any) {
@@ -103,10 +133,10 @@ export class APICore {
         return defer.promise;
     }
 
-    protected async delete (api) {
+    protected async delete (api: string, data?: any) {
         const defer = Q.defer();
         try {
-            const response = await this.axios.delete(api);
+            const response = await this.axios.delete(api, data);
             defer.resolve(response.data);
         }
         catch (e) {

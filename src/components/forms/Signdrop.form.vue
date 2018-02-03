@@ -25,7 +25,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { UserSigndropData } from '@/interfaces/User.interface';
-import APIService from '@/services/API.service';
+import APIAuth from '@/api/APIAuth';
 
 @Component({
     name: 'SigndropForm',
@@ -43,13 +43,13 @@ class SigndropForm extends Vue {
         };
     }
 
-    fetchOptions (): void {
-        APIService.resource('users.signdropSurvey').get()
-        .then(res => {
-            this.$set(this, 'options', res.result);
-        }, err => {
-            if (err) {}
-        });
+    async fetchOptions (): Promise<any> {
+        try {
+            const surveyResponse = await APIAuth.getSigndropSurvey();
+            this.$set(this, 'options', surveyResponse.result);
+            return surveyResponse;
+        }
+        catch (e) {}
     }
 
     submit (): void {

@@ -13,9 +13,7 @@
                 <strong>{{ computedLeftTime.minutes() }}</strong> min
                 <strong>{{ computedLeftTime.seconds() }}</strong> sec left
             </p>
-            <p v-else="isExpired" class="expired-time">
-                Expired
-            </p>
+            <p v-else class="expired-time">Expired</p>
         </div>
         <div data-section="control">
             <b-button class="btn" @click="sendEmailAgain">Send email again</b-button>
@@ -49,7 +47,7 @@ div[data-section="time"] {
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import APIService from '@/services/API.service';
+import APIAuth from '@/api/APIAuth';
 
 @Component({
     name: 'AuthGrade',
@@ -71,23 +69,26 @@ class AuthGrade extends Vue {
         return this.$moment.duration(time);
     }
 
-    fetchLeftTime (): void {
-        return APIService.resource('certs.signup.time').get()
-        .then(res => {
-            this.$set(this, 'leftTime', res.result.time * 1000);
+    async fetchLeftTime (): Promise<any> {
+        try {
+            const timeResponse = await APIAuth.getSignupLeftTime();
+            this.leftTime = timeResponse.result.time * 1000;
             this.countDownStart();
-        });
+            return timeResponse;
+        }
+        catch (e) {}
     }
 
-    sendEmailAgain (): void {
-        return APIService.resource('certs.signup.mail').post()
-        .then(res => {
+    async sendEmailAgain (): Promise<any> {
+        try {
+            const emailResponse = await APIAuth.sendSignupMail();
             alert('The Activation mail has been send');
             this.fetchLeftTime();
-        }, err => {
-            if (err) {}
+            return emailResponse;
+        }
+        catch (e) {
             alert('Mail Error');
-        });
+        }
     }
 
     countDownStart (): void {

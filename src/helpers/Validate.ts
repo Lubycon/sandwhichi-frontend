@@ -1,6 +1,6 @@
 import { Validator } from 'vee-validate';
 
-class ValidateService {
+class Validate {
     private regex: any;
 
     constructor () {
@@ -108,7 +108,7 @@ class ValidateService {
     }
 }
 
-const instance = new ValidateService();
+const instance = new Validate();
 export default instance;
 
 Validator.localize(instance.getValidateMsgs());

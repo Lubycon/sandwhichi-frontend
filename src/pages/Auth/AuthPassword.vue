@@ -24,7 +24,8 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
-import APIService from '@/services/API.service';
+import { UserSigninData } from '@/interfaces/User.interface';
+import APIAuth from '@/api/APIAuth';
 
 @Component({
     name: 'AuthPassword',
@@ -42,46 +43,43 @@ class AuthPassword extends Vue {
 
     @Getter('getAuthUser') me;
 
-    submit (): void {
-        let data: any = {
+    async submit (): Promise<any> {
+        const data: UserSigninData = {
             email: this.me.email,
             password: this.password,
         };
 
         this.isBusy = true;
-        this.checkPassword(data).then(res => {
-            if (res.result.validity) {
+
+        try {
+            const checkPasswordResponse = await this.checkPassword(data);
+            if (checkPasswordResponse.result.validity) {
                 this.createToken();
             }
             else {
                 this.rejectHandler('Please make sure your password!');
             }
-        }, err => {
-            if (err) {
-                this.rejectHandler('Please make sure your password!');
-            }
-            else {
-                // Do nothing
-            }
-        });
+        }
+        catch (e) {
+            this.rejectHandler('Please make sure your password!');
+        }
     }
 
     checkPassword (data): Promise<any> {
-        return APIService.resource('certs.password.check').post(data);
+        return APIAuth.checkPassword(data);
     }
 
-    createToken (): void {
-        APIService.resource('users.pwd.token').post()
-        .then(res => {
+    async createToken (): Promise<any> {
+        try {
+            const tokenResponse = await APIAuth.createPasswordToken();
             this.$router.push({
                 name: 'user-setting-password',
-                params: { code: res.result.token },
+                params: { code: tokenResponse.result.token },
             });
-        }, err => {
-            if (err) {
-                this.rejectHandler('[Err] Token generating has been failed');
-            }
-        });
+        }
+        catch (e) {
+            this.rejectHandler('[Err] Token generating has been failed');
+        }
     }
 
     rejectHandler (msg): void {

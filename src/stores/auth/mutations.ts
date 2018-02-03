@@ -2,19 +2,19 @@ import { Mutation, MutationTree } from 'vuex';
 import { AuthState } from './state';
 import { User } from '@/interfaces/User.interface';
 
-import APIService from '@/services/API.service';
-import CookieService from '@/services/Cookie.service';
+import { APICore } from '@/api/APICore';
+import Cookie from '@/helpers/Cookie';
 
 export function SET_TOKEN (state: AuthState, { accessToken, refreshToken }) {
     state.accessToken = accessToken;
     state.refreshToken = refreshToken;
-    APIService.authToken = accessToken;
-    APIService.refreshToken = refreshToken;
-    CookieService.save({
+    APICore.setAuthToken(accessToken);
+    APICore.setRefreshToken(refreshToken);
+    Cookie.save({
         key: 'auth',
         value: accessToken,
     });
-    CookieService.save({
+    Cookie.save({
         key: 'refresh',
         value: refreshToken,
     });
@@ -23,7 +23,7 @@ export function SET_TOKEN (state: AuthState, { accessToken, refreshToken }) {
 export function SET_USER (state: AuthState, user: User) {
     state.user = user;
     state.isAuthorized = true;
-    CookieService.save({
+    Cookie.save({
         key: 'user',
         value: user,
     });
@@ -46,12 +46,12 @@ export function DESTROY_TOKEN (state: AuthState, { reload }) {
         profileImg: null,
     };
     state.isAuthorized = false;
-    APIService.destroyToken();
-    CookieService.clear('auth');
-    CookieService.clear('refresh');
-    CookieService.clear('user');
+    APICore.destroyToken();
+    Cookie.clear('auth');
+    Cookie.clear('refresh');
+    Cookie.clear('user');
     if (process.browser && location && reload) {
-        // location.reload('/');
+        location.reload(true);
     }
 }
 

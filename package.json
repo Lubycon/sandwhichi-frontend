@@ -1,11 +1,11 @@
 {
-  "name": "lubycon-vue-ssr-starter",
-  "version": "2.0.0",
-  "description": "Lubycon, Vue.js + vue-ssr starter kit",
+  "name": "Sandwhichi",
+  "version": "1.0.0",
+  "description": "Sandwhichi, Find Your Toy Project!",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evan-moon/vue-ssr-starter.git"
+    "url": "git+https://bitbucket.org/lubycon/sandwhichi-frontend"
   },
   "keywords": [
     "vue",
@@ -13,7 +13,7 @@
   ],
   "author": "Evan Moon <bboydart91@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/evan-moon/vue-ssr-starter.git",
+  "homepage": "https://www.sandwhichi.com",
   "scripts": {
     "start": "NODE_ENV=production forever start -al forever.log -ao out.log -ae err.log server.js",
     "start:dev": "NODE_ENV=development forever start -al logs/forever.log -ao logs/out.log -ae logs/err.log server.js",

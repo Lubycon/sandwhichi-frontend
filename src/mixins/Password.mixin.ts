@@ -1,28 +1,26 @@
 import { Vue, Component } from 'vue-property-decorator';
-import ValidateService from '@/services/Validate.service';
+import Validate from '@/helpers/Validate';
 
 @Component({})
 export class PasswordMixin extends Vue {
     $validator: any;
-    password: string;
 
     constructor () {
         super();
     }
 
-    get passwordLevel (): string {
-        const password = this.password;
-        const max = ValidateService.getPasswordTotalScore();
-        const score = ValidateService.calcPasswordScore(password, max);
+    getPasswordLevel (password: string): string {
+        const max = Validate.getPasswordTotalScore();
+        const score = Validate.calcPasswordScore(password, max);
 
-        return ValidateService.getPasswordLevel(score);
+        return Validate.getPasswordLevel(score);
     }
 
     created () {
         this.$validator.extend('security', {
             getMessage: field => `Your ${field} must be more complicated`,
             validate: value => {
-                return this.passwordLevel !== 'invalid';
+                return this.getPasswordLevel(value) !== 'invalid';
             },
         });
     }

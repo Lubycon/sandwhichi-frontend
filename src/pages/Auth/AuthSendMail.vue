@@ -8,10 +8,7 @@
             <h1>Please enter your Email</h1>
             <p>The verification email will be sent to your address</p>
         </div>
-        <send-mail-form
-            api="users.pwd.mail"
-            @submit="submit"
-        />
+        <send-mail-form :is-busy="isBusy" @submit="submit"></send-mail-form>
     </div>
     <div
         v-show="isDone"
@@ -28,25 +25,25 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import SendMailForm from '@/components/forms/SendMail.form.vue';
+import APIAuth from '@/api/APIAuth';
 
 @Component({
     name: 'AuthSendMail',
     components: { SendMailForm },
 })
 class AuthSendMail extends Vue {
-    email: string;
-    isDone: boolean;
+    isBusy: boolean = false;
+    isDone: boolean = false;
 
-    constructor () {
-        super();
-        this.email = null;
-        this.isDone = false;
-    }
-
-    submit ({ res, email }): void {
-        if (res.status.code === '000') {
-            this.isDone = true;
-            this.$set(this, 'email', email);
+    async submit ({ email }): Promise<any> {
+        this.isBusy = true;
+        try {
+            const emailResponse = await APIAuth.sendPasswordMail(email);
+            this.isBusy = false;
+            return emailResponse;
+        }
+        catch (e) {
+            this.isBusy = false;
         }
     }
 }

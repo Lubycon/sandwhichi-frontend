@@ -82,9 +82,7 @@ class Signin extends Vue {
     async postData (signinData: UserSigninData): Promise<any> {
         this.isBusy = true;
         try {
-            const email: string = signinData.email;
-            const password: string = signinData.password;
-            const signinResponse = await APIAuth.signin(email, password);
+            const signinResponse = await APIAuth.signin(signinData);
             this.setToken({
                 accessToken: signinResponse.result.access_token,
                 refreshToken: signinResponse.result.refresh_token,

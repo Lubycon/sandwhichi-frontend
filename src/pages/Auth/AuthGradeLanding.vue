@@ -41,15 +41,13 @@ div[data-name="error"] {
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
-import { AuthCodeMixin } from '@/mixins/AuthCode.mixin';
+import APIAuth from '@/api/APIAuth';
 
 @Component({
     name: 'AuthGradeLanding',
-    mixins: [ AuthCodeMixin ],
 })
 class AuthGradeLanding extends Vue {
     codeValidationResult: boolean;
-    fetchCodeValidation: Function;
 
     isLoaded: boolean;
     validity: boolean;
@@ -70,18 +68,17 @@ class AuthGradeLanding extends Vue {
 
     @Getter('isAuthorized') isAuthorized;
 
-    created () {
-        this.fetchCodeValidation('certs.signup.code', this.$route.params.code)
-        .then(res => {
-            this.$set(this, 'isLoaded', true);
-            this.$set(this, 'validity', res.validity);
-        }, err => {
-            this.$set(this, 'isLoaded', true);
-            if (err) {
-                this.$set(this, 'errCode', `${err.status} - ${err.data.status.code}`);
-                this.$set(this, 'errMsg', err.data.status.msg);
-            }
-        });
+    async created () {
+        try {
+            const certCodeResponse = await APIAuth.checkSignupCertCode(this.code);
+            this.isLoaded = true;
+            this.validity = certCodeResponse.result.validity;
+        }
+        catch (e) {
+            this.isLoaded = true;
+            this.errCode = `${e.status} - ${e.data.status.code}`;
+            this.errMsg = e.data.status.msg;
+        }
     }
 }
 export default AuthGradeLanding;

@@ -1,6 +1,6 @@
 /* Main application bootstrapper */
 import { createApp } from '@/app';
-import CookieService from '@/services/Cookie.service.ts';
+import Cookie from '@/helpers/Cookie.ts';
 
 export default context => {
     return new Promise((resolve, reject) => {
@@ -8,14 +8,14 @@ export default context => {
         const meta = app.$meta();
 
         // SET AUTH DATA
-        const AUTH_KEY = CookieService.encodeKey('auth');
+        const AUTH_KEY = Cookie.encodeKey('auth');
         const ENCODED_AUTH_TOKEN = context.cookie[AUTH_KEY];
-        const REFRESH_KEY = CookieService.encodeKey('refresh');
+        const REFRESH_KEY = Cookie.encodeKey('refresh');
         const ENCODED_REFRESH_TOKEN = context.cookie[REFRESH_KEY];
 
         if (ENCODED_AUTH_TOKEN && ENCODED_REFRESH_TOKEN) {
-            const TOKEN = CookieService.decode(ENCODED_AUTH_TOKEN);
-            const REFRESH_TOKEN = CookieService.decode(ENCODED_REFRESH_TOKEN);
+            const TOKEN = Cookie.decode(ENCODED_AUTH_TOKEN);
+            const REFRESH_TOKEN = Cookie.decode(ENCODED_REFRESH_TOKEN);
             store.dispatch('setToken', {
                 accessToken: TOKEN,
                 refreshToken: REFRESH_TOKEN,
