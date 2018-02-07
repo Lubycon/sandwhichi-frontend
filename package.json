@@ -32,7 +32,7 @@
     "build": "rimraf dist && npm run build:client:prod && npm run build:server:prod",
     "build:dev": "rimraf dist && npm run build:client:dev && npm run build:server:dev",
     "build:local": "rimraf dist && npm run build:client:local && npm run build:server:local",
-    "unit-test": "karma start ./test/unit/karma.conf.js"
+    "test": "karma start ./test/unit/karma.conf.js --no-single-run"
   },
   "dependencies": {
     "axios": "^0.16.2",
