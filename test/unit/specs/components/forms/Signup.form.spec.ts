@@ -23,7 +23,7 @@ import SignupForm from 'components/forms/Signup.form';
  * [condition6] 8글자 이상임 -> 10
  */
 
-describe('Signup.form.vue', () => {
+describe('유저는 SignupForm을 사용해 회원가입을 진행한다', () => {
     it('유저의 이메일은 반드시 존재해야한다', async () => {
         const vm = new SignupForm();
         vm.$mount();
@@ -31,7 +31,7 @@ describe('Signup.form.vue', () => {
         expect(validate).to.be.false;
     });
 
-    it('유저의 이메일은 반드시 올바른 형식을 가지고 있어야 한다', async () => {
+    it('올바르지 않은 형식의 이메일은 사용할 수 없다', async () => {
         const vm = new SignupForm();
         vm.$mount();
         const validate = await vm.$validator.validate('email', 'google.com');
