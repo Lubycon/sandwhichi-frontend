@@ -13,7 +13,7 @@ describe('유저는 SigninForm을 사용해 로그인을 진행한다', () => {
         expect(validate).to.be.false;
     });
 
-    it('유저의 이메일은 올바른 형식을 가지고 있어야 한다', async () => {
+    it('올바르지 않은 형식의 이메일은 사용할 수 없다', async () => {
         const vm = new SigninForm();
         vm.$mount();
         const validate = await vm.$validator.validate('email', 'google.com');
