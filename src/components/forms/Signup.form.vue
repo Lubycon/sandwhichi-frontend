@@ -136,15 +136,15 @@ class SignupForm extends Vue {
         return name;
     }
 
-    submit (): void {
+    async submit (): Promise<any> {
         const signupData: UserSignupData = this.signupData;
 
-        this.$validator.validateAll();
-        if (this.errors.any()) {
-            console.log(this.errors);
+        const validateResult = await this.$validator.validateAll();
+        if (validateResult) {
+            this.$emit('submit', signupData);
         }
         else {
-            this.$emit('submit', signupData);
+            throw new Error();
         }
     }
 }

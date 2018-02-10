@@ -5,7 +5,7 @@ class Validate {
 
     constructor () {
         this.regex = {
-            name: /[^!@#$%^&*.,`"'\s]+$/,
+            name: /^[^!@#$%^&*.,`"'\s]+$/,
             password: {
                 specialChars: /[?!@#$%^*+\-_.,`]/,
                 minlength: /^.{8,}$/,
@@ -63,9 +63,9 @@ class Validate {
         let score = 0;
 
         if (password && password.length > 0) {
-            console.log('================== REGX ================');
+            // console.log('================== REGX ================');
             this.getPasswordTestList().forEach(v => {
-                console.log(password, v.regex, v.score, v.regex.test(password));
+                // console.log(password, v.regex, v.score, v.regex.test(password));
                 if (v.regex.test(password)) {
                     score += v.score;
                 }
@@ -73,8 +73,8 @@ class Validate {
                     score -= v.score;
                 }
             });
-            console.log('========================================');
-            console.log('FINAL SCORE =>', score);
+            // console.log('========================================');
+            // console.log('FINAL SCORE =>', score);
         }
         else {
             score = 0;
