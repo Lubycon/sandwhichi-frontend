@@ -1,6 +1,8 @@
 version: '2'
 services:
     frontend:
+        extra_hosts:
+            - "local.sandwhichi.com:127.0.0.1"
         domainname: local.sandwhichi.com
         hostname: local-frontend
         working_dir: /usr/src/app
