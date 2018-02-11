@@ -15,7 +15,9 @@ module.exports = {
         alias: {
             '@': path.resolve(__dirname, '../src'),
             'assets': path.resolve(__dirname, '../src/assets'),
-            'components': path.resolve(__dirname, '../src/components')
+            'components': path.resolve(__dirname, '../src/components'),
+            'stores': path.resolve(__dirname, '../src/stores'),
+            'vue': 'vue/dist/vue.js'
         }
     },
 

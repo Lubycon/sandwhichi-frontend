@@ -17,7 +17,7 @@ function getEnv (env: string): ENV_CONFIG {
         apiBaseUrl = 'https://dev.api.pixelstairs.com/v1';
         s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.pixelstairs';
     }
-    else if (env === 'local') {
+    else if (env === 'local' || env === 'test') {
         apiBaseUrl = 'http://local.api.pixelstairs.com/v1';
         s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.pixelstairs';
     }

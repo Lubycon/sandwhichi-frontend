@@ -4,9 +4,9 @@ const webpackConfig = Object.assign({}, baseConfig, {
     devtool: '#inline-source-map',
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"test"'
+            'process.env.NODE_ENV': '"test"',
         })
-    ]
+    ],
 });
 
 // no need for app entry during tests
@@ -14,19 +14,19 @@ delete webpackConfig.entry;
 
 module.exports = function (config) {
     config.set({
-        browsers: ['PhantomJS', 'Safari'],
+        browsers: ['PhantomJS'],
         frameworks: ['mocha', 'sinon-chai'],
         reporters: ['spec'],
-        files: ['./index.js'],
+        files: ['./index.ts'],
         preprocessors: {
-            './index.js': ['webpack', 'sourcemap']
+            './index.ts': ['webpack', 'sourcemap'],
         },
         webpack: webpackConfig,
         webpackMiddleware: {
-            noInfo: true
+            noInfo: true,
         },
         port: 9876,
         colors: true,
-        autoWatch: true
+        autoWatch: true,
     });
 };

@@ -1,4 +1,12 @@
 {
+    "baseUrl": "src",
+    "paths": {
+        "*": ["*"],
+        "@": ["src"],
+        "assets": ["src/assets"],
+        "components": ["src/components"],
+        "stores": ["src/stores"]
+    },
     "compilerOptions": {
         "module": "es2015",
         "moduleResolution": "node",
@@ -17,6 +25,7 @@
     "compileOnSave": false,
     "files": [
         "./src/typings/index.d.ts",
-        "./src/typings/json.d.ts"
+        "./src/typings/json.d.ts",
+        "./src/typings/mocha.d.ts"
     ]
 }

@@ -86,7 +86,8 @@ export class APICore {
                 defer.resolve(errorHandler.data);
             }
             catch (e) {
-                console.error(`Final Error => ${e}`);
+                console.error('Final Error => ', e);
+                console.error(e);
                 defer.reject(e);
             }
         }
@@ -106,7 +107,7 @@ export class APICore {
                 defer.resolve(errorHandler.data);
             }
             catch (e) {
-                console.error(`Final Error => ${e}`);
+                console.error('Final error => ', e);
                 defer.reject(e);
             }
         }
@@ -126,7 +127,7 @@ export class APICore {
                 defer.resolve(errorHandler.data);
             }
             catch (e) {
-                console.error(`Final Error => ${e}`);
+                console.error('Final Error => ', e);
                 defer.reject(e);
             }
         }
@@ -146,7 +147,7 @@ export class APICore {
                 defer.resolve(errorHandler.data);
             }
             catch (e) {
-                console.error(`Final Error => ${e}`);
+                console.error('Final Error => ', e);
                 defer.reject(e);
             }
         }
@@ -209,7 +210,7 @@ export class APICore {
         const isRefreshEndpoint: boolean = err.config.url.indexOf('/refresh');
         const isExpired: boolean = err.response.status === 419;
 
-        console.log(`API GET Error From => ${err.config.url}`);
+        console.log(`API Error From => ${err.config.url}`);
         console.log(`Error: ${err.response.status}`);
         console.log(`Error Data: ${err.response.data}`);
         console.log(`is refresh api: ${isRefreshEndpoint}`);
