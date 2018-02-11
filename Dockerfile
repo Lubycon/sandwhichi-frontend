@@ -1,13 +1,14 @@
 FROM node:carbon
 
-RUN mkdir -p /usr/src/app
+RUN npm install webpack -g
+RUN npm install forever -g
+
+RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+ADD package.json /usr/src/app/package.json
+
 RUN npm install
 
-COPY . .
-
 EXPOSE 3000
-
 CMD [ "npm", "run", "serve:local" ]

@@ -130,17 +130,9 @@ else {
     port = process.env.PORT || 3000;
 }
 
-if(isLocal) {
-    let host = 'local.sandwhichi.com';
-    app.listen(port, host, () => {
-        console.log(`server started at ${host}:${port}`);
-    });
-}
-else {
-    app.listen(port, () => {
-        console.log(`server started at 127.0.0.1:${port}`);
-    });
-}
+app.listen(port, () => {
+	console.log(`server started at 127.0.0.1:${port}`);
+});
 
 process.on('uncaughtException', function (err) {
     console.log(err.stack);
