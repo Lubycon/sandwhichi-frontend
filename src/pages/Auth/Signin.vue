@@ -1,16 +1,18 @@
 <template>
-<div class="container row">
-    <b-col cols="12" md="6" lg="4" class="card card--center-form">
-        <div class="logo">
-            <router-link :to="{ name: 'home' }">
-                <img :src="logo" alt="샌드위치" title="샌드위치 로고">
-            </router-link>
-        </div>
-        <div class="card-body">
-            <signin-form :is-busy="isBusy" @submit="postData"></signin-form>
-        </div>
-    </b-col>
-</div>
+<b-container>
+    <b-row>
+        <b-col cols="12" sm="8" md="6" lg="4" class="card card--center-form">
+            <div class="logo">
+                <router-link :to="{ name: 'home' }">
+                    <img :src="logo" alt="샌드위치" title="샌드위치 로고">
+                </router-link>
+            </div>
+            <div class="card-body">
+                <signin-form :is-busy="isBusy" @submit="postData"></signin-form>
+            </div>
+        </b-col>
+    </b-row>
+</b-container>
 </template>
 
 <style lang="scss">
@@ -21,7 +23,7 @@
     img {
         width: 250px;
         margin-bottom: 10px;
-        @include mq('sm') {
+        @include mq('xs') {
             width: 150px;
         }
     }
@@ -39,7 +41,7 @@
     padding: $card-padding;
     color: $grey-700;
     text-align: right;
-    @include mq('sm') {
+    @include mq('xs') {
         font-size: 14px;
     }
 }
