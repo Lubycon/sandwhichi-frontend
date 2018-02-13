@@ -17,11 +17,11 @@ export class isExistUserMixin extends Vue {
         super();
     }
 
-    async isExistEmail (email: string): Promise<any> {
+    async checkIsExistEmail (email: string): Promise<any> {
         const defer = Q.defer();
         try {
             const response = await APIUser.isExistEmail(email);
-            defer.resolve(!response.result);
+            defer.resolve(response.result);
         }
         catch (e) {
             defer.reject(false);
@@ -33,8 +33,8 @@ export class isExistUserMixin extends Vue {
         this.$validator.extend('existEmail', {
             getMessage: field => `Your ${field} has already exist`,
             validate: value => {
-                return this.isExistEmail(value).then(res => {
-                    return { valid: res };
+                return this.checkIsExistEmail(value).then(res => {
+                    return { valid: !res };
                 });
             },
         });

@@ -1,5 +1,4 @@
 .btn {
-    font-weight: lighter;
     background-color: $bluegrey-900;
     color: $white;
     cursor: pointer;
@@ -20,8 +19,8 @@
         color: $grey-800;
     }
     &.btn-primary {
-        background-color: $blue;
-        border-color: $blue;
+        background-color: $primary;
+        border-color: $primary;
     }
 
     .loading-ico {

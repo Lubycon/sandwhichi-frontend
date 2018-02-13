@@ -33,7 +33,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
-import { LOGO } from '@/constants';
+import { VERTICAL_LOGO } from '@/constants';
 import { UserSignupData } from '@/interfaces/User.interface';
 import APIAuth from '@/api/APIAuth';
 import SignupForm from '@/components/forms/Signup.form.vue';
@@ -49,7 +49,7 @@ class Signup extends Vue {
     constructor () {
         super();
 
-        this.logo = LOGO;
+        this.logo = VERTICAL_LOGO;
         this.isBusy = false;
     }
 

@@ -1,23 +1,15 @@
 <template>
 <div class="container row">
-    <div class="col-12 col-md-6 col-lg-4 card card--center-form">
+    <b-col cols="12" md="6" lg="4" class="card card--center-form">
         <div class="logo">
             <router-link :to="{ name: 'home' }">
-                <img :src="logo" alt="pixelstairs-logo" title="pixelstairs-logo">
-                <p>Connect your creativity with the World!</p>
+                <img :src="logo" alt="샌드위치" title="샌드위치 로고">
             </router-link>
         </div>
-
         <div class="card-body">
             <signin-form :is-busy="isBusy" @submit="postData"></signin-form>
         </div>
-        <router-link
-            class="btn-link"
-            :to="{ name: 'find-password' }"
-        >
-            Find password
-        </router-link>
-    </div>
+    </b-col>
 </div>
 </template>
 
@@ -26,7 +18,7 @@
 
 .logo {
     text-align: center;
-    img[title="pixelstairs-logo"] {
+    img {
         width: 250px;
         margin-bottom: 10px;
         @include mq('sm') {
@@ -56,7 +48,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
-import { LOGO } from '@/constants';
+import { VERTICAL_LOGO } from '@/constants';
 import { UserSigninData } from '@/interfaces/User.interface';
 import APIAuth from '@/api/APIAuth';
 import SigninForm from '@/components/forms/Signin.form.vue';
@@ -72,7 +64,7 @@ class Signin extends Vue {
     constructor () {
         super();
 
-        this.logo = LOGO;
+        this.logo = VERTICAL_LOGO;
         this.isBusy = false;
     }
 

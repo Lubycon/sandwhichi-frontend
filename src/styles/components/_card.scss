@@ -8,6 +8,7 @@
     @include floatToCenter;
     background: transparent;
     box-shadow: none;
+    top: 45%;
     @include mq('sm') {
         transform: none;
         top: auto;
@@ -46,6 +47,5 @@
     .btn[type="submit"] {
         margin: 20px 0;
         width: 100%;
-        background-color: $bluegrey-800;
     }
 }

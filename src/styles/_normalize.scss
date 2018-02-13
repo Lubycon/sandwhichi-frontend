@@ -3,7 +3,6 @@
     -webkit-font-smoothing: antialiased;
     outline: none;
     color: $grey-800;
-    font-weight: lighter;
     &:focus {
         outline: none;
     }
@@ -18,6 +17,7 @@ ul {
 }
 
 a {
+    color: $primary;
     &:hover {
         text-decoration: none;
     }

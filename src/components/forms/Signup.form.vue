@@ -101,7 +101,6 @@ import Validate from '@/helpers/Validate';
 })
 class SignupForm extends Vue {
     isExistEmail: Function;
-    isExistName: Function;
 
     signupData: UserSignupData;
 
