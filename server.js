@@ -123,7 +123,7 @@ app.get('*', (req, res) => {
 });
 
 let port;
-if(isProd) {
+if (isProd) {
     port = 3000;
 }
 else {
@@ -131,7 +131,7 @@ else {
 }
 
 app.listen(port, () => {
-	console.log(`server started at 127.0.0.1:${port}`);
+    console.log(`server started at 127.0.0.1:${port}`);
 });
 
 process.on('uncaughtException', function (err) {
