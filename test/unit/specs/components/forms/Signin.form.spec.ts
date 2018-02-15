@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import $ from 'jquery';
 import SigninForm from 'components/forms/Signin.form';
 
 /**
@@ -32,6 +33,17 @@ describe('유저는 SigninForm을 사용해 로그인을 진행한다', () => {
         vm.$mount();
         const validate = await vm.$validator.validate('password', '');
         expect(validate).to.be.false;
+    });
+
+    it('이메일 검증에 성공하면 이메일 폼에서 비밀번호 폼으로 변경된다.', async () => {
+        const vm = new SigninForm();
+        vm.$mount();
+        vm.$set(vm, 'email', 'bboydart91@gmail.com');
+        await vm.checkEmail();
+
+        const formWrapper = vm.$el.querySelector('.form-wrapper');
+        const hasClass = $(formWrapper).hasClass('right-form');
+        expect(hasClass).to.be.true;
     });
 
     it('비밀번호를 6회 이상 틀리면 메세지가 변경되어야 한다', async () => {
