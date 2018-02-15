@@ -34,7 +34,7 @@ describe('유저는 SigninForm을 사용해 로그인을 진행한다', () => {
         expect(validate).to.be.false;
     });
 
-    it('비밀번호를 6회 이상 틀리면 메세지가 변경되어야 한다', () => {
+    it('비밀번호를 6회 이상 틀리면 메세지가 변경되어야 한다', async () => {
         const vm = new SigninForm();
         vm.$mount();
         vm.$set(vm, 'email', 'bboydart91@gmail.com');
@@ -43,12 +43,12 @@ describe('유저는 SigninForm을 사용해 로그인을 진행한다', () => {
         vm.isEnableReCaptcha = true;
 
         // 유저가 비밀번호를 틀렸다.
-        vm.addInvalidCount(1);
+        await vm.addInvalidCount(1);
         vm.setPasswordErrorWithSignin(true);
         const prevMsg = vm.errors.first('password');
 
         // 5회 더 틀렸다고 가정
-        vm.addInvalidCount(5);
+        await vm.addInvalidCount(5);
         // 메시지를 바인딩하기 전 error.password 배열을 초기화 해준다
         vm.errors.remove('password');
         vm.setPasswordErrorWithSignin(true);
@@ -57,14 +57,13 @@ describe('유저는 SigninForm을 사용해 로그인을 진행한다', () => {
         expect(prevMsg).to.not.equal(currentMsg);
     });
 
-    it('비밀번호를 5회 이상 틀리면 ReCaptcha가 켜진다', () => {
+    it('비밀번호를 5회 이상 틀리면 ReCaptcha가 켜진다', async () => {
         const vm = new SigninForm();
         vm.$mount();
         vm.$set(vm, 'email', 'bboydart91@gmail.com');
         vm.$set(vm, 'password', '1234');
 
-        vm.addInvalidCount(5);
-        console.log(vm.isEnableReCaptcha);
+        await vm.addInvalidCount(5);
         expect(vm.isEnableReCaptcha).to.be.true;
     });
 });

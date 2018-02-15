@@ -38,14 +38,18 @@ class ReCaptcha extends Vue {
     /**
      * @method start
      * @desc 리캡챠를 렌더한다
+     * grecaptcha 변수가 존재하지 않을 경우 아무 것도 하지 않는다
      */
     start (): void {
-        if (grecaptcha) {
+        if (typeof grecaptcha !== 'undefined') {
             const sitekey = this.reCaptchaKey;
             this.reCaptchaId = grecaptcha.render(this.$refs.recaptcha, {
                 callback: this.onVerify,
                 sitekey,
             });
+        }
+        else {
+            console.warn('There is no grecaptcha variable :: ReCaptcha');
         }
     }
 
