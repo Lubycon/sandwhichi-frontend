@@ -197,8 +197,7 @@ class SigninForm extends Vue {
         this.isEnableReCaptcha = false;
         this.isFailedSignin = false;
         this.invalidCount = 0;
-        // this.maxInvalidCount = 5;
-        this.maxInvalidCount = 1;
+        this.maxInvalidCount = 5;
     }
 
     /**
