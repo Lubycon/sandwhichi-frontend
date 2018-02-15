@@ -8,7 +8,7 @@
                     name="email"
                     v-model.trim="signupData.email"
                     placeholder="ex) evan1125@pixelstairs.com"
-                    v-validate="'required|email|existEmail'"
+                    v-validate="'required|email|avoidExistEmail'"
                     data-vv-delay="500"
                     :class="{ 'has-error': errors.has('email') }"
                     autocomplete="off"

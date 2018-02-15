@@ -31,7 +31,15 @@ export class isExistUserMixin extends Vue {
 
     created () {
         this.$validator.extend('existEmail', {
-            getMessage: field => `Your ${field} has already exist`,
+            getMessage: field => '존재하지 않는 계정입니다.',
+            validate: value => {
+                return this.checkIsExistEmail(value).then(res => {
+                    return { valid: res };
+                });
+            },
+        })
+        this.$validator.extend('avoidExistEmail', {
+            getMessage: field => `이미 존재하는 계정 입니다.`,
             validate: value => {
                 return this.checkIsExistEmail(value).then(res => {
                     return { valid: !res };
