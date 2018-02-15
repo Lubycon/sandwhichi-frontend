@@ -47,7 +47,11 @@
                 <b-form-invalid-feedback>{{ errors.first('password') }}</b-form-invalid-feedback>
             </b-form-group>
             <!-- RECAPTCHA -->
-            <b-button v-if="isEnableRecaptcha" type="button">리캡챠</b-button>
+            <re-captcha
+                ref="recaptcha"
+                onVerify=""
+                onError="">
+            </re-captcha>
             <!-- /RECAPTCHA -->
             <b-button
                 type="submit"
@@ -140,37 +144,45 @@ button.btn[type="submit"] {
  * @member { Function } checkIsExistEmail from isExistUserMixin
  * @member { string } email
  * @member { string } password
+ * @member { string } reCaptchaToken
  * @member { boolean } isValidEmail
  * @member { boolean } isBusyIsValidEmail 이메일 비동기 밸리데이션 로딩 체크
  * @member { boolean } isBusySignin 로그인 로딩 체크
- * @member { boolean } isEnableRecaptcha 리캡챠를 사용하는 지의 여부
+ * @member { boolean } isEnableReCaptcha 리캡챠를 사용하는 지의 여부
  * @member { boolean } isFailedSignin 가장 마지막에 시도한 로그인이 실패했는가를 체크
+ * @member { boolean } isVerifiedReCaptcha 리캡챠를 사용하여 인증이 완료 되었는가?
  * @member { number } invalidCount 사용자가 로그인에 실패한 횟수
  * @member { number } maxInvalidCount 사용자가 로그인에 실패할 수 있는 최대 횟수
  */
+
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
-import APIAuth from '@/api/APIAuth';
 import { UserSigninData } from '@/interfaces/User.interface';
+import APIAuth from '@/api/APIAuth';
+import ReCaptcha from '@/components/utils/ReCaptcha.vue';
 
 @Component({
     name: 'SigninForm',
     mixins: [ isExistUserMixin ],
+    components: { ReCaptcha },
 })
 class SigninForm extends Vue {
     $refs: {
         emailInput: any,
         passwordInput: any,
+        recaptcha: any,
     }
     errors: any;
     checkIsExistEmail: Function;
     email: string;
     password: string;
+    reCaptchaToken: string;
     isValidEmail: boolean;
     isBusyIsValidaEmail: boolean;
     isBusySignin: boolean;
-    isEnableRecaptcha: boolean;
+    isEnableReCaptcha: boolean;
     isFailedSignin: boolean;
+    isVerifiedReCaptcha: boolean;
     invalidCount: number;
     maxInvalidCount: number;
 
@@ -179,13 +191,16 @@ class SigninForm extends Vue {
 
         this.email = null;
         this.password = null;
+        this.reCaptchaToken = null;
         this.isValidEmail = false;
         this.isBusyIsValidaEmail = false;
         this.isBusySignin = false;
-        this.isEnableRecaptcha = false;
+        this.isEnableReCaptcha = false;
         this.isFailedSignin = false;
+        this.isVerifiedReCaptcha = false;
         this.invalidCount = 0;
-        this.maxInvalidCount = 5;
+        // this.maxInvalidCount = 5;
+        this.maxInvalidCount = 1;
     }
 
     /**
@@ -195,8 +210,8 @@ class SigninForm extends Vue {
      */
     @Watch('invalidCount')
     onChangeInvalidCount (value) {
-        if (!this.isEnableRecaptcha && (this.invalidCount >= this.maxInvalidCount)) {
-            this.setRecaptcha(true);
+        if (!this.isEnableReCaptcha && (value >= this.maxInvalidCount)) {
+            this.setReCaptcha(true);
         }
     }
 
@@ -281,23 +296,48 @@ class SigninForm extends Vue {
     }
 
     /**
-     * @method setRecaptcha
+     * @method setReCaptcha
      * @desc 리캡챠 사용 여부를 변경한다. 컴포넌트 외부에서 호출할 수도 있다.
      */
-    setRecaptcha (bool: boolean): void {
-        this.isEnableRecaptcha = bool;
+    setReCaptcha (bool: boolean): void {
+        this.isEnableReCaptcha = bool;
         if (bool) {
-            console.log('reCAPTCHA is enabled');
+            this.$refs.recaptcha.start();
         }
         else {
-            console.log('reCAPTCHA is disabled');
+            this.$refs.recaptcha.destroy();
         }
     }
 
-    setPasswordErrorWithSignin (bool: boolean) {
+    /**
+     * @method onVertifyReCaptcha
+     * @argument { string } response
+     * @desc 리캡챠 인증이 성공했을 시 콜백
+     */
+    onVertifyReCaptcha (response: string): void {
+        console.log(response);
+        this.isVerifiedReCaptcha = true;
+        this.reCaptchaToken = response;
+    }
+
+    /**
+     * @method onErrorReCaptcha
+     * @desc 리캡챠 인증이 실패했을 시 콜백
+     */
+    onErrorReCaptcha (): void {
+        this.isVerifiedReCaptcha = false;
+        this.reCaptchaToken = null;
+    }
+
+    /**
+     * @method setPasswordErrorWithSignin
+     * @argument { boolean } bool
+     * @desc 패스워드 폼에 패스워드 불일치 에러를 셋 한다
+     */
+    setPasswordErrorWithSignin (bool: boolean): void {
         if (bool) {
             let msg = '비밀번호가 일치하지 않습니다';
-            if (this.invalidCount > 4) {
+            if (this.invalidCount >= this.maxInvalidCount) {
                 msg = '저기… 이만하면 바꿔보는 건 어떨까요?';
             }
             this.errors.add('password', msg, 'wrongPassword');
