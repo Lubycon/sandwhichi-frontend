@@ -294,12 +294,12 @@ class SigninForm extends Vue {
             if (e && e.data) {
                 const code = e.data.status.code;
                 if (code === '0061') {
-                    this.invalidCount++;
+                    this.addInvalidCount(1);
                 }
             }
             this.setPasswordErrorWithSignin(true);
             this.setSigninLoading(false);
-            throw new Error(e);
+            return '';
         }
     }
 
@@ -353,6 +353,10 @@ class SigninForm extends Vue {
         else {
             this.errors.remove('password');
         }
+    }
+
+    addInvalidCount (count: number): void {
+        this.invalidCount += count;
     }
 
     setCheckEmailLoading (bool: boolean): void {
