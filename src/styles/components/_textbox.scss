@@ -6,6 +6,10 @@ input.form-control {
         &:focus {
             box-shadow: none;
             border-color: $primary;
+            background-color: transparent;
+        }
+        &.is-invalid {
+            border-color: $red;
         }
     }
 }
