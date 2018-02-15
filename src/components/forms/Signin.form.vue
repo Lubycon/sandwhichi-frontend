@@ -2,28 +2,30 @@
 <div class="account-form">
     <div
         class="form-wrapper"
-        :class="isExistUser ? 'right-form' : 'left-form'">
+        :class="isValidEmail ? 'right-form' : 'left-form'">
         <!-- Email Step -->
         <b-form @submit.prevent="checkEmail" novalidate>
-            <b-form-input
-                ref="emailInput"
-                type="email"
-                name="email"
-                v-model.trim="email"
-                placeholder="Email"
-                v-validate="'required|email'"
-                x-autocompletetype="off"
-                autocompletetype="off"
-                autocomplete="off"
-                autocorrect="off"
-                spellcheck="off"
-                autocapitalize="off"
-                :class="{ 'has-error': errors.has('email') }"/>
+            <b-form-group>
+                <b-form-input
+                    ref="emailInput"
+                    type="email"
+                    name="email"
+                    v-model.trim="email"
+                    placeholder="이메일"
+                    x-autocompletetype="off"
+                    autocompletetype="off"
+                    autocomplete="off"
+                    autocorrect="off"
+                    spellcheck="off"
+                    autocapitalize="off"
+                    :state="!errors.has('email')"/>
+                <b-form-invalid-feedback>{{ errors.first('email') }}</b-form-invalid-feedback>
+            </b-form-group>
             <b-button
                 type="submit"
                 variant="primary">
-                <span v-show="!isBusyIsExistUser">다음</span>
-                <i v-show="isBusyIsExistUser" class="fas fa-spin fa-circle-notch"></i>
+                <span v-show="!isBusyIsValidaEmail">다음</span>
+                <i v-show="isBusyIsValidaEmail" class="fas fa-spin fa-circle-notch"></i>
             </b-button>
             <div class="signup-field">
                 <p>아직 회원이 아니신가요?</p>
@@ -34,28 +36,33 @@
         <!-- Password Step -->
         <b-form @submit.prevent="submit" novalidate>
             <h2 data-name="email">{{ email }}</h2>
-            <b-form-input
-                ref="passwordInput"
-                type="password"
-                name="password"
-                v-model.trim="password"
-                placeholder="Password"
-                v-validate="'required'"
-                :class="{ 'has-error': errors.has('password') }"/>
+            <b-form-group>
+                <b-form-input
+                    ref="passwordInput"
+                    type="password"
+                    name="password"
+                    v-model.trim="password"
+                    placeholder="비밀번호"
+                    :state="!errors.has('password')"/>
+                <b-form-invalid-feedback>{{ errors.first('password') }}</b-form-invalid-feedback>
+            </b-form-group>
+            <!-- RECAPTCHA -->
+            <b-button v-if="isEnableRecaptcha" type="button">리캡챠</b-button>
+            <!-- /RECAPTCHA -->
             <b-button
                 type="submit"
                 variant="primary">
-                <span v-show="!isBusy">로그인</span>
-                <i v-show="isBusy" class="fas fa-spin fa-circle-notch"></i>
+                <span v-show="!isBusySignin">로그인</span>
+                <i v-show="isBusySignin" class="fas fa-spin fa-circle-notch"></i>
             </b-button>
             <div class="signup-field">
                 <div>
                     <p>비밀번호를 잊으셨나요?</p>
-                    <router-link :to="{ name: 'find-password' }">여기서 찾아보세요!</router-link>
+                    <router-link :to="{ name: 'find-password' }">비밀번호 찾기</router-link>
                 </div>
                 <div>
-                    <p>또는</p>
-                    <router-link :to="{ name: 'signup' }">회원가입을 해보세요!</router-link>
+                    <p>Or</p>
+                    <router-link :to="{ name: 'signup' }">회원가입 하기</router-link>
                 </div>
             </div>
         </b-form>
@@ -67,11 +74,7 @@
 <style lang="scss" scoped>
 @import 'src/styles/utils/__module__';
 
-$margin: 10px;
-
-.form-group {
-    margin: 0;
-}
+$margin: 1rem;
 
 .account-form {
     position: relative;
@@ -107,8 +110,12 @@ $margin: 10px;
             }
         }
         h2[data-name="email"] {
-            text-align: center;
+            text-align: left;
             font-size: $normal-font-size;
+        }
+        button.btn {
+            width: 100%;
+            margin-bottom: 1rem;
         }
     }
 }
@@ -125,8 +132,26 @@ button.btn[type="submit"] {
 </style>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+/**
+ * @class SigninForm
+ * @extends Vue
+ * @member { any } $refs from Vue
+ * @member { any } errors from vee-validate
+ * @member { Function } checkIsExistEmail from isExistUserMixin
+ * @member { string } email
+ * @member { string } password
+ * @member { boolean } isValidEmail
+ * @member { boolean } isBusyIsValidEmail 이메일 비동기 밸리데이션 로딩 체크
+ * @member { boolean } isBusySignin 로그인 로딩 체크
+ * @member { boolean } isEnableRecaptcha 리캡챠를 사용하는 지의 여부
+ * @member { boolean } isFailedSignin 가장 마지막에 시도한 로그인이 실패했는가를 체크
+ * @member { number } invalidCount 사용자가 로그인에 실패한 횟수
+ * @member { number } maxInvalidCount 사용자가 로그인에 실패할 수 있는 최대 횟수
+ */
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
+import APIAuth from '@/api/APIAuth';
+import { UserSigninData } from '@/interfaces/User.interface';
 
 @Component({
     name: 'SigninForm',
@@ -134,56 +159,162 @@ import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 })
 class SigninForm extends Vue {
     $refs: {
-        emailInput: Vue,
-        passwordInput: Vue,
+        emailInput: any,
+        passwordInput: any,
     }
-
-    checkIsExistEmail: Function;
-
-    email: string;
-    isExistUser: boolean;
-    isBusyIsExistUser: boolean;
-    password: string;
     errors: any;
+    checkIsExistEmail: Function;
+    email: string;
+    password: string;
+    isValidEmail: boolean;
+    isBusyIsValidaEmail: boolean;
+    isBusySignin: boolean;
+    isEnableRecaptcha: boolean;
+    isFailedSignin: boolean;
+    invalidCount: number;
+    maxInvalidCount: number;
 
     constructor () {
         super();
 
         this.email = null;
-        this.isExistUser = false;
-        this.isBusyIsExistUser = false;
         this.password = null;
+        this.isValidEmail = false;
+        this.isBusyIsValidaEmail = false;
+        this.isBusySignin = false;
+        this.isEnableRecaptcha = false;
+        this.isFailedSignin = false;
+        this.invalidCount = 0;
+        this.maxInvalidCount = 5;
     }
 
-    @Prop({ default: false })
-    isBusy: boolean;
+    /**
+     * @event onChangeInvalidCount
+     * @desc 현재 signinForm에 리캡챠가 실행되고 있지 않고,
+     * 유저가 비밀번호를 5회 이상 틀렸다면 리캡챠를 실행시킨다
+     */
+    @Watch('invalidCount')
+    onChangeInvalidCount (value) {
+        if (!this.isEnableRecaptcha && (this.invalidCount >= this.maxInvalidCount)) {
+            this.setRecaptcha(true);
+        }
+    }
 
+    /**
+     * @method checkEmail
+     * @return { Promise<boolean> }
+     * @desc 모델에서 email값을 가져와 validation을 진행한다
+     * validation에 통과한다면 폼이 다음 스텝으로 이동 후, 비밀번호 인풋에 포커스가 잡힌다
+     * setTimeout의 값은 css에 있는 폼 이동 transition보다 100ms 높은 값이다
+     */
     async checkEmail (): Promise<boolean> {
-        this.isBusyIsExistUser = true;
+        this.setCheckEmailLoading(true);
         try {
-            const response = await this.checkIsExistEmail(this.email);
-            this.isExistUser = response;
-            this.isBusyIsExistUser = false;
-            setTimeout(() => this.$refs.passwordInput.$el.focus(), 500);
-            return response;
+            // const response = await this.checkIsExistEmail(this.email);
+            const validate = await this.$validator.validate('email', this.email);
+            this.isValidEmail = validate;
+            this.setCheckEmailLoading(false);
+
+            if (this.isValidEmail) {
+                setTimeout(() => this.$refs.passwordInput.$el.focus(), 500);
+            }
+
+            return validate;
         }
         catch (e) {
-            this.isBusyIsExistUser = false;
+            this.setCheckEmailLoading(false);
             throw new Error(e);
         }
     }
 
-    submit (): void {
-        this.$validator.validateAll();
-        if (this.errors.any()) {
-            alert(this.errors.items[0].msg);
+    /**
+     * @method checkPassword
+     * @return { Promise<boolean> }
+     * @desc 모델에서 password값을 가져와 validation을 진행한다.
+     * validation에 통과한다면 submit메소드를 호출하여 로그인을 진행한다
+     */
+    async checkPassword (): Promise<boolean> {
+        try {
+            const validate = await this.$validator.validate('password', this.password);
+            if (validate) {
+                this.submit();
+            }
+            return validate;
         }
-        else {
-            this.$emit('submit', {
+        catch (e) {
+            throw new Error(e);
+        }
+    }
+
+    /**
+     * @method submit
+     * @desc UserSigninData를 사용하여 서버에 로그인 요청을 보낸다
+     * 요청에 성공 시 부모 컴포넌트로 token을 emit한다
+     * 요청에 실패 시 0061(맞지 않는 데이터로 인한 실패)에러라면 invalidCount를 업데이트한다
+     */
+    async submit (): Promise<string> {
+        this.setSigninLoading(true);
+        try {
+            const data: UserSigninData = {
                 email: this.email,
                 password: this.password,
+            };
+            const signinResponse = await APIAuth.signin(data);
+            this.$emit('submitted', {
+                accessToken: signinResponse.result.access_token,
+                refreshToken: signinResponse.result.refresh_token,
             });
+            this.setPasswordErrorWithSignin(false);
+            return signinResponse;
         }
+        catch (e) {
+            if (e && e.data) {
+                const code = e.data.status.code;
+                if (code === '0061') {
+                    this.invalidCount++;
+                }
+            }
+            this.setPasswordErrorWithSignin(true);
+            this.setSigninLoading(false);
+            throw new Error(e);
+        }
+    }
+
+    /**
+     * @method setRecaptcha
+     * @desc 리캡챠 사용 여부를 변경한다. 컴포넌트 외부에서 호출할 수도 있다.
+     */
+    setRecaptcha (bool: boolean): void {
+        this.isEnableRecaptcha = bool;
+        if (bool) {
+            console.log('reCAPTCHA is enabled');
+        }
+        else {
+            console.log('reCAPTCHA is disabled');
+        }
+    }
+
+    setPasswordErrorWithSignin (bool: boolean) {
+        if (bool) {
+            console.log('Update Error');
+            this.errors.add('password', '비밀번호가 일치하지 않습니다', 'wrongPassword');
+        }
+        else {
+            this.errors.remove('password');
+        }
+    }
+
+    setCheckEmailLoading (bool: boolean): void {
+        this.isBusyIsValidaEmail = bool;
+    }
+
+    setSigninLoading (bool: boolean): void {
+        this.isBusySignin = bool;
+    }
+
+    created () {
+        this.$validator.attach('email', 'required|email|existEmail');
+        this.$validator.attach('password', 'required');
     }
 }
 export default SigninForm;

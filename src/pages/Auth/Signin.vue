@@ -8,7 +8,10 @@
                 </router-link>
             </div>
             <div class="card-body">
-                <signin-form :is-busy="isBusy" @submit="postData"></signin-form>
+                <signin-form
+                    ref="signinForm"
+                    @submitted="updateMember">
+                </signin-form>
             </div>
         </b-col>
     </b-row>
@@ -48,11 +51,15 @@
 </style>
 
 <script lang="ts">
+/**
+ * @class Signin
+ * @extends Vue
+ * @member { any } $refs from Vue
+ * @member { string } logo
+ */
 import { Vue, Component } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
 import { VERTICAL_LOGO } from '@/constants';
-import { UserSigninData } from '@/interfaces/User.interface';
-import APIAuth from '@/api/APIAuth';
 import SigninForm from '@/components/forms/Signin.form.vue';
 
 @Component({
@@ -60,60 +67,53 @@ import SigninForm from '@/components/forms/Signin.form.vue';
     components: { SigninForm },
 })
 class Signin extends Vue {
+    $refs: {
+        signinForm: any,
+    }
     logo: string;
-    isBusy: boolean;
 
     constructor () {
         super();
 
         this.logo = VERTICAL_LOGO;
-        this.isBusy = false;
     }
 
     @Action('setToken') setToken;
     @Action('setUserByAPI') setUserByAPI;
 
-    async postData (signinData: UserSigninData): Promise<any> {
-        this.isBusy = true;
+    /**
+     * @method updateMember
+     * @argument { any } signinResponse
+     * @return { Promise<any> }
+     * @desc 인자로 넘겨받은 토큰을 사용하여 auth스토어에 유저 데이터를 주입한다.
+     */
+    async updateMember ({ accessToken, refreshToken }): Promise<any> {
         try {
-            const signinResponse = await APIAuth.signin(signinData);
-            this.setToken({
-                accessToken: signinResponse.result.access_token,
-                refreshToken: signinResponse.result.refresh_token,
-            });
-            this.setUserByAPI().then(
-                res => this.authResolve(),
-                err => this.authReject(err)
-            );
+            this.setToken({ accessToken, refreshToken });
+            const userDataResponse = await this.setUserByAPI();
+
+            this.signinResolve();
+
+            return userDataResponse;
         }
         catch (e) {
-            this.authReject(e);
+            this.$refs.signinForm.setSigninLoading(false);
         }
     }
 
-    authResolve (): void {
+    /**
+     * @method signinResolve
+     * @desc 로그인과 유저 데이터 바인딩까지 성공하면 실행된다.
+     * 현재 라우터에 queryParam으로 되돌아갈 url이 있다면 거기로 이동시킨다.
+     * 없다면, home으로 이동시킨다.
+     */
+    signinResolve (): void {
         if (this.$route.query.redirect) {
             this.$router.push({ path: this.$route.query.redirect });
         }
         else {
             this.$router.push({ name: 'home' });
         }
-        this.isBusy = false;
-    }
-
-    authReject (err?): void {
-        if (err && err.data) {
-            if (err.data.status.code === '0061') {
-                alert('이메일 또는 패스워드를 다시 한번 확인해주세요');
-            }
-            else {
-                alert('알 수 없는 에러');
-            }
-        }
-        else {
-            alert('알 수 없는 에러');
-        }
-        this.isBusy = false;
     }
 }
 export default Signin;
