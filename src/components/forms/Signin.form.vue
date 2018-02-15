@@ -49,8 +49,8 @@
             <!-- RECAPTCHA -->
             <re-captcha
                 ref="recaptcha"
-                onVerify=""
-                onError="">
+                @verify="onVertifyReCaptcha"
+                @error="onErrorReCaptcha">
             </re-captcha>
             <!-- /RECAPTCHA -->
             <b-button
@@ -182,7 +182,6 @@ class SigninForm extends Vue {
     isBusySignin: boolean;
     isEnableReCaptcha: boolean;
     isFailedSignin: boolean;
-    isVerifiedReCaptcha: boolean;
     invalidCount: number;
     maxInvalidCount: number;
 
@@ -197,7 +196,6 @@ class SigninForm extends Vue {
         this.isBusySignin = false;
         this.isEnableReCaptcha = false;
         this.isFailedSignin = false;
-        this.isVerifiedReCaptcha = false;
         this.invalidCount = 0;
         // this.maxInvalidCount = 5;
         this.maxInvalidCount = 1;
@@ -266,10 +264,21 @@ class SigninForm extends Vue {
      * @desc UserSigninData를 사용하여 서버에 로그인 요청을 보낸다
      * 요청에 성공 시 부모 컴포넌트로 token을 emit한다
      * 요청에 실패 시 0061(맞지 않는 데이터로 인한 실패)에러라면 invalidCount를 업데이트한다
+     *
+     * @TODO - 2018.02.15 Evan
+     * 현재 구글 리캡챠는 클라이언트에서만 체크 중 이나,
+     * 보안 강도를 올리려면 서버로 토큰을 던져서 구글에 다시 한번 인증을 받는 이중 처리를 하는 것이 좋음
      */
     async submit (): Promise<string> {
+        // ReCaptcha Check
+        if (this.isEnableReCaptcha && !this.reCaptchaToken) {
+            alert('로봇이 아닌 걸 증명해라 닝겐');
+            return;
+        }
+
         this.setSigninLoading(true);
         this.setPasswordErrorWithSignin(false);
+
         try {
             const data: UserSigninData = {
                 email: this.email,
@@ -315,17 +324,17 @@ class SigninForm extends Vue {
      * @desc 리캡챠 인증이 성공했을 시 콜백
      */
     onVertifyReCaptcha (response: string): void {
-        console.log(response);
-        this.isVerifiedReCaptcha = true;
+        console.log('signin -> ', response);
         this.reCaptchaToken = response;
     }
 
     /**
      * @method onErrorReCaptcha
+     * @argument { any } err
      * @desc 리캡챠 인증이 실패했을 시 콜백
      */
-    onErrorReCaptcha (): void {
-        this.isVerifiedReCaptcha = false;
+    onErrorReCaptcha (err: any): void {
+        if (err) {}
         this.reCaptchaToken = null;
     }
 
@@ -337,7 +346,7 @@ class SigninForm extends Vue {
     setPasswordErrorWithSignin (bool: boolean): void {
         if (bool) {
             let msg = '비밀번호가 일치하지 않습니다';
-            if (this.invalidCount >= this.maxInvalidCount) {
+            if (this.invalidCount >= (this.maxInvalidCount + 1)) {
                 msg = '저기… 이만하면 바꿔보는 건 어떨까요?';
             }
             this.errors.add('password', msg, 'wrongPassword');

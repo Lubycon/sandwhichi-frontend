@@ -73,10 +73,10 @@ class ReCaptcha extends Vue {
      */
     onVerify (response: string): void {
         if (response && response.length) {
-            this.$emit('onVertify', response);
+            this.$emit('verify', response);
         }
         else {
-            this.$emit('onError', response);
+            this.$emit('error', response);
         }
     }
 }
