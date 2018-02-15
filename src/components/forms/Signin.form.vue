@@ -254,6 +254,7 @@ class SigninForm extends Vue {
      */
     async submit (): Promise<string> {
         this.setSigninLoading(true);
+        this.setPasswordErrorWithSignin(false);
         try {
             const data: UserSigninData = {
                 email: this.email,
@@ -264,7 +265,6 @@ class SigninForm extends Vue {
                 accessToken: signinResponse.result.access_token,
                 refreshToken: signinResponse.result.refresh_token,
             });
-            this.setPasswordErrorWithSignin(false);
             return signinResponse;
         }
         catch (e) {
@@ -296,8 +296,11 @@ class SigninForm extends Vue {
 
     setPasswordErrorWithSignin (bool: boolean) {
         if (bool) {
-            console.log('Update Error');
-            this.errors.add('password', '비밀번호가 일치하지 않습니다', 'wrongPassword');
+            let msg = '비밀번호가 일치하지 않습니다';
+            if (this.invalidCount > 4) {
+                msg = '저기… 이만하면 바꿔보는 건 어떨까요?';
+            }
+            this.errors.add('password', msg, 'wrongPassword');
         }
         else {
             this.errors.remove('password');
