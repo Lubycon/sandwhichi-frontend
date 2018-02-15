@@ -1,5 +1,7 @@
 declare var process;
 
+declare var grecaptcha;
+
 declare module '*.svg' {
     const content: any;
     export default content;
