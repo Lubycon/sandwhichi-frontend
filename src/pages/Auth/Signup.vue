@@ -30,11 +30,19 @@
 
 div[data-name="signup-form"] {
     div[data-name="logo"] {
-        width: 50px;
+        a {
+            display: block;
+        }
+        img {
+            width: 50px;
+        }
     }
     div[data-name="page-title"] {
         h1 {
-            font-size: 1rem;
+            font-size: 1.5rem;
+        }
+        p {
+            font-size: 0.8rem;
         }
     }
 }

@@ -1,6 +1,5 @@
 import { Vue, Component } from 'vue-property-decorator';
 import Q from 'q';
-import _ from 'lodash';
 import APIUser from '@/api/APIUser';
 
 interface IsExistUserModel {
@@ -11,13 +10,13 @@ interface IsExistUserModel {
 @Component({})
 export class isExistUserMixin extends Vue {
     $validator: any;
-    isExistUser: IsExistUserModel;
+    isExistEmail: Function;
 
     constructor () {
         super();
     }
 
-    async checkIsExistEmail (email: string): Promise<any> {
+    async checkIsExistEmail (email: string): Promise<boolean> {
         const defer = Q.defer();
         try {
             const response = await APIUser.isExistEmail(email);

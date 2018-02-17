@@ -32,6 +32,9 @@ class Validate {
                     password: {
                         required: '비밀번호를 입력해주세요',
                     },
+                    passwordRepeat: {
+                        is: '비밀번호가 일치하지 않습니다',
+                    },
                     name: {
                         required: '이름을 입력해주세요',
                         regex: '이름에는 -나 _를 제외한 특수문자를 사용하실 수 없습니다',

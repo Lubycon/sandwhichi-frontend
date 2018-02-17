@@ -367,7 +367,6 @@ class SigninForm extends Vue {
     }
 
     created () {
-        this.$validator.attach('email', 'required|email|existEmail');
         this.$validator.attach('password', 'required');
     }
 }

@@ -1,7 +1,12 @@
 <template>
 <b-container>
     <b-row>
-        <b-col cols="12" sm="8" md="6" lg="4" class="card card--center-form">
+        <b-col
+            cols="12"
+            sm="8"
+            md="6"
+            lg="4"
+            class="card card--center-form">
             <div class="logo">
                 <router-link :to="{ name: 'home' }">
                     <img :src="logo" alt="샌드위치" title="샌드위치 로고">

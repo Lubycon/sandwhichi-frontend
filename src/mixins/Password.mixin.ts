@@ -17,8 +17,8 @@ export class PasswordMixin extends Vue {
     }
 
     created () {
-        this.$validator.extend('security', {
-            getMessage: field => `Your ${field} must be more complicated`,
+        this.$validator.extend('passwordSecurity', {
+            getMessage: field => '비밀번호 보안 수준이 너무 낮습니다',
             validate: value => {
                 return this.getPasswordLevel(value) !== 'invalid';
             },
