@@ -222,7 +222,6 @@ class SigninForm extends Vue {
     async checkEmail (): Promise<boolean> {
         this.setCheckEmailLoading(true);
         try {
-            // const response = await this.checkIsExistEmail(this.email);
             const validate = await this.$validator.validate('email', this.email);
             this.isValidEmail = validate;
             this.setCheckEmailLoading(false);
