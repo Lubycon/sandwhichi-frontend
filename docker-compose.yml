@@ -2,14 +2,15 @@ version: '2'
 services:
     frontend:
         extra_hosts:
-            - "local.sandwhichi.com:127.0.0.1"
-        domainname: local.sandwhichi.com
-        hostname: local-frontend
+            - ${FRONT_DOMAIN_NAME}:127.0.0.1
+        domainname: ${FRONT_DOMAIN_NAME}
+        hostname: ${APP_ENV}-frontend
         working_dir: /usr/src/app
         build:
-            context: ./
+            context: ${FRONT_DOCKERFILE_DIR}
         ports:
             - "3000:3000"
         restart: always
         volumes:
-          - "./:/usr/src/app"
+          - ${FRONT_DOCKERFILE_DIR}:/usr/src/app
+          - /usr/src/app/node_modules
