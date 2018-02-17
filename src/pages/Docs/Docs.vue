@@ -40,12 +40,12 @@
                 border: none;
                 border-radius: 0;
                 background-color: transparent;
-                color: $bluegrey-600;
+                color: $bluegrey600;
                 box-shadow: none;
                 padding: $document-padding / 2;
                 font-weight: bold;
                 &.active {
-                    border-bottom: 5px solid $bluegrey-600;
+                    border-bottom: 5px solid $bluegrey600;
                 }
             }
         }
@@ -75,7 +75,7 @@
             }
 
             ol {
-                border: 1px dashed $grey-400;
+                border: 1px dashed $grey400;
                 padding: {
                     left: $document-padding;
                     right: $document-padding / 2;
@@ -88,7 +88,7 @@
                 margin-top: 0;
                 margin-bottom: $document-padding;
                 padding-bottom: $document-padding;
-                border-bottom: 1px solid $grey-400;
+                border-bottom: 1px solid $grey400;
                 h1 {
                     font-size: $heading-size;
                     font-weight: bold;

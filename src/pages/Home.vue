@@ -15,7 +15,7 @@
 
 h1 {
     margin: 50px 0;
-    color: $bluegrey-800;
+    color: $bluegrey800;
     text-align: center;
 }
 </style>

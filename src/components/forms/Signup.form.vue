@@ -75,7 +75,7 @@
 
 small {
     a {
-        color: $grey-900;
+        color: $grey900;
         font-weight: bold;
         text-decoration: underline;
     }
@@ -84,7 +84,7 @@ small {
 .btn[type="submit"] {
     margin: 20px 0;
     width: 100%;
-    background-color: $bluegrey-800;
+    background-color: $bluegrey800;
 }
 </style>
 

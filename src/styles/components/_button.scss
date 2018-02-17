@@ -1,5 +1,5 @@
 .btn {
-    background-color: $bluegrey-900;
+    background-color: $bluegrey900;
     color: $white;
     cursor: pointer;
 
@@ -8,15 +8,15 @@
     }
 
     &.active {
-        background-color: $bluegrey-900;
+        background-color: $bluegrey900;
     }
     &.btn-round {
         border-radius: 100px;
     }
     &.btn-border {
         background: transparent;
-        border: 1px solid $bluegrey-900;
-        color: $grey-800;
+        border: 1px solid $bluegrey900;
+        color: $grey800;
     }
     &.btn-primary {
         background-color: $primary;

@@ -42,7 +42,7 @@
 
 .btn-link {
     padding: $card-padding;
-    color: $grey-700;
+    color: $grey700;
     text-align: right;
     font-size: 0.8rem;
     @include mq('sm') {

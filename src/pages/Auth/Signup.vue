@@ -1,30 +1,40 @@
 <template>
-<div class="container row">
-    <div class="col-12 col-md-6 col-lg-4 card card--center-form">
-        <div class="logo">
-            <router-link :to="{ name: 'home' }">
-                <img :src="logo" alt="pixelstairs-logo" title="pixelstairs-logo">
-                <p>Welcome to Pixelstairs!</p>
-            </router-link>
-        </div>
-
-        <div class="card-body">
-            <signup-form :is-busy="isBusy" @submit="postData"></signup-form>
-        </div>
-    </div>
-</div>
+<b-container>
+    <b-row>
+        <b-col
+            data-name="signup-form"
+            cols="12"
+            sm="8"
+            md="6"
+            lg="4">
+            <div data-name="logo">
+                <router-link :to="{ name: 'home' }">
+                    <img :src="logo" alt="home" title="sandwhichi">
+                </router-link>
+            </div>
+            <div data-name="page-title">
+                <h1>회원가입</h1>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+            <signup-form
+                ref="signupform"
+                @submit="postData">
+            </signup-form>
+        </b-col>
+    </b-row>
+</b-container>
 </template>
 
 <style lang="scss">
 @import 'src/styles/utils/__module__';
 
-.logo {
-    text-align: center;
-    img[title="pixelstairs-logo"] {
-        width: 250px;
-        margin-bottom: 10px;
-        @include mq('sm') {
-            width: 150px;
+div[data-name="signup-form"] {
+    div[data-name="logo"] {
+        width: 50px;
+    }
+    div[data-name="page-title"] {
+        h1 {
+            font-size: 1rem;
         }
     }
 }
@@ -33,7 +43,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
-import { VERTICAL_LOGO } from '@/constants';
+import { ICON_LOGO } from '@/constants';
 import { UserSignupData } from '@/interfaces/User.interface';
 import APIAuth from '@/api/APIAuth';
 import SignupForm from '@/components/forms/Signup.form.vue';
@@ -43,14 +53,16 @@ import SignupForm from '@/components/forms/Signup.form.vue';
     components: { SignupForm },
 })
 class Signup extends Vue {
+    $refs: {
+        signupForm: any,
+    }
     logo: string;
     isBusy: boolean;
 
     constructor () {
         super();
 
-        this.logo = VERTICAL_LOGO;
-        this.isBusy = false;
+        this.logo = ICON_LOGO;
     }
 
     @State('auth') AuthState;

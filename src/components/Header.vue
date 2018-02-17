@@ -29,7 +29,7 @@
 nav {
     margin: 0;
     height: $global-header-height;
-    border-bottom: 1px solid $grey-400;
+    border-bottom: 1px solid $grey400;
     background: {
         color: $white;
     }
