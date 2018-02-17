@@ -5,14 +5,12 @@
 }
 
 .card.card--center-form {
-    @include floatToCenter;
     background: transparent;
     box-shadow: none;
-    top: 45%;
-    @include mq('xs') {
-        transform: none;
-        top: auto;
-        left: auto;
-        margin-top: $global-header-height;
+    margin: $global-header-height * 2 auto 0;
+    @include mq('sm') {
+        @include floatToCenter;
+        top: 45%;
+        margin-top: 0;
     }
 }

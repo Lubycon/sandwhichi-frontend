@@ -13,7 +13,7 @@
 <style lang="scss" scoped>
 @import 'src/styles/utils/__module__';
 
-$footer-margin: 20px;
+$footer-margin: 1.5rem;
 $menu-margin: $footer-margin / 2;
 
 nav {
@@ -26,12 +26,13 @@ nav {
     }
     ul li {
         a {
+            font-size: 0.8rem;
             color: $bluegrey-700;
             &.router-link-exact-active {
                 font-weight: bold;
             }
-            @include mq('sm') {
-                font-size: 12px;
+            @include mq('md') {
+                font-size: 1rem;
             }
         }
     }

@@ -34,15 +34,20 @@ nav {
         color: $white;
     }
     .col-4 {
+        padding: 0;
         @include mq('sm') {
-            padding: 0;
+            padding: 0 20px;
         }
     }
     .header--global-logo {
         text-align: center;
         img {
-            width: 50px;
+            $width: 100px;
+            width: 100px;
             height: 100%;
+            @include mq('sm') {
+                width: $width + 30;
+            }
         }
     }
     .header--user-menu {

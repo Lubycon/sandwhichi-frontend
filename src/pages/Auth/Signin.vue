@@ -24,10 +24,10 @@
 .logo {
     text-align: center;
     img {
-        width: 250px;
-        margin-bottom: 10px;
-        @include mq('xs') {
-            width: 150px;
+        width: 150px;
+        margin-bottom: 0.5rem;
+        @include mq('sm') {
+            width: 250px;
         }
     }
 }
@@ -44,8 +44,9 @@
     padding: $card-padding;
     color: $grey-700;
     text-align: right;
-    @include mq('xs') {
-        font-size: 14px;
+    font-size: 0.8rem;
+    @include mq('sm') {
+        font-size: 1rem;
     }
 }
 </style>
