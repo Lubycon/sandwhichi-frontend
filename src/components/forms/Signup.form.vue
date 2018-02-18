@@ -37,43 +37,35 @@
                     <b-form-invalid-feedback>{{ errors.first('passwordRepeat') }}</b-form-invalid-feedback>
                 </b-form-group>
             </b-col>
-            <b-col cols="6">
-                <b-form-group label="성">
-                    <b-form-input
-                        type="text"
-                        name="lastName"
-                        v-model.trim="lastName"
-                        v-validate="{ rules: { required: true, regex: regex.name } }"
-                        :class="{ 'has-error': errors.has('name') }"
-                    />
-                    <b-form-text v-if="errors.has('name')" class="is-invalid">{{ errors.first('name') }}</b-form-text>
-                </b-form-group>
+            <name-form
+                class="col-12"
+                v-model="signupData.nickname"
+                v-validate="{
+                    rules: {
+                        required: true,
+                        regex: regex.name,
+                    }
+                }"
+                data-vv-name="name"
+                :state="!errors.has('name')"
+                :feedback-msg="errors.first('name')"
+            ></name-form>
+            <b-col cols="12">
+                <small>
+                    If you press the button below, it is assumed that you have agreed to our
+                    <router-link :to="{ name: 'terms-of-service' }" target="_blank">Terms of service</router-link>
+                    and
+                    <router-link :to="{ name: 'privacy-policy' }" target="_blank">Privacy policy</router-link>.
+                </small>
             </b-col>
-            <b-col cols="6">
-                <b-form-group label="이름">
-                    <b-form-input
-                        type="text"
-                        name="firstName"
-                        v-model.trim="firstName"
-                        v-validate="{ rules: { required: true, regex: regex.name } }"
-                        :class="{ 'has-error': errors.has('name') }"
-                    />
-                    <b-form-text v-if="errors.has('name')" class="is-invalid">{{ errors.first('name') }}</b-form-text>
-                </b-form-group>
+            <b-col cols="12">
+                <b-button
+                    type="submit"
+                    variant="primary">
+                    <span v-show="!isBusy">회원가입</span>
+                    <i v-show="isBusy" class="fas fa-spin fa-circle-notch"></i>
+                </b-button>
             </b-col>
-            
-            <small>
-                If you press the button below, it is assumed that you have agreed to our
-                <router-link :to="{ name: 'terms-of-service' }" target="_blank">Terms of service</router-link>
-                and
-                <router-link :to="{ name: 'privacy-policy' }" target="_blank">Privacy policy</router-link>.
-            </small>
-            <b-button
-                type="submit"
-                variant="primary">
-                <span v-show="!isBusy">회원가입</span>
-                <i v-show="isBusy" class="fas fa-spin fa-circle-notch"></i>
-            </b-button>
         </b-row>
     </b-form>
 </div>
@@ -117,19 +109,18 @@ import { UserSignupData } from '@/interfaces/User.interface';
 import APIAuth from '@/api/APIAuth';
 import Validate from '@/helpers/Validate';
 import EmailForm from '@/components/forms/Email.form.vue';
+import NameForm from '@/components/forms/Name.form.vue';
 
 @Component({
     name: 'SignupForm',
     mixins: [ isExistUserMixin, PasswordMixin ],
-    components: { EmailForm },
+    components: { EmailForm, NameForm },
 })
 class SignupForm extends Vue {
     isExistEmail: Function;
     getPasswordLevel: Function;
     signupData: UserSignupData;
     passwordRepeat: string;
-    firstName: string;
-    lastName: string;
     isBusy: boolean;
     errors: any;
     regex: any;
@@ -146,18 +137,10 @@ class SignupForm extends Vue {
         };
 
         this.passwordRepeat = null;
-        this.firstName = null;
-        this.lastName = null;
         this.isBusy = false;
         this.regex = {
             name: Validate.getRegex('name'),
         };
-    }
-
-    get username () {
-        const name = `${this.lastName || ''}${this.firstName || ''}`;
-        this.signupData.nickname = name;
-        return name;
     }
 
     get passwordLevelText () {

@@ -111,10 +111,6 @@ class EmailForm extends Vue {
             this.$set(this, 'selectedEmailHost', hostlist[hostlist.length - 1]);
         }
     }
-
-    created () {
-        this.$validator.attach('email', 'required|email|avoidExistEmail');
-    }
 }
 export default EmailForm;
 </script>
