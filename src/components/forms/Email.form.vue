@@ -95,7 +95,7 @@ class EmailForm extends Vue {
      * @desc selectedEmailHost값이 변경될 때 이메일 값을 조합한다
      * 만약 직접입력이 선택되었다면 텍스트 인풋 박스르 포커스한다
      */
-    onChangeEmailHost (value) {
+    onChangeEmailHost (value: EmailHost): void {
         const email = this.email.split('@');
         this.$set(this, 'email', `${email[0]}@${value.host}`);
         this.$refs.email.$el.focus();
@@ -105,7 +105,7 @@ class EmailForm extends Vue {
      * @method onDetectAtKey
      * @desc 유저가 @키를 입력했을 경우 selectedEmailHost값을 직접입력으로 바꾼다
      */
-    onDetectAtKey (e) {
+    onDetectAtKey (e): void {
         if (e.keyCode === 50 && e.shiftKey) {
             const hostlist = this.emailHostList;
             this.$set(this, 'selectedEmailHost', hostlist[hostlist.length - 1]);

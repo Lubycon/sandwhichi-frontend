@@ -50,14 +50,10 @@
                 :state="!errors.has('name')"
                 :feedback-msg="errors.first('name')"
             ></name-form>
-            <b-col cols="12">
-                <small>
-                    If you press the button below, it is assumed that you have agreed to our
-                    <router-link :to="{ name: 'terms-of-service' }" target="_blank">Terms of service</router-link>
-                    and
-                    <router-link :to="{ name: 'privacy-policy' }" target="_blank">Privacy policy</router-link>.
-                </small>
-            </b-col>
+            <terms-agree-form
+                data-name="terms-agree"
+                class="col-12">
+            </terms-agree-form>
             <b-col cols="12">
                 <b-button
                     type="submit"
@@ -74,18 +70,16 @@
 <style lang="scss" scoped>
 @import 'src/styles/utils/__module__';
 
-small {
-    a {
-        color: $grey900;
-        font-weight: bold;
-        text-decoration: underline;
-    }
+div[data-name="terms-agree"] {
+    margin-top: 1rem;;
 }
 
 .btn[type="submit"] {
     margin: 20px 0;
     width: 100%;
-    background-color: $bluegrey800;
+    i {
+        color: $white;
+    }
 }
 </style>
 
@@ -110,11 +104,12 @@ import APIAuth from '@/api/APIAuth';
 import Validate from '@/helpers/Validate';
 import EmailForm from '@/components/forms/Email.form.vue';
 import NameForm from '@/components/forms/Name.form.vue';
+import TermsAgreeForm from '@/components/forms/TermsAgree.form.vue';
 
 @Component({
     name: 'SignupForm',
     mixins: [ isExistUserMixin, PasswordMixin ],
-    components: { EmailForm, NameForm },
+    components: { EmailForm, NameForm, TermsAgreeForm },
 })
 class SignupForm extends Vue {
     isExistEmail: Function;

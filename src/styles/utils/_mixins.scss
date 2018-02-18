@@ -29,3 +29,13 @@
         vertical-align: middle;
     }
 }
+
+@mixin fontAwesome($code) {
+    font-family: 'Font Awesome\ 5 Free';
+    content: $code;
+    font-weight: 900;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: auto;
+    font-variant: normal;
+    font-style: normal;
+}

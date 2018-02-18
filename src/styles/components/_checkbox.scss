@@ -1,0 +1,20 @@
+label.custom-control.custom-checkbox {
+    cursor: pointer;
+    span.custom-control-indicator {
+        background-color: $white;
+        border: 1px solid $grey400;
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-top: -0.1rem;
+    }
+    .custom-control-input:checked ~ .custom-control-indicator {
+        background-image: none;
+        &::before {
+            @include fontAwesome("\f00c");
+            @include floatToCenter;
+            color: $primary;
+            margin-top: 1px;
+            font-size: 0.8rem;
+        }
+    }
+}

@@ -32,6 +32,8 @@
 /**
  * @class NameForm
  * @extends Vue
+ * @member { string } lastName 유저의 성
+ * @member { string } firstName 유저의 이름
  */
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 
@@ -41,7 +43,6 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 class NameForm extends Vue {
     lastName: string;
     firstName: string;
-    name: string;
 
     constructor () {
         super();
