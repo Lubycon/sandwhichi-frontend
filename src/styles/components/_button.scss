@@ -2,10 +2,7 @@
     background-color: $bluegrey900;
     color: $white;
     cursor: pointer;
-
-    @include mq('sm') {
-        font-size: 0.8rem;
-    }
+    font-size: 1rem;
 
     &.active {
         background-color: $bluegrey900;
@@ -24,7 +21,7 @@
     }
 
     .loading-ico {
-        font-size: 14px;
+        font-size: 1rem;
     }
     span {
         color: $white;
@@ -57,7 +54,7 @@
     }
 
     i {
-        font-size: 20px;
+        font-size: 1rem;
     }
 
     @include mq('sm') {

@@ -26,13 +26,10 @@ nav {
     }
     ul li {
         a {
-            font-size: 0.8rem;
+            font-size: 1rem;
             color: $bluegrey700;
             &.router-link-exact-active {
                 font-weight: bold;
-            }
-            @include mq('md') {
-                font-size: 1rem;
             }
         }
     }
@@ -44,7 +41,7 @@ ul {
         margin-right: $menu-margin;
         padding-right: $menu-margin;
         text-align: center;
-        font-size: 14px;
+        font-size: 1rem;
         border-right: 1px solid $grey400;
         &:last-child {
             margin-right: 0;

@@ -27,11 +27,11 @@ div[data-name="form-title"] {
         text-align: center;
     }
     h2 {
-        font-size: 20px;
+        font-size: 1.2rem;
         font-weight: bold;
     }
     p {
-        font-size: 14px;
+        font-size: 1rem;
     }
 }
 div[data-name="form-signin"] {

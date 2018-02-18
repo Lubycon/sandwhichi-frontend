@@ -39,7 +39,6 @@
 
 .card--center-form {
     input {
-        font-size: 14px;
         padding: 0.75rem 1rem;
         background: transparent;
     }
