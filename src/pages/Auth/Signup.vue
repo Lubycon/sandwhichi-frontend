@@ -18,7 +18,7 @@
             </div>
             <signup-form
                 ref="signupform"
-                @submit="postData">
+                @submitted="updateMember">
             </signup-form>
         </b-col>
     </b-row>
@@ -52,8 +52,6 @@ div[data-name="signup-form"] {
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 import { ICON_LOGO } from '@/constants';
-import { UserSignupData } from '@/interfaces/User.interface';
-import APIAuth from '@/api/APIAuth';
 import SignupForm from '@/components/forms/Signup.form.vue';
 
 @Component({
@@ -77,21 +75,26 @@ class Signup extends Vue {
     @Action('setToken') setToken;
     @Action('setUserByAPI') setUserByAPI;
 
-    async postData (data: UserSignupData) {
-        this.isBusy = true;
+    async updateMember ({ accessToken, refreshToken }): Promise<any> {
         try {
-            const signupResponse = await APIAuth.signup(data);
-            this.setToken({
-                accessToken: signupResponse.result.access_token,
-                refreshToken: signupResponse.result.refresh_token,
-            });
-            this.setUserByAPI().then(res => {
-                this.$router.push({ name: 'auth-grade' });
-                this.isBusy = false;
-            });
+            this.setToken({ accessToken, refreshToken });
+            const userDataResponse = await this.setUserByAPI();
+
+            this.signupResolve();
+
+            return userDataResponse;
         }
         catch (e) {
-            this.isBusy = false;
+            this.$refs.signupForm.setLoading(false);
+        }
+    }
+
+    signupResolve (): void {
+        if (this.$route.query.redirect) {
+            this.$router.push({ path: this.$route.query.redirect });
+        }
+        else {
+            this.$router.push({ name: 'home' });
         }
     }
 }

@@ -68,9 +68,11 @@
                 and
                 <router-link :to="{ name: 'privacy-policy' }" target="_blank">Privacy policy</router-link>.
             </small>
-            <b-button type="submit">
-                <span v-show="!isBusy">Join us!</span>
-                <i v-show="isBusy" class="loading-ico pxs-spinner-1 spin"></i>
+            <b-button
+                type="submit"
+                variant="primary">
+                <span v-show="!isBusy">회원가입</span>
+                <i v-show="isBusy" class="fas fa-spin fa-circle-notch"></i>
             </b-button>
         </b-row>
     </b-form>
@@ -96,10 +98,23 @@ small {
 </style>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+/**
+ * @class SignupForm
+ * @member { Function } isExistEmail from isExistUserMixin
+ * @member { Function } getPasswordLevel from PasswordMixin
+ * @member { UserSignupData } signupData
+ * @member { string } passwordRepeat 비밀번호 재입력 모델
+ * @member { string } firstName 유저의 이름
+ * @member { string } lastName 유저의 성
+ * @member { boolean } isBusy
+ * @member { any } errors from vee-validate
+ * @member { regex } regex from Validate helper
+ */
+import { Vue, Component } from 'vue-property-decorator';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 import { PasswordMixin } from '@/mixins/Password.mixin';
 import { UserSignupData } from '@/interfaces/User.interface';
+import APIAuth from '@/api/APIAuth';
 import Validate from '@/helpers/Validate';
 import EmailForm from '@/components/forms/Email.form.vue';
 
@@ -111,13 +126,11 @@ import EmailForm from '@/components/forms/Email.form.vue';
 class SignupForm extends Vue {
     isExistEmail: Function;
     getPasswordLevel: Function;
-
     signupData: UserSignupData;
-
     passwordRepeat: string;
     firstName: string;
     lastName: string;
-
+    isBusy: boolean;
     errors: any;
     regex: any;
 
@@ -127,24 +140,23 @@ class SignupForm extends Vue {
         this.signupData = {
             email: null,
             password: null,
-            name: null,
-            termsOfServiceAccepted: false,
+            nickname: null,
+            termsOfServiceAccepted: true,
+            newsletterAccepted: true,
         };
 
         this.passwordRepeat = null;
         this.firstName = null;
         this.lastName = null;
+        this.isBusy = false;
         this.regex = {
             name: Validate.getRegex('name'),
         };
     }
 
-    @Prop({ default: false })
-    isBusy: boolean;
-
     get username () {
         const name = `${this.lastName || ''}${this.firstName || ''}`;
-        this.signupData.name = name;
+        this.signupData.nickname = name;
         return name;
     }
 
@@ -164,16 +176,34 @@ class SignupForm extends Vue {
         }
     }
 
+    /**
+     * @method submit
+     * @desc signupData를 사용하여 서버에 회원가입 요청을 보내고
+     * 성공한다면 부모 컴포넌트로 결과를 emit한다
+     */
     async submit (): Promise<any> {
-        const signupData: UserSignupData = this.signupData;
+        this.setLoading(true);
+        try {
+            const data: UserSignupData = this.signupData;
+            const validateResult = await this.$validator.validateAll();
+            if (validateResult) {
+                const signupResponse = await APIAuth.signup(data);
+                this.$emit('submitted', {
+                    accessToken: signupResponse.result.access_token,
+                    refreshToken: signupResponse.result.refresh_token,
+                });
+            }
+            else {
+                return;
+            }
+        }
+        catch (e) {
+            this.setLoading(false);
+        }
+    }
 
-        const validateResult = await this.$validator.validateAll();
-        if (validateResult) {
-            this.$emit('submit', signupData);
-        }
-        else {
-            throw new Error();
-        }
+    setLoading (bool: boolean): void {
+        this.isBusy = bool;
     }
 }
 export default SignupForm;

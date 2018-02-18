@@ -20,7 +20,8 @@
         <b-col cols="5">
             <b-form-select
                 v-model="selectedEmailHost"
-                @change="onChangeEmailHost">
+                @change="onChangeEmailHost"
+                tabindex="-1">
                 <template slot="first">
                     <option :value="null" disabled>계정 선택</option>
                 </template>
@@ -44,8 +45,16 @@ div[data-name="email"] {
 </style>
 
 <script lang="ts">
+/**
+ * @class EmailForm
+ * @extends Vue
+ * @member { any } $refs from Vue
+ * @member { string } email
+ * @member { EmailHost[] } emailHostList
+ * @member { EmailHost } selectedEmailHost
+ */
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-import { EMAIL_HOST } from '@/interfaces/Form.interface';
+import { EmailHost } from '@/interfaces/Form.interface';
 import { AUTOCOMPLATE_EMAIL_HOSTS } from '@/constants/form.constant';
 
 @Component({
@@ -56,8 +65,8 @@ class EmailForm extends Vue {
         email: any,
     }
     email: string;
-    emailHostList: EMAIL_HOST[];
-    selectedEmailHost: EMAIL_HOST;
+    emailHostList: EmailHost[];
+    selectedEmailHost: EmailHost;
 
     constructor () {
         super();
@@ -72,17 +81,30 @@ class EmailForm extends Vue {
     @Prop({ default: '' })
     feedbackMsg: string;
 
+    /**
+     * @event onChangeEmail
+     * @desc 이메일이 변경되었을 때 부모로 부터 v-model에 바인딩 된 값을 업데이트 한다
+     */
     @Watch('email')
     onChangeEmail () {
         this.$emit('input', this.email);
     }
 
+    /**
+     * @method onChangeEmailHost
+     * @desc selectedEmailHost값이 변경될 때 이메일 값을 조합한다
+     * 만약 직접입력이 선택되었다면 텍스트 인풋 박스르 포커스한다
+     */
     onChangeEmailHost (value) {
         const email = this.email.split('@');
         this.$set(this, 'email', `${email[0]}@${value.host}`);
         this.$refs.email.$el.focus();
     }
 
+    /**
+     * @method onDetectAtKey
+     * @desc 유저가 @키를 입력했을 경우 selectedEmailHost값을 직접입력으로 바꾼다
+     */
     onDetectAtKey (e) {
         if (e.keyCode === 50 && e.shiftKey) {
             const hostlist = this.emailHostList;

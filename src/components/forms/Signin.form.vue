@@ -274,7 +274,7 @@ class SigninForm extends Vue {
             return;
         }
 
-        this.setSigninLoading(true);
+        this.setLoading(true);
         this.setPasswordErrorWithSignin(false);
 
         try {
@@ -297,7 +297,7 @@ class SigninForm extends Vue {
                 }
             }
             this.setPasswordErrorWithSignin(true);
-            this.setSigninLoading(false);
+            this.setLoading(false);
             return '';
         }
     }
@@ -362,7 +362,7 @@ class SigninForm extends Vue {
         this.isBusyIsValidaEmail = bool;
     }
 
-    setSigninLoading (bool: boolean): void {
+    setLoading (bool: boolean): void {
         this.isBusySignin = bool;
     }
 

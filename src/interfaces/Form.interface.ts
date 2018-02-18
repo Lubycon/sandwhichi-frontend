@@ -1,4 +1,4 @@
-export interface EMAIL_HOST {
+export interface EmailHost {
     name: string;
     id: string;
     host: string;

@@ -79,7 +79,7 @@ class Signin extends Vue {
 
     constructor () {
         super();
-
+        
         this.logo = VERTICAL_LOGO;
     }
 
@@ -102,7 +102,7 @@ class Signin extends Vue {
             return userDataResponse;
         }
         catch (e) {
-            this.$refs.signinForm.setSigninLoading(false);
+            this.$refs.signinForm.setLoading(false);
         }
     }
 
