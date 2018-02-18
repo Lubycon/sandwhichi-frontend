@@ -2,7 +2,15 @@
 <div class="account-form">
     <b-form @submit.prevent="submit" autocomplete="off" novalidate>
         <b-row>
-            <email-form class="col-12" v-model="signupData.email"></email-form>
+            <email-form
+                class="col-12"
+                v-model="signupData.email"
+                v-validate="'required|email|avoidExistEmail'"
+                data-vv-name="email"
+                data-vv-delay="500"
+                :state="!errors.has('email')"
+                :feedback-msg="errors.first('email')">
+            </email-form>
             <b-col cols="12">
                 <b-form-group label="비밀번호">
                     <b-form-input

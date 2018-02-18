@@ -1,11 +1,12 @@
 <template>
 <b-form-group label="이메일">
     <b-row>
-        <b-col cols="6" data-name="email-account">
+        <b-col cols="7" data-name="email">
             <b-form-input
-                ref="emailAccount"
-                name="emailAccount"
-                v-model.trim="emailAccount"
+                ref="email"
+                name="email"
+                type="email"
+                v-model.trim="email"
                 placeholder="이메일 입력"
                 x-autocompletetype="off"
                 autocompletetype="off"
@@ -13,95 +14,79 @@
                 autocorrect="off"
                 spellcheck="off"
                 autocapitalize="off"
-                :state="!errors.has('email')"/>
+                :state="state"
+                @keyup.native="onDetectAtKey"/>
         </b-col>
-        <b-col cols="6">
+        <b-col cols="5">
             <b-form-select
-                ref="emailHost"
-                v-model="emailHost"
-                :state="!errors.has('email')">
+                v-model="selectedEmailHost"
+                @change="onChangeEmailHost">
+                <template slot="first">
+                    <option :value="null" disabled>계정 선택</option>
+                </template>
                 <option
                     v-for="(item, index) in emailHostList"
                     :key="index"
                     :value="item">
-                    {{ item.isDirectInput ? item.name : item.host }}
+                    {{ item.name }}
                 </option>
             </b-form-select>
         </b-col>
     </b-row>
-    <b-form-text v-if="errors.has('email')">
-        {{ errors.first('email') }}
-    </b-form-text>
+    <b-form-text v-if="!state">{{ feedbackMsg }}</b-form-text>
 </b-form-group>
 </template>
 
 <style lang="scss" scoped>
-@import 'src/styles/utils/__module__';
-
-div[data-name="email-account"] {
-    &::before {
-        position: absolute;
-        content: '@';
-        top: 50%;
-        transform: translate(50%, -50%);
-        right: 0;
-        color: $grey600;
-    }
+div[data-name="email"] {
+    padding-right: 0;
 }
 </style>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator';
-import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { EMAIL_HOST } from '@/interfaces/Form.interface';
 import { AUTOCOMPLATE_EMAIL_HOSTS } from '@/constants/form.constant';
 
 @Component({
     name: 'EmailForm',
-    mixins: [ isExistUserMixin ],
 })
 class EmailForm extends Vue {
-    emailAccount: string;
-    emailDirectInput: string;
-    emailHost: EMAIL_HOST;
+    $refs: {
+        email: any,
+    }
+    email: string;
     emailHostList: EMAIL_HOST[];
+    selectedEmailHost: EMAIL_HOST;
 
     constructor () {
         super();
-        this.emailAccount = null;
-        this.emailDirectInput = null;
-        this.emailHost = AUTOCOMPLATE_EMAIL_HOSTS[0];
+        this.email = '';
         this.emailHostList = AUTOCOMPLATE_EMAIL_HOSTS;
+        this.selectedEmailHost = null;
     }
 
-    get email () {
-        const email = `${this.emailAccount || ''}@${this.emailHost.host || ''}`;
-        return email;
-    }
+    @Prop({ default: true })
+    state: boolean;
+
+    @Prop({ default: '' })
+    feedbackMsg: string;
 
     @Watch('email')
     onChangeEmail () {
-        // @TODO
-        // debounce 달아야함
-        // 2018.02.17 - Evan
-        this.validateEmail();
+        this.$emit('input', this.email);
     }
 
-    async validateEmail (): Promise<boolean> {
-        const email = this.email;
-        try {
-            const validate = await this.$validator.validate('email', email);
-            if (validate) {
-                this.$emit('input', this.email);
-            }
-            else {
-                this.$emit('input', null);
-            }
-            return validate;
-        }
-        catch (e) {
-            this.$emit('input', null);
-            throw new Error(e);
+    onChangeEmailHost (value) {
+        const email = this.email.split('@');
+        this.$set(this, 'email', `${email[0]}@${value.host}`);
+        this.$refs.email.$el.focus();
+    }
+
+    onDetectAtKey (e) {
+        if (e.keyCode === 50 && e.shiftKey) {
+            const hostlist = this.emailHostList;
+            this.$set(this, 'selectedEmailHost', hostlist[hostlist.length - 1]);
         }
     }
 
