@@ -61,13 +61,9 @@ import { Vue, Component } from 'vue-property-decorator';
 import { State, Getter, Action } from 'vuex-class';
 import { TYPE_LOGO } from '@/constants';
 import APIAuth from '@/api/APIAuth';
-import SignupModal from '@/components/modals/SignupModal.vue';
 
 @Component({
     name: 'GlobalHeader',
-    components: {
-        SignupModal,
-    },
 })
 
 class GlobalHeader extends Vue {

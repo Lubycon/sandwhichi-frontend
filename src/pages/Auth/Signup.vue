@@ -122,6 +122,15 @@ div[data-name="signup-form"] {
 </style>
 
 <script lang="ts">
+/**
+ * @class Signup
+ * @extends Vue
+ * @member { any } $refs from Vue
+ * @member { string } logo
+ * @member { string } logoWhite
+ * @member { Object } swiperOptions
+ * @member { SignupContent[] } signupContents
+ */
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 import { ICON_LOGO, ICON_LOGO_WHITE } from '@/constants';
@@ -162,6 +171,12 @@ class Signup extends Vue {
     @Action('setToken') setToken;
     @Action('setUserByAPI') setUserByAPI;
 
+    /**
+     * @method updateMember
+     * @argument { any } signinResponse
+     * @return { Promise<any> }
+     * @desc 인자로 넘겨받은 토큰을 사용하여 auth스토어에 유저 데이터를 주입한다.
+     */
     async updateMember ({ accessToken, refreshToken }): Promise<any> {
         try {
             this.setToken({ accessToken, refreshToken });
@@ -176,6 +191,12 @@ class Signup extends Vue {
         }
     }
 
+    /**
+     * @method signupResolve
+     * @desc 회원가입 후 로그인과 유저 데이터 바인딩까지 성공하면 실행된다.
+     * 현재 라우터에 queryParam으로 되돌아갈 url이 있다면 거기로 이동시킨다.
+     * 없다면, home으로 이동시킨다.
+     */
     signupResolve (): void {
         if (this.$route.query.redirect) {
             this.$router.push({ path: this.$route.query.redirect });

@@ -149,8 +149,6 @@ button.btn[type="submit"] {
  * @member { boolean } isBusyIsValidEmail 이메일 비동기 밸리데이션 로딩 체크
  * @member { boolean } isBusySignin 로그인 로딩 체크
  * @member { boolean } isEnableReCaptcha 리캡챠를 사용하는 지의 여부
- * @member { boolean } isFailedSignin 가장 마지막에 시도한 로그인이 실패했는가를 체크
- * @member { boolean } isVerifiedReCaptcha 리캡챠를 사용하여 인증이 완료 되었는가?
  * @member { number } invalidCount 사용자가 로그인에 실패한 횟수
  * @member { number } maxInvalidCount 사용자가 로그인에 실패할 수 있는 최대 횟수
  */
@@ -181,7 +179,6 @@ class SigninForm extends Vue {
     isBusyIsValidaEmail: boolean;
     isBusySignin: boolean;
     isEnableReCaptcha: boolean;
-    isFailedSignin: boolean;
     invalidCount: number;
     maxInvalidCount: number;
 
@@ -195,7 +192,6 @@ class SigninForm extends Vue {
         this.isBusyIsValidaEmail = false;
         this.isBusySignin = false;
         this.isEnableReCaptcha = false;
-        this.isFailedSignin = false;
         this.invalidCount = 0;
         this.maxInvalidCount = 5;
     }
@@ -354,14 +350,27 @@ class SigninForm extends Vue {
         }
     }
 
+    /**
+     * @method addInvalidCount
+     * @argument { number } count
+     */
     addInvalidCount (count: number): void {
         this.invalidCount += count;
     }
 
+    /**
+     * @method addInvalidCount
+     * @argument { boolean } bool
+     */
     setCheckEmailLoading (bool: boolean): void {
         this.isBusyIsValidaEmail = bool;
     }
 
+    /**
+     * @method setLoading
+     * @argument { boolean } bool
+     * @desc signin 요청이 진행 중 인지 여부를 설정한다
+     */
     setLoading (bool: boolean): void {
         this.isBusySignin = bool;
     }

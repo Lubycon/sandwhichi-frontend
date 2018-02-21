@@ -10,3 +10,8 @@ export interface SignupContent {
     author: string;
     thumbnail: string;
 }
+export interface SignupTerms {
+    privacyPolicy: boolean;
+    terms: boolean;
+    sendEmail: boolean;
+}

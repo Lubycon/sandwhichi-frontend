@@ -13,8 +13,9 @@ export interface UserSignupData {
     email: string;
     password: string;
     nickname: string;
+    privacyPolicyAccepted: boolean;
     termsOfServiceAccepted: boolean;
-    newsletterAccepted: boolean;
+    emailAccepted: boolean;
 }
 
 export interface UserSigninData {

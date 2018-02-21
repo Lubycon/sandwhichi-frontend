@@ -75,7 +75,7 @@ div[data-name="terms-agree"] {
 }
 
 .btn[type="submit"] {
-    margin: 20px 0;
+    margin: 1.5rem 0;
     width: 100%;
     i {
         color: $white;
@@ -90,16 +90,16 @@ div[data-name="terms-agree"] {
  * @member { Function } getPasswordLevel from PasswordMixin
  * @member { UserSignupData } signupData
  * @member { string } passwordRepeat 비밀번호 재입력 모델
- * @member { string } firstName 유저의 이름
- * @member { string } lastName 유저의 성
  * @member { boolean } isBusy
  * @member { any } errors from vee-validate
  * @member { regex } regex from Validate helper
+ * @member { SignupTerms } terms
  */
 import { Vue, Component } from 'vue-property-decorator';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 import { PasswordMixin } from '@/mixins/Password.mixin';
 import { UserSignupData } from '@/interfaces/User.interface';
+import { SignupTerms } from '@/interfaces/form.interface';
 import APIAuth from '@/api/APIAuth';
 import Validate from '@/helpers/Validate';
 import EmailForm from '@/components/forms/Email.form.vue';
@@ -119,6 +119,7 @@ class SignupForm extends Vue {
     isBusy: boolean;
     errors: any;
     regex: any;
+    terms: SignupTerms;
 
     constructor () {
         super();
@@ -127,8 +128,9 @@ class SignupForm extends Vue {
             email: null,
             password: null,
             nickname: null,
-            termsOfServiceAccepted: true,
-            newsletterAccepted: true,
+            privacyPolicyAccepted: false,
+            termsOfServiceAccepted: false,
+            emailAccepted: false,
         };
 
         this.passwordRepeat = null;
@@ -136,9 +138,10 @@ class SignupForm extends Vue {
         this.regex = {
             name: Validate.getRegex('name'),
         };
+        this.terms = null;
     }
 
-    get passwordLevelText () {
+    get passwordLevelText (): string {
         const level = this.getPasswordLevel(this.signupData.password);
         if (level === 'perfect') {
             return '완벽한 비밀번호네요!';
@@ -158,6 +161,7 @@ class SignupForm extends Vue {
      * @method submit
      * @desc signupData를 사용하여 서버에 회원가입 요청을 보내고
      * 성공한다면 부모 컴포넌트로 결과를 emit한다
+     * @return { Promise<any> }
      */
     async submit (): Promise<any> {
         this.setLoading(true);
@@ -180,6 +184,11 @@ class SignupForm extends Vue {
         }
     }
 
+    /**
+     * @method setLoading
+     * @argument { boolean } bool
+     * @desc signup 요청이 진행 중 인지 여부를 설정한다
+     */
     setLoading (bool: boolean): void {
         this.isBusy = bool;
     }

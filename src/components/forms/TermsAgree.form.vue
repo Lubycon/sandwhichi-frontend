@@ -63,7 +63,8 @@ ul {
  * @member { boolean } isCheckedTerms 서비스 이용약관 체크 여부
  * @member { boolean } isCheckedSendEmail 이메일 수신 동의 체크 여부
  */
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
+import { SignupTerms } from '@/interfaces/form.interface';
 
 @Component({
     name: 'TermsAgreeForm',
@@ -81,6 +82,37 @@ class TermsAgreeForm extends Vue {
         this.isCheckedSendEmail = false;
     }
 
+    get termsModel (): SignupTerms {
+        const model: SignupTerms = {
+            privacyPolicy: this.isCheckedPrivacyPolicy,
+            terms: this.isCheckedTerms,
+            sendEmail: this.isCheckedSendEmail,
+        };
+
+        return model;
+    }
+
+    /**
+     * @event onChangeTermsModel
+     * @desc 필수사항인 privacy policy와 term of service 항목이
+     * 모두 체크 되어 있다면 모델을 부모에게 emit한다.
+     * 만약 체크되어있지 않다면 null값을 emit한다.
+     */
+    @Watch('termsModel')
+    onChangeTermsModel (model: SignupTerms): void {
+        if (model.privacyPolicy && model.terms) {
+            this.$emit('input', this.termsModel);
+        }
+        else {
+            this.$emit('input', null);
+        }
+    }
+
+    /**
+     * @method onChangeCheckAll
+     * @argument { boolean } val
+     * @desc 약관 전체 동의 체크박스의 값을 해당 컴포넌트의 모든 체크박스의 값에 바인딩한다
+     */
     onChangeCheckAll (val: boolean): void {
         this.isCheckedPrivacyPolicy = val;
         this.isCheckedTerms = val;
