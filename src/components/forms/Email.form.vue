@@ -113,8 +113,10 @@ class EmailForm extends Vue {
      */
     onDetectAtKey (e): void {
         if (e.keyCode === 50 && e.shiftKey) {
-            const hostlist = this.emailHostList;
-            this.$set(this, 'selectedEmailHost', hostlist[hostlist.length - 1]);
+            const hostList = this.emailHostList;
+            const hostIdList = hostList.map(v => v.id);
+            const index = hostIdList.indexOf('custom');
+            this.$set(this, 'selectedEmailHost', hostList[index]);
         }
     }
 }

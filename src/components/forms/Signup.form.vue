@@ -5,6 +5,7 @@
             <email-form
                 class="col-12"
                 v-model="signupData.email"
+                ref="emailForm"
                 v-validate="'required|email|avoidExistEmail'"
                 data-vv-name="email"
                 data-vv-delay="500"
@@ -40,6 +41,7 @@
             <name-form
                 class="col-12"
                 v-model="signupData.nickname"
+                ref="nameForm"
                 v-validate="{
                     rules: {
                         required: true,
@@ -52,6 +54,7 @@
             ></name-form>
             <terms-agree-form
                 v-model="terms"
+                ref="termsAgreeForm"
                 data-name="terms-agree"
                 class="col-12">
             </terms-agree-form>
@@ -87,6 +90,7 @@ div[data-name="terms-agree"] {
 <script lang="ts">
 /**
  * @class SignupForm
+ * @member { any } $refs from Vue
  * @member { Function } isExistEmail from isExistUserMixin
  * @member { Function } getPasswordLevel from PasswordMixin
  * @member { UserSignupData } signupData
@@ -113,6 +117,11 @@ import TermsAgreeForm from '@/components/forms/TermsAgree.form.vue';
     components: { EmailForm, NameForm, TermsAgreeForm },
 })
 class SignupForm extends Vue {
+    $refs: {
+        emailForm: any,
+        nameForm: any,
+        termsAgreeForm: any,
+    }
     isExistEmail: Function;
     getPasswordLevel: Function;
     signupData: UserSignupData;
