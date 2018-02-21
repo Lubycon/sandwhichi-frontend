@@ -93,13 +93,39 @@ describe('유저는 SignupForm을 사용해 회원가입을 진행한다', () =>
         expect(result).to.be.false;
     });
 
-    it('이용약관에 동의하지 않았다면 회원가입을 진행할 수 없다', async () => {
+    it('개인정보보호정책에 동의하지 않았다면 회원가입을 진행할 수 없다', () => {
         const vm = new SignupForm();
         vm.$mount();
         const termsAgreeForm = vm.$refs.termsAgreeForm;
-        termsAgreeForm.isCheckedPrivacyPolicy = false;
-        termsAgreeForm.isCheckedTerms = true;
-        termsAgreeForm.isCheckedSendEmail = false;
+        termsAgreeForm.onChangeTermsModel({
+            privacyPolicy: false,
+            terms: true,
+            sendEmail: true,
+        });
         expect(vm.terms).to.be.null;
+    });
+
+    it('서비스 이용약관에 동의하지 않았다면 회원가입을 진행할 수 없다', () => {
+        const vm = new SignupForm();
+        vm.$mount();
+        const termsAgreeForm = vm.$refs.termsAgreeForm;
+        termsAgreeForm.onChangeTermsModel({
+            privacyPolicy: true,
+            terms: false,
+            sendEmail: true,
+        });
+        expect(vm.terms).to.be.null;
+    });
+
+    it('이메일 발송 동의는 하지 않아도 회원가입을 진행할 수 있다', () => {
+        const vm = new SignupForm();
+        vm.$mount();
+        const termsAgreeForm = vm.$refs.termsAgreeForm;
+        termsAgreeForm.onChangeTermsModel({
+            privacyPolicy: true,
+            terms: true,
+            sendEmail: false,
+        });
+        expect(vm.terms).to.not.be.null;
     });
 });
