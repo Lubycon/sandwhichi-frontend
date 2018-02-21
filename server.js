@@ -36,8 +36,6 @@ else {
     });
 }
 
-console.log(renderer);
-
 function createRenderer (bundle, template) {
     /*
         @참고자료: https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer

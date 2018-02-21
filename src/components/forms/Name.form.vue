@@ -20,7 +20,11 @@
                 :state="state"/>
         </b-col>
     </b-row>
-    <b-form-text v-if="!state">{{ feedbackMsg }}</b-form-text>
+    <b-form-text
+        v-if="!state"
+        text-variant="invalid">
+        {{ feedbackMsg }}
+    </b-form-text>
 </b-form-group>
 </template>
 

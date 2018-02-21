@@ -2,4 +2,13 @@
     legend {
         font-size: 0.8rem;
     }
+    small.form-text {
+        font-size: 0.875rem;
+        &.text-invalid {
+            color: $red;
+        }
+    }
+    .invalid-feedback {
+        color: $red;
+    }
 }

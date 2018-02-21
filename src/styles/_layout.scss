@@ -6,11 +6,11 @@
     }
 }
 #app-body {
-    padding-bottom: $global-header-height;
     min-height: 100vh;
-    background-color: $grey50;
 }
-#app-footer {}
+#app-footer {
+    margin-top: $global-header-height;
+}
 
 // BOOTSTRAP GRID
 .container-fluid {

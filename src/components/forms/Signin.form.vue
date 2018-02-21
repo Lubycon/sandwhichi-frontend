@@ -115,7 +115,7 @@ $margin: 1rem;
         }
         h2[data-name="email"] {
             text-align: left;
-            font-size: $normal-font-size;
+            font-size: 1rem;
         }
         button.btn {
             width: 100%;
@@ -367,6 +367,7 @@ class SigninForm extends Vue {
     }
 
     created () {
+        this.$validator.attach('email', 'required|email|existEmail');
         this.$validator.attach('password', 'required');
     }
 }

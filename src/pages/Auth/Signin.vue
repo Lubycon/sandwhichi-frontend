@@ -23,7 +23,7 @@
 </b-container>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import 'src/styles/utils/__module__';
 
 .logo {
