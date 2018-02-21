@@ -51,6 +51,7 @@
                 :feedback-msg="errors.first('name')"
             ></name-form>
             <terms-agree-form
+                v-model="terms"
                 data-name="terms-agree"
                 class="col-12">
             </terms-agree-form>
@@ -164,11 +165,11 @@ class SignupForm extends Vue {
      * @return { Promise<any> }
      */
     async submit (): Promise<any> {
-        this.setLoading(true);
         try {
             const data: UserSignupData = this.signupData;
             const validateResult = await this.$validator.validateAll();
-            if (validateResult) {
+            if (validateResult && this.validateTerms()) {
+                this.setLoading(true);
                 const signupResponse = await APIAuth.signup(data);
                 this.$emit('submitted', {
                     accessToken: signupResponse.result.access_token,
@@ -181,6 +182,20 @@ class SignupForm extends Vue {
         }
         catch (e) {
             this.setLoading(false);
+        }
+    }
+
+    /**
+     * @method validateTerms
+     * @return { boolean }
+     */
+    validateTerms () {
+        if (this.terms) {
+            return true;
+        }
+        else {
+            alert('필수 약관을 확인 후 동의해주세요!');
+            return false;
         }
     }
 
