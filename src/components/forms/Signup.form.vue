@@ -58,7 +58,7 @@
                 <b-button
                     type="submit"
                     variant="primary">
-                    <span v-show="!isBusy">회원가입</span>
+                    <span v-show="!isBusy">가입하기</span>
                     <i v-show="isBusy" class="fas fa-spin fa-circle-notch"></i>
                 </b-button>
             </b-col>
