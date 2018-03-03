@@ -64,7 +64,7 @@ ul {
  * @member { boolean } isCheckedSendEmail 이메일 수신 동의 체크 여부
  */
 import { Vue, Component, Watch } from 'vue-property-decorator';
-import { SignupTerms } from '@/interfaces/form.interface';
+import { SignupTerms } from '@/interfaces/Form.interface';
 
 @Component({
     name: 'TermsAgreeForm',

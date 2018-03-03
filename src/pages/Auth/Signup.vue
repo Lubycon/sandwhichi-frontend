@@ -135,7 +135,7 @@ import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 import { ICON_LOGO, ICON_LOGO_WHITE } from '@/constants';
 import { SIGNUP_CONTENTS } from '@/constants/form.constant';
-import { SignupContent } from '@/interfaces/form.interface';
+import { SignupContent } from '@/interfaces/Form.interface';
 import SignupForm from '@/components/forms/Signup.form.vue';
 
 @Component({

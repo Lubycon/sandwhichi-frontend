@@ -14,21 +14,21 @@ function getEnv (env: string): ENV_CONFIG {
     let gaId: string = '';
 
     if (env === 'production') {
-        apiBaseUrl = 'https://api.pixelstairs.com/v1';
-        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/pixelstairs';
+        apiBaseUrl = 'https://api.sandwhichi.com/v1';
+        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/sandwhichi';
         gReCaptchaKey = '6Lcdf0YUAAAAAICBNxMnocAXgye0dAaosWr1mnbw';
         gaId = 'UA-112072597-1';
         
     }
     else if (env === 'development') {
-        apiBaseUrl = 'https://dev.api.pixelstairs.com/v1';
-        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.pixelstairs';
+        apiBaseUrl = 'https://dev.api.sandwhichi.com/v1';
+        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.sandwhichi';
         gReCaptchaKey = '6Lcdf0YUAAAAAICBNxMnocAXgye0dAaosWr1mnbw';
         gaId = 'UA-112072597-1';
     }
     else if (env === 'local' || env === 'test') {
-        apiBaseUrl = 'http://local.api.pixelstairs.com/v1';
-        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.pixelstairs';
+        apiBaseUrl = 'http://local.api.sandwhichi.com/v1';
+        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.sandwhichi';
         gReCaptchaKey = '6Lcdf0YUAAAAAICBNxMnocAXgye0dAaosWr1mnbw';
         gaId = 'UA-112072597-1';
     }

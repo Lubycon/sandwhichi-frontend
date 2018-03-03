@@ -104,7 +104,7 @@ import { Vue, Component } from 'vue-property-decorator';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 import { PasswordMixin } from '@/mixins/Password.mixin';
 import { UserSignupData } from '@/interfaces/User.interface';
-import { SignupTerms } from '@/interfaces/form.interface';
+import { SignupTerms } from '@/interfaces/Form.interface';
 import APIAuth from '@/api/APIAuth';
 import Validate from '@/helpers/Validate';
 import EmailForm from '@/components/forms/Email.form.vue';
