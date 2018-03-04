@@ -3,6 +3,7 @@ import Q from 'q';
 class GoogleAuth {
     gapiUrl: string = 'https://apis.google.com/js/api:client.js';
     config: Object = {};
+    googleAuthAPI: any = null;
 
     static install (Vue, config) {
         const instance = new GoogleAuth();
@@ -25,21 +26,42 @@ class GoogleAuth {
 
         const defer = Q.defer();
         if ((<any>window).gapi === undefined) {
-            console.log(1);
             await this.loadClient();
             await this.initClient();
             defer.resolve();
         }
         else if ((<any>window).gapi !== undefined && (<any>window).gapi.auth2 === undefined) {
-            console.log(2);
             await this.initClient();
             defer.resolve();
         }
         else {
-            console.log(3);
             defer.reject();
         }
 
+        return defer.promise;
+    }
+
+    async signin (): Promise<any> {
+        const defer = Q.defer();
+        try {
+            const response = await this.googleAuthAPI.signIn();
+            defer.resolve(response);
+        }
+        catch (e) {
+            defer.reject(e);
+        }
+        return defer.promise;
+    }
+
+    async signout (): Promise<any> {
+        const defer = Q.defer();
+        try {
+            const response = await this.googleAuthAPI.signOut();
+            defer.resolve(response);
+        }
+        catch (e) {
+            defer.reject(e);
+        }
         return defer.promise;
     }
 
@@ -65,6 +87,7 @@ class GoogleAuth {
         const defer = Q.defer();
         (<any>window).gapi.load('auth2', () => {
             (<any>window).gapi.auth2.init(this.config)
+            this.googleAuthAPI = (<any>window).gapi.auth2.getAuthInstance();
             defer.resolve();
         });
         return defer.promise;

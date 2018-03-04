@@ -16,19 +16,19 @@ function getEnv (env: string): ENV_CONFIG {
     if (env === 'production') {
         apiBaseUrl = 'https://api.pixelstairs.com/v1';
         s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/pixelstairs';
-        googleClientId = '146842299447-7m22num6mai47qftdge5fi1qvjp1bkg1.apps.googleusercontent.com';
+        googleClientId = '910544055896-tiucajkqq3pt6l38v7kge5h6q20cs3ai.apps.googleusercontent.com';
         naverClientId = 'HAjQ7lH1Jk8PqJUeHajh';
     }
     else if (env === 'development') {
         apiBaseUrl = 'https://dev.api.pixelstairs.com/v1';
         s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.pixelstairs';
-        googleClientId = '146842299447-7m22num6mai47qftdge5fi1qvjp1bkg1.apps.googleusercontent.com';
+        googleClientId = '910544055896-tiucajkqq3pt6l38v7kge5h6q20cs3ai.apps.googleusercontent.com';
         naverClientId = 'HAjQ7lH1Jk8PqJUeHajh';
     }
     else if (env === 'local' || env === 'test') {
         apiBaseUrl = 'http://local.api.pixelstairs.com/v1';
         s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.pixelstairs';
-        googleClientId = '146842299447-7m22num6mai47qftdge5fi1qvjp1bkg1.apps.googleusercontent.com';
+        googleClientId = '910544055896-tiucajkqq3pt6l38v7kge5h6q20cs3ai.apps.googleusercontent.com';
         naverClientId = 'HAjQ7lH1Jk8PqJUeHajh';
     }
 

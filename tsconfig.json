@@ -24,7 +24,7 @@
     ],
     "compileOnSave": false,
     "files": [
-        "./src/typings/index.d.ts",
+        "./src/typings/node.d.ts",
         "./src/typings/json.d.ts",
         "./src/typings/mocha.d.ts",
         "./src/typings/object.d.ts"

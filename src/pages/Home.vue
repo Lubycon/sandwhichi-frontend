@@ -7,6 +7,8 @@
             <b-button :to="item.route">{{ item.name }}</b-button>
         </li>
     </ul>
+    <h3>Google Auth Test</h3>
+    <b-button @click="googleTest">Google Login</b-button>
 </div>
 </template>
 
@@ -32,6 +34,7 @@ interface TestRouter {
     name: 'Home',
 })
 class Home extends Vue {
+    $googleAuth: any;
     testRouters: TestRouter[] = [];
 
     constructor () {
@@ -49,6 +52,17 @@ class Home extends Vue {
             name: 'Find Password',
             route: 'find-password',
         });
+    }
+
+    async googleTest () {
+        try {
+            const response = await this.$googleAuth.signin();
+            console.log(response);
+            return response;
+        }
+        catch (e) {
+            throw new Error(e);
+        }
     }
 }
 export default Home;
