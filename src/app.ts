@@ -25,9 +25,9 @@ Vue.use(VeeValidate);
 import VueMoment from 'vue-moment';
 Vue.use(VueMoment);
 
-import GoogleAuth from '@/plugin/GoogleAuth';
+import GoogleAuth from '@/plugin/GoogleAuth.ts';
 Vue.use(GoogleAuth, {
-    clientID: GOOGLE_CLIENT_ID,
+    clientId: GOOGLE_CLIENT_ID,
 });
 
 // only for Client importing
