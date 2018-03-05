@@ -26,14 +26,18 @@ class Validate {
             en: {
                 custom: {
                     email: {
-                        required: 'Please let me know your email',
+                        required: '이메일을 입력해주세요',
+                        email: '올바르지 않은 형식의 이메일 입니다',
                     },
                     password: {
-                        required: 'You forgot to enter your password',
+                        required: '비밀번호를 입력해주세요',
+                    },
+                    passwordRepeat: {
+                        is: '비밀번호가 일치하지 않습니다',
                     },
                     name: {
-                        required: 'Please let me know your name',
-                        regex: 'You cannot use special characters except - and _',
+                        required: '이름을 입력해주세요',
+                        regex: '이름에는 -나 _를 제외한 특수문자를 사용하실 수 없습니다',
                     },
                 },
             },

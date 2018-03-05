@@ -1,31 +1,27 @@
 .btn {
-    font-weight: lighter;
-    background-color: $bluegrey-900;
+    background-color: $bluegrey900;
     color: $white;
     cursor: pointer;
-
-    @include mq('sm') {
-        font-size: 0.8rem;
-    }
+    font-size: 1rem;
 
     &.active {
-        background-color: $bluegrey-900;
+        background-color: $bluegrey900;
     }
     &.btn-round {
         border-radius: 100px;
     }
     &.btn-border {
         background: transparent;
-        border: 1px solid $bluegrey-900;
-        color: $grey-800;
+        border: 1px solid $bluegrey900;
+        color: $grey800;
     }
     &.btn-primary {
-        background-color: $blue;
-        border-color: $blue;
+        background-color: $primary;
+        border-color: $primary;
     }
 
     .loading-ico {
-        font-size: 14px;
+        font-size: 1rem;
     }
     span {
         color: $white;
@@ -58,7 +54,7 @@
     }
 
     i {
-        font-size: 20px;
+        font-size: 1rem;
     }
 
     @include mq('sm') {

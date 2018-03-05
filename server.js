@@ -4,9 +4,7 @@ const express = require('express');
 const favicon = require('serve-favicon');
 const cookieParser = require('cookie-parser');
 const resolve = file => path.resolve(__dirname, file);
-
 const isProd = process.env.NODE_ENV === 'production';
-const isLocal = process.env.NODE_ENV === 'local';
 
 const app = express();
 app.use(cookieParser());
@@ -26,7 +24,8 @@ if (isProd) {
      */
     const template = fs.readFileSync(resolve('./dist/index.html'), 'utf-8');
     renderer = createRenderer(bundle, template);
-} else {
+}
+else {
     /*
      * @개발환경:
      * webpack-dev-middleware와 webpack-hot-middleware로 세팅된 node express서버를 띄운다.
@@ -45,15 +44,14 @@ function createRenderer (bundle, template) {
         template,
         cache: require('lru-cache')({
             max: 1000,
-            maxAge: 1000 * 60 * 15
-        })
+            maxAge: 1000 * 60 * 15,
+        }),
     });
 }
 
 const serve = (path, cache) => express.static(resolve(path), {
-    maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0
+    maxAge: cache && isProd ? 60 * 60 * 24 * 30 : 0,
 });
-
 
 app.use('/dist', serve('./dist', true));
 app.use(favicon(path.resolve(__dirname, 'src/favicon.ico')));
@@ -63,7 +61,7 @@ app.get('*', (req, res) => {
     if (!renderer) {
         return res.end('<pre>waiting for compilation... refresh in a moment.</pre>');
     }
-    res.setHeader("Content-Type", "text/html");
+    res.setHeader('Content-Type', 'text/html');
 
     const s = Date.now();
     const errorHandler = err => {
@@ -96,7 +94,7 @@ app.get('*', (req, res) => {
     // SET GA ID
     context.env = process.env.NODE_ENV;
     if (isProd) {
-        context.uaid = 'UA-112072597-1';
+        context.uaid = '';
     }
     else {
         context.uaid = 'UA-112015469-1';
@@ -106,7 +104,7 @@ app.get('*', (req, res) => {
     renderer.renderToStream(context)
     .once('data', () => {
         const {
-            title, link, style, script, noscript, meta
+            title, link, style, script, noscript, meta,
         } = context.meta.inject();
         context.head =`
             ${title.text()}
@@ -123,7 +121,7 @@ app.get('*', (req, res) => {
 });
 
 let port;
-if(isProd) {
+if (isProd) {
     port = 3000;
 }
 else {
@@ -131,7 +129,7 @@ else {
 }
 
 app.listen(port, () => {
-	console.log(`server started at 127.0.0.1:${port}`);
+    console.log(`server started at 127.0.0.1:${port}`);
 });
 
 process.on('uncaughtException', function (err) {

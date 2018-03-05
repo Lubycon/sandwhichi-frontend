@@ -20,13 +20,11 @@ module.exports = {
             'vue': 'vue/dist/vue.js'
         }
     },
-
     output: {
         path: path.resolve(__dirname, '../dist'),
         publicPath: '/dist/',
         filename: 'client-bundle.[chunkhash].js'
     },
-
     module: {
         rules: [
             {

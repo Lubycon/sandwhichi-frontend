@@ -2,11 +2,19 @@
     font-family: 'helvetica', sans-serif ;
     -webkit-font-smoothing: antialiased;
     outline: none;
-    color: $grey-800;
-    font-weight: lighter;
+    color: $grey800;
     &:focus {
         outline: none;
     }
+}
+html {
+    font-size: 14px;
+    @include mq('sm') {
+        font-size: 16px;
+    }
+}
+body {
+    position: relative;
 }
 
 ul {
@@ -18,6 +26,7 @@ ul {
 }
 
 a {
+    color: $primary;
     &:hover {
         text-decoration: none;
     }

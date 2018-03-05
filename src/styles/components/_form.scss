@@ -1,37 +1,14 @@
-.form-control {
-    &.has-error {
-        border-color: $red;
+.form-group {
+    legend {
+        font-size: 0.8rem;
     }
-    @include mq('sm') {
-        font-size: 14px;
-    }
-}
-
-.b-form-group.form-group {
-    label {
-        span {
-            font-size: 12px;
+    small.form-text {
+        font-size: 0.875rem;
+        &.text-invalid {
+            color: $red;
         }
     }
-}
-
-.form-text {
-    text-align: left;
-    &.is-invalid {
-        color: $red !important;
-    }
-    &.has-score {
-        &.perfect {
-            color: $blue !important;
-        }
-        &.high {
-            color: $green !important;
-        }
-        &.warning {
-            color: $yellow !important;
-        }
-        &.invalid {
-            display: none;
-        }
+    .invalid-feedback {
+        color: $red;
     }
 }

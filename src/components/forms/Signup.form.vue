@@ -1,115 +1,135 @@
 <template>
 <div class="account-form">
-    <b-form-row @submit.prevent="submit" autocomplete="off" novalidate>
-        <b-col cols="12">
-            <b-form-group label="이메일">
-                <b-form-input
-                    type="email"
-                    name="email"
-                    v-model.trim="signupData.email"
-                    placeholder="ex) evan1125@pixelstairs.com"
-                    v-validate="'required|email|existEmail'"
-                    data-vv-delay="500"
-                    :class="{ 'has-error': errors.has('email') }"
-                    autocomplete="off"
-                />
-                <b-form-text v-if="errors.has('email')" class="is-invalid">{{ errors.first('email') }}</b-form-text>
-            </b-form-group>
-        </b-col>
-        <b-col cols="12">
-            <b-form-group label="비밀번호">
-                <b-form-input
-                    type="password"
-                    name="password"
-                    v-model.trim="signupData.password"
-                    v-validate="'required|security'"
-                    :class="{ 'has-error': errors.has('password') }"
-                />
-                <b-form-text v-if="errors.has('password')" class="is-invalid">{{ errors.first('password') }}</b-form-text>
-                <b-form-text class="has-score" :class="getPasswordLevel(signupData.password)">
-                    Security Level: {{ getPasswordLevel(signupData.password) }}
-                </b-form-text>
-            </b-form-group>
-        </b-col>
-        <b-col cols="6">
-            <b-form-group label="성">
-                <b-form-input
-                    type="text"
-                    name="lastName"
-                    v-model.trim="lastName"
-                    v-validate="{ rules: { required: true, regex: regex.name } }"
-                    :class="{ 'has-error': errors.has('name') }"
-                />
-                <b-form-text v-if="errors.has('name')" class="is-invalid">{{ errors.first('name') }}</b-form-text>
-            </b-form-group>
-        </b-col>
-        <b-col cols="6">
-            <b-form-group label="이름">
-                <b-form-input
-                    type="text"
-                    name="firstName"
-                    v-model.trim="firstName"
-                    v-validate="{ rules: { required: true, regex: regex.name } }"
-                    :class="{ 'has-error': errors.has('name') }"
-                />
-                <b-form-text v-if="errors.has('name')" class="is-invalid">{{ errors.first('name') }}</b-form-text>
-            </b-form-group>
-        </b-col>
-        
-        <small>
-            If you press the button below, it is assumed that you have agreed to our
-            <router-link :to="{ name: 'terms-of-service' }" target="_blank">Terms of service</router-link>
-            and
-            <router-link :to="{ name: 'privacy-policy' }" target="_blank">Privacy policy</router-link>.
-        </small>
-        <b-button type="submit">
-            <span v-show="!isBusy">Join us!</span>
-            <i v-show="isBusy" class="loading-ico pxs-spinner-1 spin"></i>
-        </b-button>
-    </b-form-row>
+    <b-form @submit.prevent="submit" autocomplete="off" novalidate>
+        <b-row>
+            <email-form
+                class="col-12"
+                v-model="signupData.email"
+                ref="emailForm"
+                v-validate="'required|email|avoidExistEmail'"
+                data-vv-name="email"
+                data-vv-delay="500"
+                :state="!errors.has('email')"
+                :feedback-msg="errors.first('email')">
+            </email-form>
+            <b-col cols="12">
+                <b-form-group label="비밀번호">
+                    <b-form-input
+                        type="password"
+                        name="password"
+                        placeholder="비밀번호 입력"
+                        v-model.trim="signupData.password"
+                        v-validate="'required|passwordSecurity'"
+                        :class="getPasswordLevel(signupData.password)"
+                        :state="!errors.has('password')"/>
+                    <b-form-text class="has-score">{{ passwordLevelText }}</b-form-text>
+                    <b-form-invalid-feedback>{{ errors.first('password') }}</b-form-invalid-feedback>
+                </b-form-group>
+            </b-col>
+            <b-col cols="12">
+                <b-form-group label="비밀번호 재확인">
+                    <b-form-input
+                        type="password"
+                        name="passwordRepeat"
+                        placeholder="비밀번호 재확인 입력"
+                        v-model.trim="passwordRepeat"
+                        v-validate="{ is: signupData.password }"
+                        :state="!errors.has('passwordRepeat')"/>
+                    <b-form-invalid-feedback>{{ errors.first('passwordRepeat') }}</b-form-invalid-feedback>
+                </b-form-group>
+            </b-col>
+            <name-form
+                class="col-12"
+                v-model="signupData.nickname"
+                ref="nameForm"
+                v-validate="{
+                    rules: {
+                        required: true,
+                        regex: regex.name,
+                    }
+                }"
+                data-vv-name="name"
+                :state="!errors.has('name')"
+                :feedback-msg="errors.first('name')"
+            ></name-form>
+            <terms-agree-form
+                v-model="terms"
+                ref="termsAgreeForm"
+                data-name="terms-agree"
+                class="col-12">
+            </terms-agree-form>
+            <b-col cols="12">
+                <b-button
+                    type="submit"
+                    variant="primary">
+                    <span v-show="!isBusy">가입하기</span>
+                    <i v-show="isBusy" class="fas fa-spin fa-circle-notch"></i>
+                </b-button>
+            </b-col>
+        </b-row>
+    </b-form>
 </div>
 </template>
 
 <style lang="scss" scoped>
 @import 'src/styles/utils/__module__';
 
-small {
-    a {
-        color: $grey-900;
-        font-weight: bold;
-        text-decoration: underline;
-    }
+div[data-name="terms-agree"] {
+    margin-top: 1rem;;
 }
 
 .btn[type="submit"] {
-    margin: 20px 0;
+    margin: 1.5rem 0;
     width: 100%;
-    background-color: $bluegrey-800;
+    i {
+        color: $white;
+    }
 }
 </style>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+/**
+ * @class SignupForm
+ * @member { any } $refs from Vue
+ * @member { Function } isExistEmail from isExistUserMixin
+ * @member { Function } getPasswordLevel from PasswordMixin
+ * @member { UserSignupData } signupData
+ * @member { string } passwordRepeat 비밀번호 재입력 모델
+ * @member { boolean } isBusy
+ * @member { any } errors from vee-validate
+ * @member { regex } regex from Validate helper
+ * @member { SignupTerms } terms
+ */
+import { Vue, Component } from 'vue-property-decorator';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 import { PasswordMixin } from '@/mixins/Password.mixin';
 import { UserSignupData } from '@/interfaces/User.interface';
+import { SignupTerms } from '@/interfaces/Form.interface';
+import APIAuth from '@/api/APIAuth';
 import Validate from '@/helpers/Validate';
+import EmailForm from '@/components/forms/Email.form.vue';
+import NameForm from '@/components/forms/Name.form.vue';
+import TermsAgreeForm from '@/components/forms/TermsAgree.form.vue';
 
 @Component({
     name: 'SignupForm',
     mixins: [ isExistUserMixin, PasswordMixin ],
+    components: { EmailForm, NameForm, TermsAgreeForm },
 })
 class SignupForm extends Vue {
+    $refs: {
+        emailForm: any,
+        nameForm: any,
+        termsAgreeForm: any,
+    }
     isExistEmail: Function;
-    isExistName: Function;
-
+    getPasswordLevel: Function;
     signupData: UserSignupData;
-
-    firstName: string;
-    lastName: string;
-
+    passwordRepeat: string;
+    isBusy: boolean;
     errors: any;
     regex: any;
+    terms: SignupTerms;
 
     constructor () {
         super();
@@ -117,35 +137,84 @@ class SignupForm extends Vue {
         this.signupData = {
             email: null,
             password: null,
-            name: null,
+            nickname: null,
+            privacyPolicyAccepted: false,
             termsOfServiceAccepted: false,
+            emailAccepted: false,
         };
-        this.firstName = null;
-        this.lastName = null;
+
+        this.passwordRepeat = null;
+        this.isBusy = false;
         this.regex = {
             name: Validate.getRegex('name'),
         };
+        this.terms = null;
     }
 
-    @Prop({ default: false })
-    isBusy: boolean;
-
-    get username () {
-        const name = `${this.lastName || ''}${this.firstName || ''}`;
-        this.signupData.name = name;
-        return name;
-    }
-
-    async submit (): Promise<any> {
-        const signupData: UserSignupData = this.signupData;
-
-        const validateResult = await this.$validator.validateAll();
-        if (validateResult) {
-            this.$emit('submit', signupData);
+    get passwordLevelText (): string {
+        const level = this.getPasswordLevel(this.signupData.password);
+        if (level === 'perfect') {
+            return '완벽한 비밀번호네요!';
+        }
+        else if (level === 'high') {
+            return '보안 수준이 높은 비밀번호네요!';
+        }
+        else if (level === 'warning') {
+            return '음...조금 더 어렵게 하는 게 좋지 않을까요?';
         }
         else {
-            throw new Error();
+            return '';
         }
+    }
+
+    /**
+     * @method submit
+     * @desc signupData를 사용하여 서버에 회원가입 요청을 보내고
+     * 성공한다면 부모 컴포넌트로 결과를 emit한다
+     * @return { Promise<any> }
+     */
+    async submit (): Promise<any> {
+        try {
+            const data: UserSignupData = this.signupData;
+            const validateResult = await this.$validator.validateAll();
+            if (validateResult && this.validateTerms()) {
+                this.setLoading(true);
+                const signupResponse = await APIAuth.signup(data);
+                this.$emit('submitted', {
+                    accessToken: signupResponse.result.access_token,
+                    refreshToken: signupResponse.result.refresh_token,
+                });
+            }
+            else {
+                return;
+            }
+        }
+        catch (e) {
+            this.setLoading(false);
+        }
+    }
+
+    /**
+     * @method validateTerms
+     * @return { boolean }
+     */
+    validateTerms () {
+        if (this.terms) {
+            return true;
+        }
+        else {
+            alert('필수 약관을 확인 후 동의해주세요!');
+            return false;
+        }
+    }
+
+    /**
+     * @method setLoading
+     * @argument { boolean } bool
+     * @desc signup 요청이 진행 중 인지 여부를 설정한다
+     */
+    setLoading (bool: boolean): void {
+        this.isBusy = bool;
     }
 }
 export default SignupForm;

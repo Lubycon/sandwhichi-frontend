@@ -31,7 +31,7 @@ div[data-section="time"] {
     p {
         text-align: center;
         strong {
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: bold;
             color: $blue;
         }
@@ -39,7 +39,7 @@ div[data-section="time"] {
     p.expired-time {
         color: $red;
         font-weight: bold;
-        font-size: 24px;
+        font-size: 1.5rem;
         margin: 0;
     }
 }

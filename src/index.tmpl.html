@@ -9,7 +9,6 @@
             }
         } %>
 
-    <!-- GA -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{{ uaid }}}"></script>
     <script>
@@ -18,21 +17,17 @@
         gtag('js', new Date());
         gtag('config', '{{{ uaid }}}');
     </script>
-    <!-- /GA -->
-
-    <style>[v-cloak]{ display: none }</style>
+    <!-- /Global site tag -->
+    <!-- Google reCaptcha -->
+    <script src='https://www.google.com/recaptcha/api.js?hl=ko&render=explicit' async defer></script>
+    <!-- /Google reCaptcha -->
 
     <!-- Font Awesome -->
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <!-- /Font Awesome -->
+    <style>[v-cloak]{ display: none }</style>
 </head>
 <body>
     <!--vue-ssr-outlet-->
 </body>
-<!-- Sentry :: Error Tracker -->
-<!-- <script src="https://cdn.ravenjs.com/3.17.0/angular/raven.min.js" crossorigin="anonymous"></script> -->
-<!-- <script>
-Raven.config('https://05bda1c506cc4422a152fce4800d1333@sentry.pixelstairs.com/4').install();
-</script> -->
-<!-- /Sentry :: Error Tracker -->
 </html>

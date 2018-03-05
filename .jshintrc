@@ -2,7 +2,7 @@
     "node": true,
     "browser": true,
     "globals": {
-        "angular": false
+        "grecaptcha": true
     },
     "esversion": 6
 }

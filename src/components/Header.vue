@@ -29,20 +29,25 @@
 nav {
     margin: 0;
     height: $global-header-height;
-    border-bottom: 1px solid $grey-400;
+    border-bottom: 1px solid $grey400;
     background: {
         color: $white;
     }
     .col-4 {
+        padding: 0;
         @include mq('sm') {
-            padding: 0;
+            padding: 0 20px;
         }
     }
     .header--global-logo {
         text-align: center;
         img {
-            width: 50px;
+            $width: 100px;
+            width: 100px;
             height: 100%;
+            @include mq('sm') {
+                width: $width + 30;
+            }
         }
     }
     .header--user-menu {
@@ -54,15 +59,11 @@ nav {
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Getter, Action } from 'vuex-class';
-import { LOGO } from '@/constants';
+import { TYPE_LOGO } from '@/constants';
 import APIAuth from '@/api/APIAuth';
-import SignupModal from '@/components/modals/SignupModal.vue';
 
 @Component({
     name: 'GlobalHeader',
-    components: {
-        SignupModal,
-    },
 })
 
 class GlobalHeader extends Vue {
@@ -72,7 +73,7 @@ class GlobalHeader extends Vue {
     constructor () {
         super();
         
-        this.logoSrc = LOGO;
+        this.logoSrc = TYPE_LOGO;
         this.msg = 'This is Global Header';
     }
 
