@@ -30,6 +30,12 @@ Vue.use(GoogleAuth, {
     clientId: GOOGLE_CLIENT_ID,
 });
 
+import NaverAuth from '@/plugin/NaverAuth.ts';
+import { NAVER_CLIENT_ID } from './constants/env.constant';
+Vue.use(NaverAuth, {
+    clientId: NAVER_CLIENT_ID,
+});
+
 // only for Client importing
 if (process.browser) {
     const VueAwesomeSwiper = require('vue-awesome-swiper/dist/ssr');

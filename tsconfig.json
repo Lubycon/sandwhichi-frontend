@@ -26,7 +26,6 @@
     "compileOnSave": false,
     "files": [
         "./src/typings/node.d.ts",
-        "./src/typings/json.d.ts",
         "./src/typings/mocha.d.ts",
         "./src/typings/object.d.ts"
     ]

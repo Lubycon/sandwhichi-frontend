@@ -16,10 +16,6 @@
             </router-link>
         </div>
     </div>
-
-    <!-- MODAL -->
-    <signup-modal ref="signupModal"></signup-modal>
-    <!-- /MODAL -->
 </nav>
 </template>
 
