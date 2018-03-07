@@ -1,5 +1,9 @@
 <template>
-<div>Auth Naver</div>  
+<div>
+    <p>인증 중 입니다...</p>
+    code: {{ code }}<br>
+    state: {{ state }}
+</div>
 </template>
 
 <style lang="scss" scoped>
@@ -13,7 +17,13 @@ import { Vue, Component } from 'vue-property-decorator';
     name: 'AuthNaverLanding',
 })
 class AuthNaverLanding extends Vue {
+    code: string = '';
+    state: string = '';
 
+    created () {
+        this.code = this.$route.query.code;
+        this.state = this.$route.query.state;
+    }
 }
 export default AuthNaverLanding;
 </script>
