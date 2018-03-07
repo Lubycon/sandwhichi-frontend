@@ -11,7 +11,8 @@
         "module": "es2015",
         "moduleResolution": "node",
         "types": [
-            "vue-typescript-import-dts"
+            "vue-typescript-import-dts",
+            "node"
         ],
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,

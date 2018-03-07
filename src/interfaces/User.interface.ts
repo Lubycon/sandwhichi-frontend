@@ -12,8 +12,10 @@ export interface User {
 export interface UserSignupData {
     email: string;
     password: string;
-    name: string;
+    nickname: string;
+    privacyPolicyAccepted: boolean;
     termsOfServiceAccepted: boolean;
+    emailAccepted: boolean;
 }
 
 export interface UserSigninData {

@@ -6,46 +6,15 @@
 
 .card.card--center-form {
     @include floatToCenter;
+    top: 45%;
+    margin-top: 0;
     background: transparent;
     box-shadow: none;
-    @include mq('sm') {
-        transform: none;
+    @include mq('md') {
+        position: relative;
         top: auto;
         left: auto;
-        margin-top: $global-header-height;
-    }
-    input {
-        font-size: 14px;
-        padding: $card-padding;
-        background: transparent;
-    }
-    div[data-section="form-desc"] {
-        margin-bottom: 40px;
-        h1 {
-            text-align: center;
-            font-size: 30px;
-            font-weight: lighter;
-            @include mq('sm') {
-                font-size: 18px;
-                font-weight: bold;
-            }
-        }
-        p {
-            margin-top: 10px;
-            text-align: center;
-            font-size: 14px;
-        }
-    }
-    .btn {
-        width: 100%;
-        margin-bottom: 10px;
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
-    .btn[type="submit"] {
-        margin: 20px 0;
-        width: 100%;
-        background-color: $bluegrey-800;
+        transform: none;
+        margin: $global-header-height * 2 auto 0;
     }
 }

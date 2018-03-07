@@ -20,10 +20,10 @@
     margin-bottom: 30px;
     h1[data-name="error-code"] {
         font-weight: bold;
-        font-size: 80px;
+        font-size: 3rem;
     }
     h3[data-name="error-message"] {
-        font-size: 18px;
+        font-size: 1rem;
     }
 }
 </style>

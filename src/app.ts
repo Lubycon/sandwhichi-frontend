@@ -31,9 +31,10 @@ Vue.use(GoogleAuth, {
 });
 
 // only for Client importing
-// if (process.browser) {
-//
-// }
+if (process.browser) {
+    const VueAwesomeSwiper = require('vue-awesome-swiper/dist/ssr');
+    Vue.use(VueAwesomeSwiper);
+}
 
 // Service init
 APICore.store = store;

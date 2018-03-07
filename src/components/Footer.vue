@@ -13,11 +13,11 @@
 <style lang="scss" scoped>
 @import 'src/styles/utils/__module__';
 
-$footer-margin: 20px;
+$footer-margin: 1.5rem;
 $menu-margin: $footer-margin / 2;
 
 nav {
-    border-top: 1px solid $grey-400;
+    border-top: 1px solid $grey400;
     margin: 0;
     padding: {
         top: $footer-margin;
@@ -26,12 +26,10 @@ nav {
     }
     ul li {
         a {
-            color: $bluegrey-700;
+            font-size: 1rem;
+            color: $bluegrey700;
             &.router-link-exact-active {
                 font-weight: bold;
-            }
-            @include mq('sm') {
-                font-size: 12px;
             }
         }
     }
@@ -43,8 +41,8 @@ ul {
         margin-right: $menu-margin;
         padding-right: $menu-margin;
         text-align: center;
-        font-size: 14px;
-        border-right: 1px solid $grey-400;
+        font-size: 1rem;
+        border-right: 1px solid $grey400;
         &:last-child {
             margin-right: 0;
         }

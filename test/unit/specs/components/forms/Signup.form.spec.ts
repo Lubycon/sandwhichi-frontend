@@ -71,54 +71,61 @@ describe('유저는 SignupForm을 사용해 회원가입을 진행한다', () =>
         expect(validate).to.be.true;
     });
 
-    it('유저의 이름은 성과 이름을 조합하여 만들어진다', () => {
+    it('유저의 이름은 반드시 존재해야한다', async () => {
         const vm = new SignupForm();
         vm.$mount();
-        vm.$set(vm, 'lastName', '홍');
-        vm.$set(vm, 'firstName', '길동');
-
-        expect(vm.username).to.equal('홍길동');
-    });
-
-    it('유저의 성과 이름은 반드시 존재해야한다', async () => {
-        const vm = new SignupForm();
-        vm.$mount();
-        const validateLastName = await vm.$validator.validate('lastName', '');
-        const validateFirstName = await vm.$validator.validate('firstName', '');
+        const validateName = await vm.$validator.validate('name', '');
         
-        const result = validateLastName || validateFirstName;
+        const result = validateName;
         expect(result).to.be.false;
     });
 
     it('유저의 이름에는 특수문자나 공백이 들어갈 수 없다', async () => {
         const vm = new SignupForm();
         vm.$mount();
-        const validate1 = await vm.$validator.validate('firstName', '길동!이');
-        const validate2 = await vm.$validator.validate('firstName', '길동이#');
-        const validate3 = await vm.$validator.validate('firstName', '길동 이');
-        const validate4 = await vm.$validator.validate('firstName', '길동이 ');
-        const validate5 = await vm.$validator.validate('firstName', '!길동이');
+        const validate1 = await vm.$validator.validate('name', '길동!이');
+        const validate2 = await vm.$validator.validate('name', '길동이#');
+        const validate3 = await vm.$validator.validate('name', '길동 이');
+        const validate4 = await vm.$validator.validate('name', '길동이 ');
+        const validate5 = await vm.$validator.validate('name', '!길동이');
 
         const result = validate1 || validate2 || validate3 || validate4 || validate5;
         expect(result).to.be.false;
     });
 
-    it('유저의 성에는 특수문자나 공백이 들어갈 수 없다', async () => {
+    it('개인정보보호정책에 동의하지 않았다면 회원가입을 진행할 수 없다', () => {
         const vm = new SignupForm();
         vm.$mount();
-        const validate1 = await vm.$validator.validate('lastName', '홍#');
-        const validate2 = await vm.$validator.validate('lastName', '선#우');
-        const validate3 = await vm.$validator.validate('lastName', '제 갈');
-        const validate4 = await vm.$validator.validate('lastName', ' 배');
-        const validate5 = await vm.$validator.validate('lastName', '사과!');
-
-        const result = validate1 || validate2 || validate3;
-        expect(result).to.be.false;
+        const termsAgreeForm = vm.$refs.termsAgreeForm;
+        termsAgreeForm.onChangeTermsModel({
+            privacyPolicy: false,
+            terms: true,
+            sendEmail: true,
+        });
+        expect(vm.terms).to.be.null;
     });
 
-    it('이용약관에 동의하지 않았다면 회원가입을 진행할 수 없다', async () => {
-        // 아직 폼이 없으므로 무조건 통과하도록 작성함
-        // 2018.02.10 Evan
-        expect(true).to.be.true;
+    it('서비스 이용약관에 동의하지 않았다면 회원가입을 진행할 수 없다', () => {
+        const vm = new SignupForm();
+        vm.$mount();
+        const termsAgreeForm = vm.$refs.termsAgreeForm;
+        termsAgreeForm.onChangeTermsModel({
+            privacyPolicy: true,
+            terms: false,
+            sendEmail: true,
+        });
+        expect(vm.terms).to.be.null;
+    });
+
+    it('이메일 발송 동의는 하지 않아도 회원가입을 진행할 수 있다', () => {
+        const vm = new SignupForm();
+        vm.$mount();
+        const termsAgreeForm = vm.$refs.termsAgreeForm;
+        termsAgreeForm.onChangeTermsModel({
+            privacyPolicy: true,
+            terms: true,
+            sendEmail: false,
+        });
+        expect(vm.terms).to.not.be.null;
     });
 });

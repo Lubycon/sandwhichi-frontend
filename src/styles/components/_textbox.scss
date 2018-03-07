@@ -1,0 +1,16 @@
+input.form-control {
+    &[type="text"], &[type="email"], &[type="tel"], &[type="password"] {
+        border: none;
+        border-bottom: 2px solid $grey400;
+        border-radius: 0;
+        background-color: transparent;
+        &:focus {
+            box-shadow: none;
+            border-color: $primary;
+            background-color: transparent;
+        }
+        &.is-invalid {
+            border-color: $red;
+        }
+    }
+}
