@@ -335,7 +335,7 @@ class SigninForm extends Vue {
      * @desc 네이버 계정을 사용한 인증을 진행한다
      */
     authNaver () {
-        this.$naverAuth.signin();
+        this.$naverAuth.signin('/auth/naver');
     }
 
     /**

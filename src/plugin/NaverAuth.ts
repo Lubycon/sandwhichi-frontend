@@ -27,7 +27,8 @@ class NaverAuth {
         const redirectURI: string = `${location.origin}${to}`;
         const responseType: string = 'code';
         const state: string = 'naverauth-sandwhichi';
-        const uri: string = `${this.authUrl}?client_id=${clientID}&response_type=${responseType}&redirect_uri=${redirectURI}&state=${state}`;
+        const locale = 'ko';
+        const uri: string = `${this.authUrl}?client_id=${clientID}&response_type=${responseType}&redirect_uri=${redirectURI}&state=${state}&locale=${locale}`;
         
         if (popup) {
             window.open(uri);
