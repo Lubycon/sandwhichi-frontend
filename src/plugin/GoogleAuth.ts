@@ -1,3 +1,10 @@
+/**
+ * @class GoogleAuth
+ * @member { string } authUrl
+ * @member { config } Object
+ * @member { any } googleAuthAPI gapi의 Auth객체
+ */
+
 import Q from 'q';
 
 class GoogleAuth {
@@ -17,8 +24,8 @@ class GoogleAuth {
         Vue.prototype.$googleAuth = instance;
     }
 
-    async init (config) {
-        if (!config.clientId) {
+    async init (config: Object) {
+        if (!(<any>config).clientId) {
             console.error('There is no client ID - GoogleAuth');
             return false;
         }

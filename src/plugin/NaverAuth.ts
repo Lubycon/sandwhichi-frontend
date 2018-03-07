@@ -1,3 +1,11 @@
+/**
+ * @class NaverAuth
+ * @member { string } authUrl
+ * @member { config } Object
+ * @desc 네이버 인증은 RESTful API로 인증 받는 방식이 아닌,
+ * 직접 해당 url로 이동하거나 새로운 창을 띄워서 인증을 진행하고 이후 redirect_uri값에 보냈던 uri로 사용자를 리턴시키는 방식이다.
+ */
+
 class NaverAuth {
     authUrl: string = 'https://nid.naver.com/oauth2.0/authorize';
     config: Object = {};
