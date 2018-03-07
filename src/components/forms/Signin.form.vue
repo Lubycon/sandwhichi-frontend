@@ -27,6 +27,18 @@
                 <span v-show="!isBusyIsValidaEmail">다음</span>
                 <i v-show="isBusyIsValidaEmail" class="fas fa-spin fa-circle-notch"></i>
             </b-button>
+            <b-button
+                type="button"
+                variant="naver"
+                data-sns="naver">
+                네이버 계정으로 계속하기
+            </b-button>
+            <b-button
+                type="button"
+                variant="google"
+                data-sns="google">
+                구글 계정으로 계속하기
+            </b-button>
             <div class="signup-field">
                 <p>아직 회원이 아니신가요?</p>
                 <router-link :to="{ name: 'signup' }">회원가입</router-link>

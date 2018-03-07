@@ -7,10 +7,6 @@
             <b-button :to="item.route">{{ item.name }}</b-button>
         </li>
     </ul>
-    <h3>Google Auth Test</h3>
-    <b-button @click="googleTest">Google Login</b-button>
-    <h3>Naver Auth Test</h3>
-    <b-button @click="naverTest">Naver Login</b-button>
 </div>
 </template>
 
@@ -55,20 +51,6 @@ class Home extends Vue {
             name: 'Find Password',
             route: 'find-password',
         });
-    }
-
-    async googleTest () {
-        try {
-            const response = await this.$googleAuth.signin();
-            return response;
-        }
-        catch (e) {
-            throw new Error(e);
-        }
-    }
-
-    naverTest () {
-        this.$naverAuth.signin();
     }
 }
 export default Home;

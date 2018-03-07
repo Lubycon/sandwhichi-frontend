@@ -1,74 +1,9 @@
 .btn {
-    background-color: $bluegrey900;
-    color: $white;
     cursor: pointer;
     font-size: 1rem;
-
-    &.active {
-        background-color: $bluegrey900;
-    }
-    &.btn-round {
-        border-radius: 100px;
-    }
-    &.btn-border {
-        background: transparent;
-        border: 1px solid $bluegrey900;
-        color: $grey800;
-    }
-    &.btn-primary {
-        background-color: $primary;
-        border-color: $primary;
-    }
-
-    .loading-ico {
-        font-size: 1rem;
-    }
-    span {
-        color: $white;
-    }
-}
-
-.float-btn {
-    $margin: 30px;
-    position: fixed;
-    border-radius: 50%;
-    width: 70px;
-    height: 70px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
-    z-index: 10;
-    * {
-        color: $white;
-        vertical-align: middle;
-    }
-    &.top {
-        top: $margin;
-    }
-    &.bottom {
-        bottom: $margin;
-    }
-    &.right {
-        right: $margin;
-    }
-    &.left {
-        left: $margin;
-    }
-
-    i {
-        font-size: 1rem;
-    }
-
-    @include mq('sm') {
-        &.top {
-            top: $margin / 2;
-        }
-        &.bottom {
-            bottom: $margin / 2;
-        }
-        &.right {
-            right: $margin / 2;
-        }
-        &.left {
-            left: $margin / 2;
+    &.btn-primary, &.btn-danger {
+        * {
+            color: $white;
         }
     }
 }

@@ -22,7 +22,7 @@ class NaverAuth {
         this.config = config;
     }
 
-    signin (to: string = '/signup', popup: boolean = false): void {
+    signin (to: string, popup: boolean = false): void {
         const clientID: string = (<any>this.config).clientId;
         const redirectURI: string = `${location.origin}${to}`;
         const responseType: string = 'code';
