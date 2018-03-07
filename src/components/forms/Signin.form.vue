@@ -30,13 +30,15 @@
             <b-button
                 type="button"
                 variant="naver"
-                data-sns="naver">
+                data-sns="naver"
+                @click="authNaver">
                 네이버 계정으로 계속하기
             </b-button>
             <b-button
                 type="button"
                 variant="google"
-                data-sns="google">
+                data-sns="google"
+                @click="authGoogle">
                 구글 계정으로 계속하기
             </b-button>
             <div class="signup-field">
@@ -152,6 +154,8 @@ button.btn[type="submit"] {
  * @class SigninForm
  * @extends Vue
  * @member { any } $refs from Vue
+ * @member { any } $googleAuth from VuePlugin
+ * @member { any } $naverAuth from VuePlugin
  * @member { any } errors from vee-validate
  * @member { Function } checkIsExistEmail from isExistUserMixin
  * @member { string } email
@@ -182,6 +186,8 @@ class SigninForm extends Vue {
         passwordInput: any,
         recaptcha: any,
     }
+    $googleAuth: any;
+    $naverAuth: any;
     errors: any;
     checkIsExistEmail: Function;
     email: string;
@@ -308,6 +314,28 @@ class SigninForm extends Vue {
             this.setLoading(false);
             return '';
         }
+    }
+
+    /**
+     * @method authGoogle
+     * @desc 구글 계정을 사용한 인증을 진행한다
+     */
+    async authGoogle () {
+        try {
+            const response = await this.$googleAuth.signin();
+            return response;
+        }
+        catch (e) {
+            throw new Error(e);
+        }
+    }
+
+    /**
+     * @method authNaver
+     * @desc 네이버 계정을 사용한 인증을 진행한다
+     */
+    authNaver () {
+        this.$naverAuth.signin();
     }
 
     /**

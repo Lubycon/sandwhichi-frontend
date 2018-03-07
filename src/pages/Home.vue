@@ -32,8 +32,6 @@ interface TestRouter {
     name: 'Home',
 })
 class Home extends Vue {
-    $googleAuth: any;
-    $naverAuth: any;
     testRouters: TestRouter[] = [];
 
     constructor () {
