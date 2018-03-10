@@ -10,6 +10,7 @@ import Q from 'q';
 class GoogleAuth {
     gapiUrl: string = 'https://apis.google.com/js/api:client.js';
     config: Object = {};
+    gapi: any = null;
     googleAuthAPI: any = null;
 
     static install (Vue, config) {
@@ -52,6 +53,8 @@ class GoogleAuth {
         const defer = Q.defer();
         try {
             const response = await this.googleAuthAPI.signIn();
+            console.log(response);
+            const userInfo = await this.getMyInfo();
             defer.resolve(response);
         }
         catch (e) {
@@ -70,6 +73,15 @@ class GoogleAuth {
             defer.reject(e);
         }
         return defer.promise;
+    }
+
+    getMyInfo (): void {
+        const me = this.googleAuthAPI.currentUser.get().getBasicProfile();
+        const email = me.getEmail();
+        const name = me.getGivenName();
+        const familyName = me.getFamilyName();
+
+        console.log(email, name, familyName);
     }
 
     private loadClient (): Promise<any> {
@@ -94,7 +106,8 @@ class GoogleAuth {
         const defer = Q.defer();
         (<any>window).gapi.load('auth2', () => {
             (<any>window).gapi.auth2.init(this.config)
-            this.googleAuthAPI = (<any>window).gapi.auth2.getAuthInstance();
+            this.gapi = (<any>window).gapi;
+            this.googleAuthAPI = this.gapi.auth2.getAuthInstance();
             defer.resolve();
         });
         return defer.promise;
