@@ -170,6 +170,7 @@ button.btn[type="submit"] {
  */
 
 import { Vue, Component, Watch } from 'vue-property-decorator';
+import { Action } from 'vuex-class';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 import { UserSigninData } from '@/interfaces/User.interface';
 import APIAuth from '@/api/APIAuth';
@@ -213,6 +214,8 @@ class SigninForm extends Vue {
         this.invalidCount = 0;
         this.maxInvalidCount = 5;
     }
+
+    @Action('setGoogleToken') setGoogleToken;
 
     /**
      * @event onChangeInvalidCount
@@ -323,6 +326,11 @@ class SigninForm extends Vue {
     async authGoogle () {
         try {
             const response = await this.$googleAuth.signin();
+            const token = response.token;
+            this.setGoogleToken(token);
+            const signin = await APIAuth.signinGoogle(token);
+            console.log(signin);
+            
             return response;
         }
         catch (e) {

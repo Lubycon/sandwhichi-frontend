@@ -61,7 +61,6 @@ import APIAuth from '@/api/APIAuth';
 @Component({
     name: 'GlobalHeader',
 })
-
 class GlobalHeader extends Vue {
     logoSrc: string;
     msg: string;

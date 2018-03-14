@@ -6,6 +6,8 @@ export class AuthState {
     public userProfileSrc: string;
     public accessToken: string;
     public refreshToken: string;
+    public naverAccessToken: string;
+    public googleAccessToken: string;
     public isAuthorized: boolean;
     public hasProfileSrc: boolean;
 
@@ -14,6 +16,8 @@ export class AuthState {
         this.userProfileSrc = DEFAULT_USER_PROFILE;
         this.accessToken = null;
         this.refreshToken = null;
+        this.naverAccessToken = null;
+        this.googleAccessToken = null;
         this.isAuthorized = false;
         this.hasProfileSrc = false;
     }

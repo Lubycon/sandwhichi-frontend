@@ -52,10 +52,11 @@ class GoogleAuth {
     async signin (): Promise<any> {
         const defer = Q.defer();
         try {
-            const response = await this.googleAuthAPI.signIn();
-            console.log(response);
-            const userInfo = await this.getMyInfo();
-            defer.resolve(response);
+            await this.googleAuthAPI.signIn();
+            const token = this.getAccessToken();
+            defer.resolve({
+                token,
+            });
         }
         catch (e) {
             defer.reject(e);
@@ -75,13 +76,21 @@ class GoogleAuth {
         return defer.promise;
     }
 
-    getMyInfo (): void {
+    getAccessToken (): string {
+        return this.googleAuthAPI.currentUser.get().getAuthResponse().id_token;
+    }
+
+    getMyInfo (): Object {
         const me = this.googleAuthAPI.currentUser.get().getBasicProfile();
         const email = me.getEmail();
         const name = me.getGivenName();
         const familyName = me.getFamilyName();
 
-        console.log(email, name, familyName);
+        return {
+            email,
+            name,
+            familyName,
+        };
     }
 
     private loadClient (): Promise<any> {

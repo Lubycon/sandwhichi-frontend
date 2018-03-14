@@ -6,6 +6,14 @@ export function getToken (state: AuthState): string {
     return state.accessToken;
 }
 
+export function getNaverToken (state: AuthState): string {
+    return state.naverAccessToken;
+}
+
+export function getGoogleToken (state: AuthState): string {
+    return state.googleAccessToken;
+}
+
 export function isAuthorized (state: AuthState): boolean {
     return state.isAuthorized;
 }
@@ -24,6 +32,8 @@ export function hasProfileSrc (state: AuthState): boolean {
 
 export default <GetterTree<AuthState, any>> {
     getToken,
+    getNaverToken,
+    getGoogleToken,
     getUser,
     getUserProfileSrc,
     isAuthorized,

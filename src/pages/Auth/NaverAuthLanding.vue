@@ -1,8 +1,6 @@
 <template>
 <div>
     <p>인증 중 입니다...</p>
-    code: {{ code }}<br>
-    state: {{ state }}
 </div>
 </template>
 
@@ -24,22 +22,30 @@
  * 회원가입 여부에 따라 로그인을 시키거나 회원가입 페이지로 랜딩시킨다
  */
 import { Vue, Component } from 'vue-property-decorator';
+import { Action } from 'vuex-class';
+import APIAuth from '@/api/APIAuth';
 
 @Component({
     name: 'AuthNaverLanding',
 })
 class AuthNaverLanding extends Vue {
-    $naverAuth: any;
-    code: string = '';
-    state: string = '';
     error: string = '';
     errorDescription: string = '';
 
+    @Action('setNaverToken') setNaverToken;
+
     created () {
-        this.code = this.$route.query.code;
-        this.state = this.$route.query.state;
         this.error = this.$route.query.error;
         this.errorDescription = this.$route.query.errorDescription;
+
+        APIAuth.getUserNaver({
+            code: this.$route.query.code,
+            state: this.$route.query.state,
+        }).then(res => {
+            this.setNaverToken(res.result.accessToken);
+        }, err => {
+            console.error(err);
+        });
     }
 }
 export default AuthNaverLanding;

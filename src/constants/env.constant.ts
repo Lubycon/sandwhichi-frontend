@@ -18,24 +18,24 @@ function getEnv (env: string): ENV_CONFIG {
     let gaId: string = '';
 
     if (env === 'production') {
-        apiBaseUrl = 'https://api.pixelstairs.com/v1';
-        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/pixelstairs';
+        apiBaseUrl = 'https://api.sandwhichi.com/v1';
+        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/sandwhichi';
         googleClientId = '910544055896-tiucajkqq3pt6l38v7kge5h6q20cs3ai.apps.googleusercontent.com';
         naverClientId = 'HAjQ7lH1Jk8PqJUeHajh';
         gReCaptchaKey = '6Lcdf0YUAAAAAICBNxMnocAXgye0dAaosWr1mnbw';
         gaId = 'UA-112072597-1';
     }
     else if (env === 'development') {
-        apiBaseUrl = 'https://dev.api.pixelstairs.com/v1';
-        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.pixelstairs';
+        apiBaseUrl = 'https://dev.api.sandwhichi.com/v1';
+        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.sandwhichi';
         googleClientId = '910544055896-tiucajkqq3pt6l38v7kge5h6q20cs3ai.apps.googleusercontent.com';
         naverClientId = 'HAjQ7lH1Jk8PqJUeHajh';
         gReCaptchaKey = '6Lcdf0YUAAAAAICBNxMnocAXgye0dAaosWr1mnbw';
         gaId = 'UA-112072597-1';
     }
     else if (env === 'local' || env === 'test') {
-        apiBaseUrl = 'http://local.api.pixelstairs.com/v1';
-        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.pixelstairs';
+        apiBaseUrl = 'http://local.api.sandwhichi.com/v1';
+        s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.sandwhichi';
         googleClientId = '910544055896-tiucajkqq3pt6l38v7kge5h6q20cs3ai.apps.googleusercontent.com';
         naverClientId = 'HAjQ7lH1Jk8PqJUeHajh';
         gReCaptchaKey = '6Lcdf0YUAAAAAICBNxMnocAXgye0dAaosWr1mnbw';
