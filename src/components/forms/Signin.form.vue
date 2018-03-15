@@ -330,11 +330,24 @@ class SigninForm extends Vue {
             this.setGoogleToken(token);
             const signin = await APIAuth.signinGoogle(token);
             console.log(signin);
-            
             return response;
         }
         catch (e) {
-            throw new Error(e);
+            if (e.status === 401) {
+                const googleUser = this.$googleAuth.getMyInfo();
+                this.$router.push({
+                    name: 'signup',
+                    query: {
+                        email: googleUser.email,
+                        name: googleUser.name,
+                        lastName: googleUser.familyName,
+                    },
+                });
+            }
+            else {
+                alert('구글 계정 정보를 받아오는 데 실패했습니다.');
+                return;
+            }
         }
     }
 

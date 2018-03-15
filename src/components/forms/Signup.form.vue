@@ -220,11 +220,17 @@ class SignupForm extends Vue {
     mounted () {
         const email = this.$route.query.email;
         const name = this.$route.query.name;
+        const lastName = this.$route.query.lastName;
         if (email) {
             this.$refs.emailForm.setEmail(email);
         }
         if (name) {
-            this.$refs.nameForm.setName(name);
+            if (lastName) {
+                this.$refs.nameForm.setName(name, lastName);
+            }
+            else {
+                this.$refs.nameForm.setName(name);
+            }
         }
     }
 }
