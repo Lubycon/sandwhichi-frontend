@@ -341,6 +341,7 @@ class SigninForm extends Vue {
                         email: googleUser.email,
                         name: googleUser.name,
                         lastName: googleUser.familyName,
+                        social: 'google',
                     },
                 });
             }

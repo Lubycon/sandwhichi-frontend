@@ -50,6 +50,7 @@ class AuthNaverLanding extends Vue {
                     query: {
                         email: this.naverUserEmail,
                         name: this.naverUserName,
+                        social: 'naver',
                     },
                 });
             }
