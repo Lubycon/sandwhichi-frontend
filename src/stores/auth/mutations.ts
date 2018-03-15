@@ -49,7 +49,7 @@ export function DESTROY_TOKEN (state: AuthState, { reload }) {
     state.user = {
         id: null,
         email: null,
-        nickname: null,
+        name: null,
         status: null,
         profileImg: null,
     };

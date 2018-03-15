@@ -137,7 +137,7 @@ class SignupForm extends Vue {
         this.signupData = {
             email: null,
             password: null,
-            nickname: null,
+            name: null,
             privacyPolicyAccepted: false,
             termsOfServiceAccepted: false,
             emailAccepted: false,
