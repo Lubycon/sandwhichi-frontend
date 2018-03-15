@@ -14,17 +14,17 @@ class APIUser extends APICore {
     }
 
     public getMyData (): Promise<any> {
-        const endpoint = '/members/me';
+        const endpoint = '/users/me';
         return this.get(endpoint);
     }
 
     public getUserData (id: string|number): Promise<any> {
-        const endpoint = `/members/${id}`;
+        const endpoint = `/users/${id}`;
         return this.get(endpoint);
     }
 
     public isExistEmail (email: string): Promise<any> {
-        const endpoint = '/members/exists/email';
+        const endpoint = '/users/exists/email';
         return this.post(endpoint, { email });
     }
 }
