@@ -113,11 +113,29 @@ class EmailForm extends Vue {
      */
     onDetectAtKey (e): void {
         if (e.keyCode === 50 && e.shiftKey) {
-            const hostList = this.emailHostList;
-            const hostIdList = hostList.map(v => v.id);
-            const index = hostIdList.indexOf('custom');
-            this.$set(this, 'selectedEmailHost', hostList[index]);
+            this.setCustomHost();
         }
+    }
+
+    /**
+     * @method setCustomHost
+     * @desc 이메일 호스트 셀렉트박스를 '직접입력'으로 변경한다
+     */
+    setCustomHost (): void {
+        const hostList = this.emailHostList;
+        const hostIdList = hostList.map(v => v.id);
+        const index = hostIdList.indexOf('custom');
+        this.$set(this, 'selectedEmailHost', hostList[index]);
+    }
+
+    /**
+     * @method setEmail
+     * @argument { String } email
+     * @desc 외부로부터 email 모델을 주입 받는다
+     */
+    setEmail (email: string): void {
+        this.email = email;
+        this.setCustomHost();
     }
 }
 export default EmailForm;
