@@ -287,7 +287,7 @@ class SigninForm extends Vue {
     async submit (): Promise<string> {
         // ReCaptcha Check
         if (this.isEnableReCaptcha && !this.reCaptchaToken) {
-            alert('로봇이 아닌 걸 증명해라 닝겐');
+            alert('로봇이신가요?');
             return;
         }
 

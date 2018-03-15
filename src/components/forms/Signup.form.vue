@@ -216,6 +216,17 @@ class SignupForm extends Vue {
     setLoading (bool: boolean): void {
         this.isBusy = bool;
     }
+
+    mounted () {
+        const email = this.$route.query.email;
+        const name = this.$route.query.name;
+        if (email) {
+            this.$refs.emailForm.setEmail(email);
+        }
+        if (name) {
+            this.$refs.nameForm.setName(name);
+        }
+    }
 }
 export default SignupForm;
 </script>

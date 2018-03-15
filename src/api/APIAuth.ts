@@ -24,6 +24,11 @@ class APIAuth extends APICore {
         return this.post(endpoint, { id_token: token });
     }
 
+    public signinNaver (token: string): Promise<any> {
+        const endpoint: string = '/users/naver/signin';
+        return this.post(endpoint, { access_token: token });
+    }
+
     public signup (data: UserSignupData): Promise<any> {
         const endpoint: string = '/users/signup';
         return this.post(endpoint, data);
