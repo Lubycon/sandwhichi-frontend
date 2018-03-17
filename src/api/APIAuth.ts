@@ -5,7 +5,10 @@
  */
 import { APICore } from '@/api/APICore';
 import { API_BASE_URL } from '@/constants/env.constant';
-import { UserSigninData, UserSignupData, UserSigndropData } from '@/interfaces/User.interface';
+import {
+    UserSigninData, UserSigndropData,
+    UserSignupData, GoogleUserSignupData, NaverUserSignupData,
+} from '@/interfaces/User.interface';
 
 class APIAuth extends APICore {
     constructor () {
@@ -31,6 +34,16 @@ class APIAuth extends APICore {
 
     public signup (data: UserSignupData): Promise<any> {
         const endpoint: string = '/users/signup';
+        return this.post(endpoint, data);
+    }
+
+    public signupGoogle (data: GoogleUserSignupData) {
+        const endpoint: string = 'users/google/signup';
+        return this.post(endpoint, data);
+    }
+
+    public signupNaver (data: NaverUserSignupData) {
+        const endpoint: string = 'users/naver/signup';
         return this.post(endpoint, data);
     }
 
