@@ -325,12 +325,15 @@ class SigninForm extends Vue {
      */
     async authGoogle () {
         try {
-            const response = await this.$googleAuth.signin();
-            const token = response.token;
+            const googleSigninResponse = await this.$googleAuth.signin();
+            const token = googleSigninResponse.token;
             this.setGoogleToken(token);
-            const signin = await APIAuth.signinGoogle(token);
-            console.log(signin);
-            return response;
+            const signinResponse = await APIAuth.signinGoogle(token);
+            this.$emit('submitted', {
+                accessToken: signinResponse.result.access_token,
+                refreshToken: signinResponse.result.refresh_token,
+            });
+            return signinResponse;
         }
         catch (e) {
             if (e.status === 401) {

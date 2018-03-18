@@ -13,6 +13,7 @@
  * @class NaverAuthLanding
  * @extends Vue
  * @member { any } $naverAuth from VuePlugin
+ * @member { string } redirect 로그인 성공 시 리다이렉트 될 route 이름
  * @member { string } error Naver에서 리턴해준 에러 코드
  * @member { string } errorDescription
  * @member { string } naverUserEmail
@@ -29,19 +30,35 @@ import APIAuth from '@/api/APIAuth';
     name: 'AuthNaverLanding',
 })
 class AuthNaverLanding extends Vue {
+    $naverAuth: any;
+    redirect: string = '';
     error: string = '';
     errorDescription: string = '';
     naverUserEmail: string = '';
     naverUserName: string = '';
 
     @Action('setNaverToken') setNaverToken;
+    @Action('setToken') setToken;
+    @Action('setUserByAPI') setUserByAPI;
     @Getter('getNaverToken') getNaverToken;
 
-    async signin () {
+    /**
+     * @method signin
+     * @return { Promise<any> }
+     * @desc 네이버 로그인 진행 후 받아온 토큰을 사용하여 Sandwhichi로그인을 진행한다
+     */
+    async signin (): Promise<any> {
         try {
             const token = this.getNaverToken;
-            const response = await APIAuth.signinNaver(token);
-            console.log(response);
+            const signinResponse = await APIAuth.signinNaver(token);
+            const accessToken = signinResponse.result.access_token;
+            const refreshToken = signinResponse.result.refresh_token;
+            
+            this.setToken({ accessToken, refreshToken });
+            await this.setUserByAPI();
+            this.$router.push({ name: this.redirect });
+
+            return signinResponse;
         }
         catch (e) {
             if (e.status === 401) {
@@ -60,16 +77,25 @@ class AuthNaverLanding extends Vue {
         }
     }
 
+    /**
+     * @event onErrorNaverAuth
+     * @desc 로그인이 실패했다면 router를 한 히스토리 뒤로 이동 시킨다
+     */
     onErrorNaverAuth () {
         alert('네이버 로그인 정보를 받아오는 데 실패했습니다.');
         this.$router.go(-1);
     }
 
+    created () {
+        const redirectRoute = this.$route.query.state.split(':')[1];
+        this.redirect = redirectRoute ? redirectRoute.split('=')[1] : this.$naverAuth.defaultSigninRedirect;
+    }
+
     mounted () {
-        console.log(1);
         this.error = this.$route.query.error;
         this.errorDescription = this.$route.query.errorDescription;
 
+        // 네이버 로그인 후 발급받은 code와 state로 accessToken을 가져온다
         APIAuth.getUserNaver({
             code: this.$route.query.code,
             state: this.$route.query.state,
