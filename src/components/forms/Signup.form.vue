@@ -233,6 +233,9 @@ class SignupForm extends Vue {
             }
             else {
                 const data: UserSignupData = model;
+                data.privacyPolicyAccepted = terms.privacyPolicy;
+                data.termsOfServiceAccepted = terms.terms;
+                data.emailAccepted = terms.sendEmail;
                 const response = await APIAuth.signup(data);
                 return response;
             }

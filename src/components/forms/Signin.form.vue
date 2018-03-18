@@ -365,6 +365,7 @@ class SigninForm extends Vue {
 
     /**
      * @method setReCaptcha
+     * @argument { boolean } bool
      * @desc 리캡챠 사용 여부를 변경한다. 컴포넌트 외부에서 호출할 수도 있다.
      */
     setReCaptcha (bool: boolean): void {
