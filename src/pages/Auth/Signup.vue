@@ -44,7 +44,9 @@
             </div>
             <div data-name="page-title">
                 <h1>회원가입</h1>
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <p v-if="socialAccount === 'google'">구글 계정으로 회원가입을 하기위해 몇가지 정보가 필요해요!</p>
+                <p v-else-if="socialAccount === 'naver'">네이버 계정으로 회원가입을 하기위해 몇가지 정보가 필요해요!</p>
+                <p v-else>회원가입을 하기위해 몇가지 정보가 필요해요!</p>
             </div>
             <signup-form
                 ref="signupform"
@@ -128,6 +130,7 @@ div[data-name="signup-form"] {
  * @member { any } $refs from Vue
  * @member { string } logo
  * @member { string } logoWhite
+ * @member { string } socialAccount
  * @member { Object } swiperOptions
  * @member { SignupContent[] } signupContents
  */
@@ -148,6 +151,7 @@ class Signup extends Vue {
     }
     logo: string;
     logoWhite: string;
+    socialAccount: string;
     swiperOptions: Object;
     signupContents: SignupContent[];
 
@@ -156,6 +160,7 @@ class Signup extends Vue {
 
         this.logo = ICON_LOGO;
         this.logoWhite = ICON_LOGO_WHITE;
+        this.socialAccount = '';
         this.swiperOptions = {
             autoplay: {
                 delay: 4000,
@@ -204,6 +209,10 @@ class Signup extends Vue {
         else {
             this.$router.push({ name: 'home' });
         }
+    }
+
+    created () {
+        this.socialAccount = this.$route.query.social;
     }
 }
 export default Signup;

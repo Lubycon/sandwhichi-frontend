@@ -5,7 +5,10 @@
  */
 import { APICore } from '@/api/APICore';
 import { API_BASE_URL } from '@/constants/env.constant';
-import { UserSigninData, UserSignupData, UserSigndropData } from '@/interfaces/User.interface';
+import {
+    UserSigninData, UserSigndropData,
+    UserSignupData, GoogleUserSignupData, NaverUserSignupData,
+} from '@/interfaces/User.interface';
 
 class APIAuth extends APICore {
     constructor () {
@@ -15,12 +18,32 @@ class APIAuth extends APICore {
     }
 
     public signin (data: UserSigninData): Promise<any> {
-        const endpoint: string = '/members/signin';
+        const endpoint: string = '/users/signin';
         return this.post(endpoint, data);
     }
 
+    public signinGoogle (token: string): Promise<any> {
+        const endpoint: string = '/users/google/signin';
+        return this.post(endpoint, { id_token: token });
+    }
+
+    public signinNaver (token: string): Promise<any> {
+        const endpoint: string = '/users/naver/signin';
+        return this.post(endpoint, { access_token: token });
+    }
+
     public signup (data: UserSignupData): Promise<any> {
-        const endpoint: string = '/members/signup';
+        const endpoint: string = '/users/signup';
+        return this.post(endpoint, data);
+    }
+
+    public signupGoogle (data: GoogleUserSignupData) {
+        const endpoint: string = 'users/google/signup';
+        return this.post(endpoint, data);
+    }
+
+    public signupNaver (data: NaverUserSignupData) {
+        const endpoint: string = 'users/naver/signup';
         return this.post(endpoint, data);
     }
 
@@ -29,12 +52,12 @@ class APIAuth extends APICore {
     }
 
     public signdrop (data: UserSigndropData): Promise<any> {
-        const endpoint: string = '/members/signdrop';
+        const endpoint: string = '/users/signdrop';
         return this.delete(endpoint, data);
     }
 
     public getSigndropSurvey (): Promise<any> {
-        const endpoint = '/members/signdrop/survey/list';
+        const endpoint = '/users/signdrop/survey/list';
         return this.get(endpoint);
     }
 
@@ -69,13 +92,20 @@ class APIAuth extends APICore {
     }
 
     public createPasswordToken () {
-        const endpoint = '/members/password/token';
+        const endpoint = '/users/password/token';
         return this.post(endpoint);
     }
 
     public resetPassword (password: string, code: string): Promise<any> {
-        const endpoint = '/members/password/reset';
+        const endpoint = '/users/password/reset';
         return this.post(endpoint, { newPassword: password, code });
+    }
+
+    public getUser () {}
+
+    public getUserNaver ({ code, state }): Promise<any> {
+        const endpoint = `/users/naver/profile/code/${code}/state/${state}`;
+        return this.get(endpoint);
     }
 }
 

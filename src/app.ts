@@ -5,6 +5,7 @@ import router from './router';
 import { sync } from 'vuex-router-sync';
 import Component from 'vue-class-component';
 import { APICore } from '@/api/APICore';
+import { GOOGLE_CLIENT_ID } from '@/constants/env.constant';
 
 Component.registerHooks([
     'beforeRouteEnter',
@@ -23,6 +24,17 @@ Vue.use(VeeValidate);
 // Moment
 import VueMoment from 'vue-moment';
 Vue.use(VueMoment);
+
+import GoogleAuth from '@/plugin/GoogleAuth.ts';
+Vue.use(GoogleAuth, {
+    clientId: GOOGLE_CLIENT_ID,
+});
+
+import NaverAuth from '@/plugin/NaverAuth.ts';
+import { NAVER_CLIENT_ID } from './constants/env.constant';
+Vue.use(NaverAuth, {
+    clientId: NAVER_CLIENT_ID,
+});
 
 // only for Client importing
 if (process.browser) {

@@ -40,7 +40,7 @@
             </b-col>
             <name-form
                 class="col-12"
-                v-model="signupData.nickname"
+                v-model="signupData.name"
                 ref="nameForm"
                 v-validate="{
                     rules: {
@@ -50,8 +50,8 @@
                 }"
                 data-vv-name="name"
                 :state="!errors.has('name')"
-                :feedback-msg="errors.first('name')"
-            ></name-form>
+                :feedback-msg="errors.first('name')">
+            </name-form>
             <terms-agree-form
                 v-model="terms"
                 ref="termsAgreeForm"
@@ -95,15 +95,17 @@ div[data-name="terms-agree"] {
  * @member { Function } getPasswordLevel from PasswordMixin
  * @member { UserSignupData } signupData
  * @member { string } passwordRepeat 비밀번호 재입력 모델
+ * @member { string } socialAccount
  * @member { boolean } isBusy
  * @member { any } errors from vee-validate
  * @member { regex } regex from Validate helper
  * @member { SignupTerms } terms
  */
 import { Vue, Component } from 'vue-property-decorator';
+import { Getter } from 'vuex-class';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 import { PasswordMixin } from '@/mixins/Password.mixin';
-import { UserSignupData } from '@/interfaces/User.interface';
+import { UserSignupData, GoogleUserSignupData, NaverUserSignupData } from '@/interfaces/User.interface';
 import { SignupTerms } from '@/interfaces/Form.interface';
 import APIAuth from '@/api/APIAuth';
 import Validate from '@/helpers/Validate';
@@ -126,6 +128,7 @@ class SignupForm extends Vue {
     getPasswordLevel: Function;
     signupData: UserSignupData;
     passwordRepeat: string;
+    socialAccount: string;
     isBusy: boolean;
     errors: any;
     regex: any;
@@ -137,19 +140,23 @@ class SignupForm extends Vue {
         this.signupData = {
             email: null,
             password: null,
-            nickname: null,
+            name: null,
             privacyPolicyAccepted: false,
             termsOfServiceAccepted: false,
             emailAccepted: false,
         };
 
         this.passwordRepeat = null;
+        this.socialAccount = '';
         this.isBusy = false;
         this.regex = {
             name: Validate.getRegex('name'),
         };
         this.terms = null;
     }
+
+    @Getter('getGoogleToken') getGoogleToken;
+    @Getter('getNaverToken') getNaverToken;
 
     get passwordLevelText (): string {
         const level = this.getPasswordLevel(this.signupData.password);
@@ -175,11 +182,10 @@ class SignupForm extends Vue {
      */
     async submit (): Promise<any> {
         try {
-            const data: UserSignupData = this.signupData;
             const validateResult = await this.$validator.validateAll();
             if (validateResult && this.validateTerms()) {
                 this.setLoading(true);
-                const signupResponse = await APIAuth.signup(data);
+                const signupResponse = await this.signup();
                 this.$emit('submitted', {
                     accessToken: signupResponse.result.access_token,
                     refreshToken: signupResponse.result.refresh_token,
@@ -192,6 +198,49 @@ class SignupForm extends Vue {
         catch (e) {
             this.setLoading(false);
         }
+    }
+
+    async signup (): Promise<any> {
+        const social: string = this.socialAccount;
+        const model: UserSignupData = this.signupData;
+        const terms: SignupTerms = this.terms;
+        try {
+            if (social === 'google') {
+                const data: GoogleUserSignupData = {
+                    email: model.email,
+                    password: model.password,
+                    name: model.name,
+                    privacyPolicyAccepted: terms.privacyPolicy,
+                    termsOfServiceAccepted: terms.terms,
+                    emailAccepted: terms.sendEmail,
+                    id_token: this.getGoogleToken,
+                };
+                const response = await APIAuth.signupGoogle(data);
+                return response;
+            }
+            else if (social === 'naver') {
+                const data: NaverUserSignupData = {
+                    email: model.email,
+                    password: model.password,
+                    name: model.name,
+                    privacyPolicyAccepted: terms.privacyPolicy,
+                    termsOfServiceAccepted: terms.terms,
+                    emailAccepted: terms.sendEmail,
+                    accessToken: this.getNaverToken,
+                };
+                const response = await APIAuth.signupNaver(data);
+                return response;
+            }
+            else {
+                const data: UserSignupData = model;
+                data.privacyPolicyAccepted = terms.privacyPolicy;
+                data.termsOfServiceAccepted = terms.terms;
+                data.emailAccepted = terms.sendEmail;
+                const response = await APIAuth.signup(data);
+                return response;
+            }
+        }
+        catch (e) {}
     }
 
     /**
@@ -215,6 +264,27 @@ class SignupForm extends Vue {
      */
     setLoading (bool: boolean): void {
         this.isBusy = bool;
+    }
+
+    created () {
+        this.socialAccount = this.$route.query.social;
+    }
+
+    mounted () {
+        const email = this.$route.query.email;
+        const name = this.$route.query.name;
+        const lastName = this.$route.query.lastName;
+        if (email) {
+            this.$refs.emailForm.setEmail(email);
+        }
+        if (name) {
+            if (lastName) {
+                this.$refs.nameForm.setName(name, lastName);
+            }
+            else {
+                this.$refs.nameForm.setName(name);
+            }
+        }
     }
 }
 export default SignupForm;

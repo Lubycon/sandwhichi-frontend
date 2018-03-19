@@ -3,7 +3,7 @@ import { Image } from '@/interfaces/Image.interface';
 export interface User {
     id: string;
     email: string;
-    nickname: string;
+    name: string;
     status: string;
     profileImg: Image;
     newsletterAccepted?: number;
@@ -12,10 +12,30 @@ export interface User {
 export interface UserSignupData {
     email: string;
     password: string;
-    nickname: string;
+    name: string;
     privacyPolicyAccepted: boolean;
     termsOfServiceAccepted: boolean;
     emailAccepted: boolean;
+}
+
+export interface GoogleUserSignupData {
+    email: string;
+    password: string;
+    name: string;
+    privacyPolicyAccepted: boolean;
+    termsOfServiceAccepted: boolean;
+    emailAccepted: boolean;
+    id_token: string;
+}
+
+export interface NaverUserSignupData {
+    email: string;
+    password: string;
+    name: string;
+    privacyPolicyAccepted: boolean;
+    termsOfServiceAccepted: boolean;
+    emailAccepted: boolean;
+    accessToken: string;
 }
 
 export interface UserSigninData {

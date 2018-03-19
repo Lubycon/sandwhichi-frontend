@@ -20,6 +20,14 @@ export function SET_TOKEN (state: AuthState, { accessToken, refreshToken }) {
     });
 }
 
+export function SET_NAVER_TOKEN (state: AuthState, token: string) {
+    state.naverAccessToken = token;
+}
+
+export function SET_GOOGLE_TOKEN (state: AuthState, token: string) {
+    state.googleAccessToken = token;
+}
+
 export function SET_USER (state: AuthState, user: User) {
     state.user = user;
     state.isAuthorized = true;
@@ -41,7 +49,7 @@ export function DESTROY_TOKEN (state: AuthState, { reload }) {
     state.user = {
         id: null,
         email: null,
-        nickname: null,
+        name: null,
         status: null,
         profileImg: null,
     };
@@ -57,6 +65,8 @@ export function DESTROY_TOKEN (state: AuthState, { reload }) {
 
 export default <MutationTree<AuthState>> {
     SET_TOKEN,
+    SET_NAVER_TOKEN,
+    SET_GOOGLE_TOKEN,
     SET_USER,
     DESTROY_TOKEN
 }

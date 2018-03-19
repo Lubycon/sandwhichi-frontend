@@ -16,10 +16,6 @@
             </router-link>
         </div>
     </div>
-
-    <!-- MODAL -->
-    <signup-modal ref="signupModal"></signup-modal>
-    <!-- /MODAL -->
 </nav>
 </template>
 
@@ -65,7 +61,6 @@ import APIAuth from '@/api/APIAuth';
 @Component({
     name: 'GlobalHeader',
 })
-
 class GlobalHeader extends Vue {
     logoSrc: string;
     msg: string;
