@@ -8,6 +8,7 @@ import VueMeta from 'vue-meta';
 import { HomeRouters } from '@/router/home';
 import { AuthRouters } from '@/router/auth';
 import { DocsRouters } from '@/router/docs';
+import { ProjectRouters } from '@/router/project';
 /* /ROUTERS */
 
 Vue.use(VueRouter);
@@ -26,7 +27,8 @@ const router = new VueRouter({
     routes: [
         ...HomeRouters,
         ...AuthRouters,
-        ...DocsRouters
+        ...DocsRouters,
+        ...ProjectRouters
     ],
 });
 
