@@ -66,7 +66,6 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "@types/moment": "^2.13.0",
     "@types/node": "^8.5.1",
     "autoprefixer": "^7.1.4",
     "babel-core": "^6.25.2",
@@ -97,6 +96,7 @@
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "^2.0.2",
     "mocha": "^3.0.2",
+    "moment": "^2.22.0",
     "node-sass": "^4.5.3",
     "phantomjs-prebuilt": "^2.1.10",
     "postcss-loader": "^2.0.5",
