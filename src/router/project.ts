@@ -7,7 +7,8 @@ import Footer from '@/components/Footer.vue';
 
 import ProjectRegister from '@/pages/Project/Register/ProjectRegister.vue';
 
-import ProjectRegisterStep01 from '@/pages/Project/Register/Components/ProjectRegisterStep01.vue';
+import ProjectRegisterDefault from '@/pages/Project/Register/Components/ProjectRegister.default.vue';
+import ProjectRegisterSchedule from '@/pages/Project/Register/Components/ProjectRegister.schedule.vue';
 
 export const ProjectRouters = [{
 	path: '/project/register',
@@ -17,8 +18,12 @@ export const ProjectRouters = [{
 		footer: Footer,
 	},
     children: [{
-	    path: '',
-        name: 'projectRegisterStep01',
-        component: ProjectRegisterStep01
+	    path: 'step01',
+        name: 'ProjectRegisterDefault',
+        component: ProjectRegisterDefault
+    }, {
+        path: 'step02',
+        name: 'ProjectRegisterSchedule',
+        component: ProjectRegisterSchedule
     }]
 }];
