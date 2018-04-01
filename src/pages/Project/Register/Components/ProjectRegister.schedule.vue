@@ -1,52 +1,32 @@
 <template>
     <div class="project-register-step01-wrapper">
         <b-form @submit.prevent="moveNextStep">
-            <!-- 프로젝트 썸네일 등록 폼 -->
-            <b-form-group label="프로젝트 썸네일">
-                <div class="project-register-step01-wrapper--image-wrapper is-large">
-                    <span>+</span>
-                    <div>
-                        <b-form-file></b-form-file>
-                    </div>
-                </div>
+            <!-- 프로젝트 시작 폼 -->
+            <b-form-group label="프로젝트 시작일">
+                <date-picker :date="startDate"
+                             @updateDate="updateStartDate"></date-picker>
             </b-form-group>
-            <!--// 프로젝트 썸네일 등록 폼 -->
+            <!--// 프로젝트 시작 폼 -->
 
-            <!-- 프로젝트 이름 등록 폼 -->
-            <b-form-group label="프로젝트 이름">
+            <!-- 프로젝트 종료 폼 -->
+            <b-form-group label="프로젝트 종료일">
+                <date-picker :date="finishDate"
+                             @updateDate="updateFinishDate"></date-picker>
+            </b-form-group>
+            <!--// 프로젝트 종료 폼 -->
+
+            <!-- 프로젝트 여정 기간-->
+            <b-form-group label="프로젝트 종료일">
                 <b-form-input type="text"
+                              :value="periodOfProject"
                               name="projectName"
-                              placeholder="멋진 이름이 하나 정돈 필요할 것 같아요"/>
+                              readonly="readonly"/>
             </b-form-group>
+            <!--// 프로젝트 여정 기간-->
 
-            <!--// 프로젝트 이름 등록 폼 -->
-
-            <!-- 프로젝트 이름 등록 폼 -->
-            <b-form-group label="프로젝트 내용">
-                <b-form-select v-model="selectedCategory" :options="projectCategory"></b-form-select>
-            </b-form-group>
-            <!--// 프로젝트 이름 등록 폼 -->
-            <div class="project-register-step01-wrapper--description-wrapper">
-                <textarea placeholder="자유롭게 설명해 주세요."></textarea>
-            </div>
-            <button type="button" class="project-register-step01-wrapper--add-question-button">+ 질문 추가</button>
-            <!-- 프로젝트 이미지 등록 폼 -->
-            <b-form-group label="프로젝트 썸네일">
-                <div class="project-register-step01-wrapper--image-wrapper is-small">
-                    <span>+</span>
-                    <div>
-                        <b-form-file></b-form-file>
-                    </div>
-                </div>
-            </b-form-group>
-            <!--// 프로젝트 이미지 등록 폼 -->
-            <b-form-group label="동영상 링크">
-                <b-form-input type="text"
-                              name="videoAddress"
-                              placeholder="동영상 주소 입력"/>
-            </b-form-group>
             <action-button>
-                <button type="submit">다음</button>
+                <button type="button" class="is-half is-previous">이전</button>
+                <button type="submit" class="is-half is-next">다음</button>
             </action-button>
         </b-form>
     </div>
@@ -112,12 +92,14 @@
 </style>
 <script lang="ts">
     /**
-     * @class ProjectRegisterStep01.vue
+     * @class ProjectRegisterSchedule.vue
      * @extends Vue
      */
+    import moment, { Moment } from 'moment';
     import { Vue, Component } from 'vue-property-decorator';
     import ProgressBar from '@/components/utils/ProgressBar.vue';
     import ActionButton from './ProjectRegisterActionButton.vue';
+    import DatePicker from '@/components/utils/DatePicker.vue';
 
     interface IprojectCategoryOption {
         value: number,
@@ -125,13 +107,16 @@
     }
 
     @Component({
-        name: 'ProjectRegisterStep01',
+        name: 'ProjectRegisterSchedule',
         components: {
+            DatePicker,
             ProgressBar,
             ActionButton,
         },
     })
-    class ProjectRegisterStep01 extends Vue {
+    class ProjectRegisterSchedule extends Vue {
+        startDate: Moment = moment();
+        finishDate: Moment = moment();
         selectedCategory: string = '';
         projectCategory: Array<IprojectCategoryOption> = [
             { value: 1, text: '어떤 주제를 다루는 프로젝트 인가요?' },
@@ -140,11 +125,26 @@
             { value: 4, text: '자유롭게 설명해 주세요.' }
         ];
 
+        get periodOfProject (): string {
+            const startDate: Moment = this.startDate;
+            const finishDate: Moment = this.finishDate;
+            const periodDifference: number = finishDate.diff(startDate, 'day') + 1;
+
+            return `${periodDifference} 일의 여정`;
+        }
+
+        updateStartDate (startDate: Moment): void {
+            this.startDate = startDate;
+        }
+
+        updateFinishDate (finishDate: Moment): void {
+            this.finishDate = finishDate;
+        }
+
         moveNextStep (): void {
             // TODO: 다음 스텝으로 이용하는 기능 추가
             console.log('다음 스텝으로 넘어가는 기능 추가');
-            this.$router.push({ name: 'ProjectRegisterStep02' });
         }
     }
-    export default ProjectRegisterStep01;
+    export default ProjectRegisterSchedule;
 </script>
