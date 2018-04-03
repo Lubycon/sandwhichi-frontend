@@ -23,6 +23,10 @@ module.exports = function setupDevServer (app, cb) {
         stats: {
             colors: true,
             chunks: false
+        },
+        watchOptions: {
+            poll: 1000,
+            aggregateTimeout: 300,
         }
     });
     app.use(devMiddleware);
