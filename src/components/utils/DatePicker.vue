@@ -1,7 +1,8 @@
 <template>
     <div>
-        <vue-datepicker-local v-model="localDate"
-                              :local="local"></vue-datepicker-local>
+        <!--<vue-datepicker-local v-model="localDate"-->
+                              <!--:local="local"></vue-datepicker-local>-->
+        테스트
     </div>
 </template>
 
@@ -25,8 +26,9 @@
      */
 
     import moment, { Moment } from 'moment';
-    import VueDatepickerLocal from 'vue-datepicker-local';
+    // import VueDatepickerLocal from 'vue-datepicker-local';
     import { Vue, Component, Prop } from 'vue-property-decorator';
+    // import { VuePicker } from 'vuejs-datepicker';
 
     interface IdatePickerConfig {
         dow: number,
@@ -38,7 +40,7 @@
     @Component({
         name: 'DatePicker',
         components: {
-            VueDatepickerLocal,
+            // VueDatepickerLocal,
         },
     })
     class DatePicker extends Vue {

@@ -4,10 +4,7 @@
             <!-- 프로젝트 썸네일 등록 폼 -->
             <b-form-group label="프로젝트 썸네일">
                 <div class="project-register-step01-wrapper--image-wrapper is-large">
-                    <span>+</span>
-                    <div>
-                        <b-form-file></b-form-file>
-                    </div>
+                    <image-preview></image-preview>
                 </div>
             </b-form-group>
             <!--// 프로젝트 썸네일 등록 폼 -->
@@ -16,7 +13,8 @@
             <b-form-group label="프로젝트 이름">
                 <b-form-input type="text"
                               name="projectName"
-                              placeholder="멋진 이름이 하나 정돈 필요할 것 같아요"/>
+                              placeholder="멋진 이름이 하나 정돈 필요할 것 같아요"
+                              v-model="projectTitle"/>
             </b-form-group>
 
             <!--// 프로젝트 이름 등록 폼 -->
@@ -43,7 +41,8 @@
             <b-form-group label="동영상 링크">
                 <b-form-input type="text"
                               name="videoAddress"
-                              placeholder="동영상 주소 입력"/>
+                              placeholder="동영상 주소 입력"
+                              v-model="videoLinkUrl"/>
             </b-form-group>
             <action-button>
                 <button type="submit">다음</button>
@@ -54,32 +53,11 @@
 <style lang="scss" scoped>
     .project-register-step01-wrapper{
         .project-register-step01-wrapper--image-wrapper{
-            overflow: hidden;
-            position: relative;
             &.is-small{
                 width: 85px;
-                height: 85px;
             }
             &.is-large{
                 width: 124px;
-                height: 124px;
-            }
-            border: 1px solid #ccc;
-            > span{
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                margin: -14px 0 0 -8px;
-                font-size: 28px;
-                line-height: 28px;
-                color: #cccccc;
-            }
-            > div{
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                opacity: 0.01;
-                font-size: 100px;
             }
         }
         .project-register-step01-wrapper--description-wrapper{
@@ -118,6 +96,7 @@
     import { Vue, Component } from 'vue-property-decorator';
     import ProgressBar from '@/components/utils/ProgressBar.vue';
     import ActionButton from './ProjectRegisterActionButton.vue';
+    import ImagePreview from '@/components/utils/ImagePreview.vue';
 
     interface IprojectCategoryOption {
         value: number,
@@ -128,11 +107,15 @@
         name: 'ProjectRegisterDefault',
         components: {
             ProgressBar,
+            ImagePreview,
             ActionButton,
         },
     })
     class ProjectRegisterDefault extends Vue {
         selectedCategory: string = '';
+        projectTitle: string = '';
+        videoLinkUrl: string = '';
+
         projectCategory: Array<IprojectCategoryOption> = [
             { value: 1, text: '어떤 주제를 다루는 프로젝트 인가요?' },
             { value: 2, text: '어떤 사람들이 필요한지 궁금해요?' },
