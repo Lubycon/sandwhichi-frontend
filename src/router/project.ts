@@ -9,6 +9,7 @@ import ProjectRegister from '@/pages/Project/Register/ProjectRegister.vue';
 
 import ProjectRegisterDefault from '@/pages/Project/Register/Components/ProjectRegister.default.vue';
 import ProjectRegisterSchedule from '@/pages/Project/Register/Components/ProjectRegister.schedule.vue';
+import ProjectRegisterRegion from '@/pages/Project/Register/Components/ProjectRegister.region.vue';
 
 export const ProjectRouters = [{
 	path: '/project/register',
@@ -18,12 +19,16 @@ export const ProjectRouters = [{
 		footer: Footer,
 	},
     children: [{
-	    path: 'step01',
+	    path: '',
         name: 'ProjectRegisterDefault',
         component: ProjectRegisterDefault
     }, {
-        path: 'step02',
+        path: 'schedule',
         name: 'ProjectRegisterSchedule',
         component: ProjectRegisterSchedule
+    }, {
+        path: 'region',
+        name: 'ProjectRegisterRegion',
+        component: ProjectRegisterRegion
     }]
 }];
