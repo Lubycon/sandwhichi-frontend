@@ -25,8 +25,13 @@
             <!--// 프로젝트 여정 기간-->
 
             <action-button>
-                <button type="button" class="is-half is-previous">이전</button>
-                <button type="submit" class="is-half is-next">다음</button>
+                <router-link class="is-half is-previous"
+                             :to="{ name: 'project-register-default' }">
+                    이전
+                </router-link>
+                <button type="submit" class="is-half is-next">
+                    다음
+                </button>
             </action-button>
         </b-form>
     </div>

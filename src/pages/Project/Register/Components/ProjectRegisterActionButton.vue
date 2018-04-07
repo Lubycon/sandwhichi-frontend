@@ -23,11 +23,14 @@
         height: 49px;
         z-index: 100;
         border-top: 1px solid #ccc;
-        button{
+        button, a{
+            display: block;
             width: 100%;
             height: 100%;
             border: 0;
             font-size: 14px;
+            line-height: 48px;
+            text-align: center;
             &:focus, &:active{
                 outline: 0;
                 border: 0;
