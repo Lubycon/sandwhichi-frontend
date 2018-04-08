@@ -25,7 +25,7 @@ module.exports = function setupDevServer (app, cb) {
             chunks: false
         },
         watchOptions: {
-            poll: 1000,
+            poll: true,
             aggregateTimeout: 300,
         }
     });
