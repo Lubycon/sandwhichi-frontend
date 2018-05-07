@@ -28,3 +28,6 @@ class APIProject extends APICore {
         return this.post(endpoint);
     }
 }
+
+const instance = new APIProject();
+export default instance;
