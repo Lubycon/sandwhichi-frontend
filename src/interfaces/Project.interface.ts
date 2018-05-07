@@ -1,4 +1,4 @@
-interface ProjectSchedule {
+type ProjectSchedule = {
     monday: boolean,
     tuesday: boolean,
     wednesday: boolean,
@@ -10,18 +10,19 @@ interface ProjectSchedule {
     scheduleRecurringId: boolean,
     startTime: string,
     endTime: string,
-}
+};
 
-interface ProjectContact {
+type ProjectContact = {
     typeId: string,
     information: string,
-}
+};
 
-interface ProjectMedia {
+type ProjectMedia = {
     typeId: string,
     url: string,
-}
-export interface Project {
+};
+
+export type Project = {
     title: string,
     description: string,
     profileImageUrl: string,
@@ -33,4 +34,4 @@ export interface Project {
     keywords: string[],
     abilities: string[],
     media: ProjectMedia,
-}
+};

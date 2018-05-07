@@ -1,24 +1,24 @@
 import { Image } from '@/interfaces/Image.interface';
 
-export interface User {
+export type User = {
     id: string;
     email: string;
     name: string;
     status: string;
     profileImg: Image;
     newsletterAccepted?: number;
-}
+};
 
-export interface UserSignupData {
+export type UserSignupData = {
     email: string;
     password: string;
     name: string;
     privacyPolicyAccepted: boolean;
     termsOfServiceAccepted: boolean;
     emailAccepted: boolean;
-}
+};
 
-export interface GoogleUserSignupData {
+export type GoogleUserSignupData = {
     email: string;
     password: string;
     name: string;
@@ -26,9 +26,9 @@ export interface GoogleUserSignupData {
     termsOfServiceAccepted: boolean;
     emailAccepted: boolean;
     id_token: string;
-}
+};
 
-export interface NaverUserSignupData {
+export type NaverUserSignupData = {
     email: string;
     password: string;
     name: string;
@@ -36,13 +36,13 @@ export interface NaverUserSignupData {
     termsOfServiceAccepted: boolean;
     emailAccepted: boolean;
     accessToken: string;
-}
+};
 
-export interface UserSigninData {
+export type UserSigninData = {
     email: string;
     password: string;
-}
+};
 
-export interface UserSigndropData {
+export type UserSigndropData = {
     answerIds: number[]
-}
+};

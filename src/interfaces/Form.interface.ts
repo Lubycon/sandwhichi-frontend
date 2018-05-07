@@ -1,17 +1,17 @@
-export interface EmailHost {
+export type EmailHost = {
     name: string;
     id: string;
     host: string;
     isDirectInput: boolean;
-}
-export interface SignupContent {
+};
+export type SignupContent = {
     id: number;
     contents: string;
     author: string;
     thumbnail: string;
-}
-export interface SignupTerms {
+};
+export type SignupTerms = {
     privacyPolicy: boolean;
     terms: boolean;
     sendEmail: boolean;
-}
+};
