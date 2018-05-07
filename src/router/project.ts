@@ -5,30 +5,13 @@
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 
-import ProjectRegister from '@/pages/Project/Register/ProjectRegister.vue';
-
-import ProjectRegisterDefault from '@/pages/Project/Register/Components/ProjectRegister.default.vue';
-import ProjectRegisterSchedule from '@/pages/Project/Register/Components/ProjectRegister.schedule.vue';
-import ProjectRegisterRegion from '@/pages/Project/Register/Components/ProjectRegister.region.vue';
+import CreateProject from '@/pages/Project/CreateProject.vue';
 
 export const ProjectRouters = [{
-	path: '/project/register',
+	path: '/project/create',
 	components: {
 		header: Header,
-		content: ProjectRegister,
+		content: CreateProject,
 		footer: Footer,
 	},
-    children: [{
-	    path: '',
-        name: 'ProjectRegisterDefault',
-        component: ProjectRegisterDefault
-    }, {
-        path: 'schedule',
-        name: 'ProjectRegisterSchedule',
-        component: ProjectRegisterSchedule
-    }, {
-        path: 'region',
-        name: 'ProjectRegisterRegion',
-        component: ProjectRegisterRegion
-    }]
 }];

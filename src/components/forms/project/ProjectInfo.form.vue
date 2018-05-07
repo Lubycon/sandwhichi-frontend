@@ -94,29 +94,27 @@
      * @extends Vue
      */
     import { Vue, Component } from 'vue-property-decorator';
-    import ProgressBar from '@/components/utils/ProgressBar.vue';
-    import ActionButton from './ProjectRegisterActionButton.vue';
+    import ActionButton from '@/components/buttons/ProjectRegisterActionButton.vue';
     import ImagePreview from '@/components/utils/ImagePreview.vue';
 
-    interface IprojectCategoryOption {
+    type IprojectCategoryOption = {
         value: number,
         text: string
     }
 
     @Component({
-        name: 'ProjectRegisterDefault',
+        name: 'ProjectDefaultForm',
         components: {
-            ProgressBar,
             ImagePreview,
             ActionButton,
         },
     })
-    class ProjectRegisterDefault extends Vue {
+    class ProjectDefaultForm extends Vue {
         selectedCategory: string = '';
         projectTitle: string = '';
         videoLinkUrl: string = '';
 
-        projectCategory: Array<IprojectCategoryOption> = [
+        projectCategory: IprojectCategoryOption[] = [
             { value: 1, text: '어떤 주제를 다루는 프로젝트 인가요?' },
             { value: 2, text: '어떤 사람들이 필요한지 궁금해요?' },
             { value: 3, text: '이 프로젝트를 한마디로 표현 한다면?' },
@@ -126,8 +124,8 @@
         moveNextStep (): void {
             // TODO: 다음 스텝으로 이용하는 기능 추가
             console.log('다음 스텝으로 넘어가는 기능 추가');
-            this.$router.push({ name: 'ProjectRegisterSchedule' });
+            this.$router.push({ name: 'project-schedule-form' });
         }
     }
-    export default ProjectRegisterDefault;
+    export default ProjectDefaultForm;
 </script>

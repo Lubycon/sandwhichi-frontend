@@ -5,14 +5,13 @@
     import { Vue, Component } from 'vue-property-decorator';
 
     @Component({
-        name: 'ProjectRegisterRegion',
+        name: 'ProjectRegionForm',
     })
-
-    class ProjectRegisterRegion extends Vue {
+    class ProjectRegionForm extends Vue {
 
     }
 
-    export default ProjectRegisterRegion;
+    export default ProjectRegionForm;
 </script>
 <style lang="scss" scoped>
 
