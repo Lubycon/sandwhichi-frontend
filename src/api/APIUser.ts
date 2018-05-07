@@ -1,6 +1,5 @@
 /**
- * @class
- * @name APIUser
+ * @class APIUser
  * @desc 유저 관련 API 모듈
  */
 import { APICore } from '@/api/APICore';

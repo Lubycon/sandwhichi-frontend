@@ -1,6 +1,5 @@
 /**
- * @class
- * @name APIAuth
+ * @class APIAuth
  * @desc 인증 관련 API 모듈
  */
 import { APICore } from '@/api/APICore';
@@ -13,7 +12,7 @@ import {
 class APIAuth extends APICore {
     constructor () {
         super({
-            baseURL: API_BASE_URL
+            baseURL: API_BASE_URL,
         });
     }
 
