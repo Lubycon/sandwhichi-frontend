@@ -90,10 +90,12 @@
 </style>
 <script lang="ts">
     /**
-     * @class ProjectRegisterDefault
+     * @class ProjectInfoForm
      * @extends Vue
+     * @implements FormComponent
      */
     import { Vue, Component } from 'vue-property-decorator';
+    import { FormComponent } from '@/interfaces/Form.interface';
     import ActionButton from '@/components/buttons/ProjectRegisterActionButton.vue';
     import ImagePreview from '@/components/utils/ImagePreview.vue';
 
@@ -103,13 +105,13 @@
     }
 
     @Component({
-        name: 'ProjectDefaultForm',
+        name: 'ProjectInfoForm',
         components: {
             ImagePreview,
             ActionButton,
         },
     })
-    class ProjectDefaultForm extends Vue {
+    class ProjectInfoForm extends Vue implements FormComponent {
         selectedCategory: string = '';
         projectTitle: string = '';
         videoLinkUrl: string = '';
@@ -126,6 +128,10 @@
             console.log('다음 스텝으로 넘어가는 기능 추가');
             this.$router.push({ name: 'project-schedule-form' });
         }
+
+        validate (): void {
+
+        }
     }
-    export default ProjectDefaultForm;
+    export default ProjectInfoForm;
 </script>

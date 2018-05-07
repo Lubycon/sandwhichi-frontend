@@ -92,19 +92,21 @@
 </style>
 <script lang="ts">
     /**
-     * @class ProjectRegisterSchedule.vue
+     * @class ProjectScheduleForm
      * @extends Vue
+     * @implements FormComponent
      */
     import moment, { Moment } from 'moment';
     import { Vue, Component } from 'vue-property-decorator';
+    import { FormComponent } from '@/interfaces/Form.interface';
     import ProgressBar from '@/components/utils/ProgressBar.vue';
     import ActionButton from '@/components/buttons/ProjectRegisterActionButton.vue';
     import DatePicker from '@/components/utils/DatePicker.vue';
 
-    interface IprojectCategoryOption {
+    type IprojectCategoryOption = {
         value: number,
         text: string
-    }
+    };
 
     @Component({
         name: 'ProjectScheduleForm',
@@ -114,7 +116,7 @@
             ActionButton,
         },
     })
-    class ProjectScheduleForm extends Vue {
+    class ProjectScheduleForm extends Vue implements FormComponent {
         startDate: Moment = moment();
         finishDate: Moment = moment();
         selectedCategory: string = '';
@@ -145,6 +147,8 @@
             // TODO: 다음 스텝으로 이용하는 기능 추가
             console.log('다음 스텝으로 넘어가는 기능 추가');
         }
+
+        validate (): void {}
     }
     export default ProjectScheduleForm;
 </script>
