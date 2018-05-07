@@ -1,7 +1,7 @@
 <template>
-    <div class="create-project">
+    <b-container class="create-project">
         <project-regist-form></project-regist-form>
-    </div>
+    </b-container>
 </template>
 
 <style lang="scss" scoped>
