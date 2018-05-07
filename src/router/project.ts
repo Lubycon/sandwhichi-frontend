@@ -12,6 +12,5 @@ export const ProjectRouters = [{
 	components: {
 		header: Header,
 		content: CreateProject,
-		footer: Footer,
 	},
 }];
