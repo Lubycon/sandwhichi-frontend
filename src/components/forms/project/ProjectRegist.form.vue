@@ -5,9 +5,25 @@
             :max="maxPageIndex"
             :value="pageIndex">
         </progress-bar>
+        <div data-type="debug">debug: {{ pageIndex }}</div>
     </b-row>
     <b-row data-name="regist-form">
-
+        <project-info-form
+            v-if="pageIndex === 0"
+            class="col-12">
+        </project-info-form>
+        <project-region-form
+            v-else-if="pageIndex === 1"
+            class="col-12">
+        </project-region-form>
+        <project-schedule-form
+            v-else-if="pageIndex === 2"
+            class="col-12">
+        </project-schedule-form>
+        <project-meeting-form
+            v-else-if="pageIndex === 3"
+            class="col-12">
+        </project-meeting-form>
     </b-row>
     <b-row tag="footer" data-name="control-panel">
         <b-col v-show="pageIndex > 0">
@@ -40,12 +56,20 @@
 
 <style lang="scss" scoped>
     @import 'src/styles/utils/__module__';
+    div[data-type="debug"] {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: $white;
+        z-index: 1;
+    }
 
     header[data-name="progress-bar"] {}
 
     div[data-name="regist-form"] {
         // 임시로 잡아놓음
-        min-height: calc(100vh - (#{$global-header-height} + 6px + 33.5px));
+        height: calc(100vh - (#{$global-header-height} + 6px + 33.5px));
         overflow-y: scroll;
     }
 
@@ -71,6 +95,7 @@
     import ProjectInfoForm from '@/components/forms/project/ProjectInfo.form.vue';
     import ProjectRegionForm from '@/components/forms/project/ProjectRegion.form.vue';
     import ProjectScheduleForm from '@/components/forms/project/ProjectSchedule.form.vue';
+    import ProjectMeetingForm from '@/components/forms/project/ProjectMeeting.form.vue';
     import { Project } from '@/interfaces/Project.interface';
 
     @Component({
@@ -80,6 +105,7 @@
             ProjectInfoForm,
             ProjectRegionForm,
             ProjectScheduleForm,
+            ProjectMeetingForm,
         },
     })
     class ProjectRegistForm extends Vue {
