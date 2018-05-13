@@ -18,6 +18,15 @@ export type SignupTerms = {
     sendEmail: boolean;
 };
 
+export type Answer = {
+    question: string;
+    answer: string;
+};
+
+export type Question = {
+    text: string;
+}
+
 export interface FormComponent {
     validate: Function;
 }

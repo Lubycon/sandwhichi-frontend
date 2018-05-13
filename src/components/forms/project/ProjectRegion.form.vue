@@ -1,5 +1,5 @@
 <template>
-
+    <div>Region</div>
 </template>
 <script lang="ts">
     /**

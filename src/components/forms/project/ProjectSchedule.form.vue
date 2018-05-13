@@ -3,31 +3,31 @@
         <b-form @submit.prevent="moveNextStep">
             <!-- 프로젝트 시작 폼 -->
             <b-form-group label="프로젝트 시작일">
-                <date-picker :date="startDate"
-                             @updateDate="updateStartDate"></date-picker>
+                <date-picker
+                    :date="startDate"
+                    @updateDate="updateStartDate">
+                </date-picker>
             </b-form-group>
             <!--// 프로젝트 시작 폼 -->
 
             <!-- 프로젝트 종료 폼 -->
             <b-form-group label="프로젝트 종료일">
-                <date-picker :date="finishDate"
-                             @updateDate="updateFinishDate"></date-picker>
+                <date-picker
+                    :date="finishDate"
+                    @updateDate="updateFinishDate">
+                </date-picker>
             </b-form-group>
             <!--// 프로젝트 종료 폼 -->
 
             <!-- 프로젝트 여정 기간-->
             <b-form-group label="프로젝트 종료일">
-                <b-form-input type="text"
-                              :value="periodOfProject"
-                              name="projectName"
-                              readonly="readonly"/>
+                <b-form-input
+                    type="text"
+                    :value="periodOfProject"
+                    name="projectName"
+                    readonly="readonly" />
             </b-form-group>
             <!--// 프로젝트 여정 기간-->
-
-            <action-button>
-                <button type="button" class="is-half is-previous">이전</button>
-                <button type="submit" class="is-half is-next">다음</button>
-            </action-button>
         </b-form>
     </div>
 </template>
@@ -99,8 +99,6 @@
     import moment, { Moment } from 'moment';
     import { Vue, Component } from 'vue-property-decorator';
     import { FormComponent } from '@/interfaces/Form.interface';
-    import ProgressBar from '@/components/utils/ProgressBar.vue';
-    import ActionButton from '@/components/buttons/ProjectRegisterActionButton.vue';
     import DatePicker from '@/components/utils/DatePicker.vue';
 
     type IprojectCategoryOption = {
@@ -112,8 +110,6 @@
         name: 'ProjectScheduleForm',
         components: {
             DatePicker,
-            ProgressBar,
-            ActionButton,
         },
     })
     class ProjectScheduleForm extends Vue implements FormComponent {
@@ -141,11 +137,6 @@
 
         updateFinishDate (finishDate: Moment): void {
             this.finishDate = finishDate;
-        }
-
-        moveNextStep (): void {
-            // TODO: 다음 스텝으로 이용하는 기능 추가
-            console.log('다음 스텝으로 넘어가는 기능 추가');
         }
 
         validate (): void {}
