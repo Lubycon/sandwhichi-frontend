@@ -115,4 +115,4 @@ class Validate {
 const instance = new Validate();
 export default instance;
 
-Validator.localize(instance.getValidateMsgs());
+Validator.localize('en', instance.getValidateMsgs());

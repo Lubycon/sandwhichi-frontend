@@ -1,6 +1,8 @@
 <template>
     <div class="progress-bar">
-        <div :style="{ 'width': progressWidth }">
+        <div
+            data-name="progress-value"
+            :style="{ 'width': progressWidth }">
             {{ progressWidth }} 작성되었습니다.
         </div>
     </div>
@@ -8,13 +10,15 @@
 
 <style lang="scss" scoped>
     .progress-bar{
+        width: 100%;
         height: 6px;
         background-color: #f5f5f5;
-        div{
+        div[data-name="progress-value"] {
             overflow: hidden;
             height: 100%;
             background-color: #52bad5;
             text-indent: -10000em;
+            transition: width 0.2s ease-in-out;
         }
     }
 </style>
@@ -31,13 +35,19 @@
         name: 'ProgressBar',
     })
     class ProgressBar extends Vue {
-        @Prop({ default: 0 }) value: Number;
+        @Prop({ default: 100 })
+        max: number;
+
+        @Prop({ default: 0 })
+        value: number;
 
         get progressWidth (): string {
-            return this.value + '%';
+            const max = this.max;
+            const value = this.value;
+            const result = (value / max) * 100;
+            return `${result.toFixed(0)}%`;
         }
     }
-
     export default ProgressBar;
 </script>
 

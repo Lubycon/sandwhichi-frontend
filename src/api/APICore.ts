@@ -1,12 +1,12 @@
 /**
- * @class
- * @name APICore
+ * @abstract
+ * @class APICore
  * @desc API 코어 모듈
- * 
+ *
  * @static @public @prop { Store<any> } store
  * @static @private @prop { String } _authToken
  * @static @private @prop { String } _refreshToken
- * 
+ *
  * @public @prop { Any } axios
  * @private @prop { Any } router
  */
@@ -225,7 +225,7 @@ export class APICore {
             try {
                 const refreshTokenResponse = await this.reissuance();
                 console.log('[log] Reissuance is finished');
-                
+
                 const retriedResponse = await this.retry(err.config);
                 console.log(`[log] Retried Url => ${retriedResponse.config.url}`);
                 console.log(`[log] Retried Response => ${retriedResponse.data}`);

@@ -3,27 +3,31 @@
         <b-form @submit.prevent="moveNextStep">
             <!-- 프로젝트 시작 폼 -->
             <b-form-group label="프로젝트 시작일">
-                <date-picker :date="startDate"
-                             @updateDate="updateStartDate"></date-picker>
+                <date-picker
+                    :date="startDate"
+                    @updateDate="updateStartDate">
+                </date-picker>
             </b-form-group>
             <!--// 프로젝트 시작 폼 -->
 
             <!-- 프로젝트 종료 폼 -->
             <b-form-group label="프로젝트 종료일">
-                <date-picker :date="finishDate"
-                             @updateDate="updateFinishDate"></date-picker>
+                <date-picker
+                    :date="finishDate"
+                    @updateDate="updateFinishDate">
+                </date-picker>
             </b-form-group>
             <!--// 프로젝트 종료 폼 -->
 
             <!-- 프로젝트 여정 기간-->
             <b-form-group label="프로젝트 종료일">
-                <b-form-input type="text"
-                              :value="periodOfProject"
-                              name="projectName"
-                              readonly="readonly"/>
+                <b-form-input
+                    type="text"
+                    :value="periodOfProject"
+                    name="projectName"
+                    readonly="readonly" />
             </b-form-group>
             <!--// 프로젝트 여정 기간-->
-
             <action-button>
                 <router-link class="is-half is-previous"
                              :to="{ name: 'project-register-default' }">
@@ -97,33 +101,31 @@
 </style>
 <script lang="ts">
     /**
-     * @class ProjectRegisterSchedule.vue
+     * @class ProjectScheduleForm
      * @extends Vue
+     * @implements FormComponent
      */
     import moment, { Moment } from 'moment';
     import { Vue, Component } from 'vue-property-decorator';
-    import ProgressBar from '@/components/utils/ProgressBar.vue';
-    import ActionButton from './ProjectRegisterActionButton.vue';
+    import { FormComponent } from '@/interfaces/Form.interface';
     import DatePicker from '@/components/utils/DatePicker.vue';
 
-    interface IprojectCategoryOption {
+    type IprojectCategoryOption = {
         value: number,
         text: string
-    }
+    };
 
     @Component({
-        name: 'ProjectRegisterSchedule',
+        name: 'ProjectScheduleForm',
         components: {
             DatePicker,
-            ProgressBar,
-            ActionButton,
         },
     })
-    class ProjectRegisterSchedule extends Vue {
+    class ProjectScheduleForm extends Vue implements FormComponent {
         startDate: Moment = moment();
         finishDate: Moment = moment();
         selectedCategory: string = '';
-        projectCategory: Array<IprojectCategoryOption> = [
+        projectCategory: IprojectCategoryOption[] = [
             { value: 1, text: '어떤 주제를 다루는 프로젝트 인가요?' },
             { value: 2, text: '어떤 사람들이 필요한지 궁금해요?' },
             { value: 3, text: '이 프로젝트를 한마디로 표현 한다면?' },
@@ -146,10 +148,7 @@
             this.finishDate = finishDate;
         }
 
-        moveNextStep (): void {
-            // TODO: 다음 스텝으로 이용하는 기능 추가
-            console.log('다음 스텝으로 넘어가는 기능 추가');
-        }
+        validate (): void {}
     }
-    export default ProjectRegisterSchedule;
+    export default ProjectScheduleForm;
 </script>
