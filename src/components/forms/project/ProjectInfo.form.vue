@@ -1,15 +1,15 @@
 <template>
-    <div class="project-register-step01-wrapper">
-        <b-form>
+    <b-form-row class="project-form" data-name="project-info">
+        <b-col cols="12" data-name="project-thumbnail">
             <b-form-group label="프로젝트 썸네일">
-                <div class="project-register-step01-wrapper--image-wrapper is-large">
-                    <image-uploader
-                        :base64="true"
-                        :preview="true"
-                        @change="onChangeThumbnail">
-                    </image-uploader>
-                </div>
+                <image-uploader
+                    :base64="true"
+                    :preview="true"
+                    @change="onChangeThumbnail">
+                </image-uploader>
             </b-form-group>
+        </b-col>
+        <b-col cols="12" data-name="project-title">
             <b-form-group label="프로젝트 이름">
                 <b-form-input
                     type="text"
@@ -27,18 +27,21 @@
                 </b-form-input>
                 <b-form-invalid-feedback>{{ errors.first('title') }}</b-form-invalid-feedback>
             </b-form-group>
+        </b-col>
+        <b-col cols="12">
             <b-form-group label="프로젝트 내용">
                 <question-answer-formset></question-answer-formset>
             </b-form-group>
-            <b-form-group label="프로젝트 썸네일">
-                <div class="project-register-step01-wrapper--image-wrapper is-small">
-                    <span>+</span>
-                    <div>
-                        <b-form-file></b-form-file>
-                    </div>
-                </div>
+        </b-col>
+        <b-col cols="12">
+            <b-form-group label="프로젝트 미디어">
+                <image-uploader
+                    :base64="true"
+                    @change="onChangeMedia">
+                </image-uploader>
             </b-form-group>
-            <!--// 프로젝트 이미지 등록 폼 -->
+        </b-col>
+        <b-col cols="12">
             <b-form-group label="동영상 링크">
                 <b-form-input
                     type="text"
@@ -47,44 +50,12 @@
                     v-model="videoLinkUrl">
                 </b-form-input>
             </b-form-group>
-        </b-form>
-    </div>
+        </b-col>
+    </b-form-row>
 </template>
 <style lang="scss" scoped>
-    .project-register-step01-wrapper{
-        .project-register-step01-wrapper--image-wrapper{
-            &.is-small{
-                width: 85px;
-            }
-            &.is-large{
-                width: 124px;
-            }
-        }
-        .project-register-step01-wrapper--description-wrapper{
-            overflow: hidden;
-            height: 124px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            textarea{
-                box-sizing:border-box;
-                width: 100%;
-                height: 100%;
-                padding: 16px;
-                resize: none;
-                border: 0;
-                &:focus{
-                    outline: none;
-                }
-            }
-        }
-        .project-register-step01-wrapper--add-question-button{
-            width: 100%;
-            height: 38px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            font-size: 14px;
-            color: #373a3c;
-        }
+    div[data-name="project-thumbnail"] {
+        width: 125px;
     }
 </style>
 <script lang="ts">
@@ -94,8 +65,8 @@
      * @implements FormComponent
      */
     import { Vue, Component } from 'vue-property-decorator';
-    import Validate from '@/helpers/Validate';
     import { FormComponent } from '@/interfaces/Form.interface';
+    import Validate from '@/helpers/Validate';
     import ImageUploader from '@/components/utils/ImageUploader.vue';
     import QuestionAnswerFormset from '@/components/forms/QuestionAnswer.formset.vue';
 
@@ -125,9 +96,13 @@
             };
         }
 
-        onChangeThumbnail (res) {
+        onChangeThumbnail (res: any): void {
             this.projectThumbnailFile = res.file;
             this.projectThumbnailData = res.dataURL;
+        }
+
+        onChangeMedia (res: any): void {
+            console.log('media -> ', res);
         }
 
         async validate (): Promise<boolean> {
@@ -139,6 +114,9 @@
         created () {
             const messageDict = {
                 custom: {
+                    thumbnail: {
+                        required: '프로젝트를 대표하는 사진을 업로드 해주세요',
+                    },
                     title: {
                         required: '멋진 이름이 하나 정돈 필요할 것 같아요',
                         max: (field, params, data) => {
