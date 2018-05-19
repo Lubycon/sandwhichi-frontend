@@ -13,7 +13,7 @@ class APIProject extends APICore {
         });
     }
 
-    public registProject (data: Project): Promise<any> {
+    public createProject (data: Project): Promise<any> {
         const endpoint: string = '/project';
         return this.post(endpoint, data);
     }

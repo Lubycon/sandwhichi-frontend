@@ -5,23 +5,26 @@
             :max="maxPageIndex"
             :value="pageIndex">
         </progress-bar>
-        <div data-type="debug">debug: {{ pageIndex }}</div>
     </b-row>
     <b-row data-name="regist-form">
         <project-info-form
-            v-if="pageIndex === 0"
+            v-show="pageIndex === 0"
+            ref="projectForm0"
             class="col-12">
         </project-info-form>
         <project-region-form
-            v-else-if="pageIndex === 1"
+            v-show="pageIndex === 1"
+            ref="projectForm1"
             class="col-12">
         </project-region-form>
         <project-schedule-form
-            v-else-if="pageIndex === 2"
+            v-show="pageIndex === 2"
+            ref="projectForm2"
             class="col-12">
         </project-schedule-form>
         <project-meeting-form
-            v-else-if="pageIndex === 3"
+            v-show="pageIndex === 3"
+            ref="projectForm3"
             class="col-12">
         </project-meeting-form>
     </b-row>
@@ -109,17 +112,30 @@
         },
     })
     class ProjectRegistForm extends Vue {
+        $refs: {
+            projectForm0: any;
+            projectForm1: any;
+            projectForm2: any;
+            projectForm3: any;
+            projectForm4: any;
+        };
         pageIndex: number = 0;
         maxPageIndex: number = 5;
         project: Project;
 
-        nextStep (): void {
+        async nextStep (): Promise<number> {
             const maxPageIndex = this.maxPageIndex;
             let pageIndex = this.pageIndex;
-            if (pageIndex < maxPageIndex) {
-                pageIndex++;
-                this.$set(this, 'pageIndex', pageIndex);
+            const validation = await this.$refs[`projectForm${pageIndex}`].validate();
+
+            if (validation) {
+                if (pageIndex < maxPageIndex) {
+                    pageIndex++;
+                    this.$set(this, 'pageIndex', pageIndex);
+                }
             }
+
+            return this.pageIndex;
         }
 
         prevStep (): void {
@@ -133,7 +149,7 @@
         async submit (): Promise<any> {
             try {
                 const data = this.project;
-                const response = await APIProject.registProject(data);
+                const response = await APIProject.createProject(data);
                 return response;
             }
             catch (e) {

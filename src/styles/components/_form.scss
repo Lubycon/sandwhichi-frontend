@@ -11,4 +11,9 @@
     .invalid-feedback {
         color: $red;
     }
+    &.is-invalid {
+        .invalid-feedback {
+            display: block;
+        }
+    }
 }

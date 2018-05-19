@@ -1,29 +1,27 @@
 <template>
     <b-form-row class="project-form" data-name="project-info">
         <b-col cols="12" data-name="project-thumbnail">
-            <b-form-group label="프로젝트 썸네일">
+            <b-form-group
+                label="프로젝트 썸네일"
+                :state="!errors.has('thumbnail')">
                 <image-uploader
+                    name="thumbnail"
                     :base64="true"
                     :preview="true"
                     @change="onChangeThumbnail">
                 </image-uploader>
+                <b-form-invalid-feedback>{{ errors.first('thumbnail') }}</b-form-invalid-feedback>
             </b-form-group>
         </b-col>
         <b-col cols="12" data-name="project-title">
-            <b-form-group label="프로젝트 이름">
+            <b-form-group
+                label="프로젝트 이름"
+                :state="!errors.has('title')">
                 <b-form-input
                     type="text"
                     name="title"
                     placeholder="예 : 날씨 앱 개발 프로젝트"
-                    v-model="projectTitle"
-                    v-validate="{
-                        rules: {
-                            required: true,
-                            max: 30,
-                            regex: regex.name,
-                        },
-                    }"
-                    :state="!errors.has('title')">
+                    v-model="projectTitle">
                 </b-form-input>
                 <b-form-invalid-feedback>{{ errors.first('title') }}</b-form-invalid-feedback>
             </b-form-group>
@@ -106,9 +104,12 @@
         }
 
         async validate (): Promise<boolean> {
-            const validation = await this.$validator.validateAll();
-            this.$emit('validate', validation);
-            return validation;
+            const thumbnailValidation = await this.$validator.validate('thumbnail', this.projectThumbnailFile);
+            const titleValidation = await this.$validator.validate('title', this.projectTitle);
+
+            const result = thumbnailValidation && titleValidation;
+            this.$emit('validate', result);
+            return result;
         }
 
         created () {
@@ -128,6 +129,8 @@
             };
 
             this.$validator.localize('en', messageDict);
+            this.$validator.attach('thumbnail', 'required');
+            this.$validator.attach('title', `required|max:30|regex:${this.regex.name}`);
         }
     }
     export default ProjectInfoForm;
