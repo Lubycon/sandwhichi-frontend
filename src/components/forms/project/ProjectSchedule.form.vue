@@ -1,6 +1,6 @@
 <template>
     <div class="project-register-step01-wrapper">
-        <b-form @submit.prevent="moveNextStep">
+        <b-form>
             <!-- 프로젝트 시작 폼 -->
             <b-form-group label="프로젝트 시작일">
                 <date-picker
@@ -25,18 +25,9 @@
                     type="text"
                     :value="periodOfProject"
                     name="projectName"
-                    readonly="readonly" />
+                    readonly="readonly">
+                </b-form-input>
             </b-form-group>
-            <!--// 프로젝트 여정 기간-->
-            <action-button>
-                <router-link class="is-half is-previous"
-                             :to="{ name: 'project-register-default' }">
-                    이전
-                </router-link>
-                <button type="submit" class="is-half is-next">
-                    다음
-                </button>
-            </action-button>
         </b-form>
     </div>
 </template>
