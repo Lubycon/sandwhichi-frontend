@@ -28,6 +28,15 @@
                     readonly="readonly" />
             </b-form-group>
             <!--// 프로젝트 여정 기간-->
+            <action-button>
+                <router-link class="is-half is-previous"
+                             :to="{ name: 'project-register-default' }">
+                    이전
+                </router-link>
+                <button type="submit" class="is-half is-next">
+                    다음
+                </button>
+            </action-button>
         </b-form>
     </div>
 </template>

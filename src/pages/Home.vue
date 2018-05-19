@@ -48,6 +48,9 @@ class Home extends Vue {
         }, {
             name: 'Find Password',
             route: 'find-password',
+        }, {
+            name: 'Project Register',
+            route: '/project/register',
         });
     }
 }
