@@ -2,7 +2,8 @@
     <div class="question-answer-form">
         <b-form-select
             v-model="selectedQuestion"
-            data-name="form-unit">
+            data-name="form-unit"
+            :state="!errors.has('answer')">
             <option
                 v-for="(question, index) in questions"
                 :key="index"
@@ -16,6 +17,7 @@
             :placeholder="placeholder"
             :rows="6"
             :resize="false"
+            :state="!errors.has('answer')"
             data-name="form-unit"
             v-validate="'required|max:500'">
         </b-form-textarea>
@@ -92,6 +94,7 @@
         }
 
         validate (): Promise<any> {
+            console.log('validation');
             return this.$validator.validate('answer', this.answerString);
         }
     }

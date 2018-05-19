@@ -138,12 +138,14 @@
             return this.pageIndex;
         }
 
-        prevStep (): void {
+        prevStep (): number {
             let pageIndex = this.pageIndex;
             if (pageIndex > 0) {
                 pageIndex--;
                 this.$set(this, 'pageIndex', pageIndex);
             }
+
+            return pageIndex;
         }
 
         async submit (): Promise<any> {

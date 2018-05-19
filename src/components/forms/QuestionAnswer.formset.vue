@@ -4,6 +4,7 @@
             <li v-for="index in answerCount">
                 <question-answer-form
                     v-model="answers[index - 1]"
+                    :ref="`qaForm${index}`"
                     :questions="questions">
                 </question-answer-form>
             </li>
@@ -53,6 +54,7 @@
      * @implements FormComponent
      */
     import { Vue, Component } from 'vue-property-decorator';
+    import Q from 'q';
     import {
         Question,
         Answer,
@@ -98,7 +100,14 @@
             }
         }
 
-        validate () {}
+        async validate (): Promise<any> {
+            const defer = Q.defer();
+            Promise.all(this.$children.map(async (comp: any) => comp.validate()))
+            .then(res => {
+                defer.resolve(res.every(validation => validation));
+            });
+            return defer.promise;
+        }
     }
     export default QuestionAnswerFormset;
 </script>

@@ -27,8 +27,11 @@
             </b-form-group>
         </b-col>
         <b-col cols="12">
-            <b-form-group label="프로젝트 내용">
-                <question-answer-formset></question-answer-formset>
+            <b-form-group
+                label="프로젝트 내용"
+                :state="!errors.has('descriptions')">
+                <question-answer-formset ref="qaFormSet"></question-answer-formset>
+                <b-form-invalid-feedback>{{ errors.has('descriptions') }}</b-form-invalid-feedback>
             </b-form-group>
         </b-col>
         <b-col cols="12">
@@ -76,6 +79,9 @@
         },
     })
     class ProjectInfoForm extends Vue implements FormComponent {
+        $refs: {
+            qaFormSet: any;
+        };
         projectThumbnailFile: File;
         projectThumbnailData: string;
         projectTitle: string;
@@ -106,8 +112,10 @@
         async validate (): Promise<boolean> {
             const thumbnailValidation = await this.$validator.validate('thumbnail', this.projectThumbnailFile);
             const titleValidation = await this.$validator.validate('title', this.projectTitle);
+            const descriptionValidation = await this.$refs.qaFormSet.validate();
+            console.log(descriptionValidation);
 
-            const result = thumbnailValidation && titleValidation;
+            const result = thumbnailValidation && titleValidation && descriptionValidation;
             this.$emit('validate', result);
             return result;
         }
@@ -124,6 +132,9 @@
                             return `프로젝트 제목은 ${params[0]}자를 넘을 수 없어요`;
                         },
                         regex: '프로젝트 제목에는 -나 _를 제외한 특수문자를 사용하실 수 없어요',
+                    },
+                    descriptions: {
+                        required: true,
                     },
                 },
             };
