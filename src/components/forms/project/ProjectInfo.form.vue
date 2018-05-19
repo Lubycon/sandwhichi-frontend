@@ -113,9 +113,8 @@
             const thumbnailValidation = await this.$validator.validate('thumbnail', this.projectThumbnailFile);
             const titleValidation = await this.$validator.validate('title', this.projectTitle);
             const descriptionValidation = await this.$refs.qaFormSet.validate();
-            console.log(descriptionValidation);
-
             const result = thumbnailValidation && titleValidation && descriptionValidation;
+
             this.$emit('validate', result);
             return result;
         }
@@ -134,7 +133,7 @@
                         regex: '프로젝트 제목에는 -나 _를 제외한 특수문자를 사용하실 수 없어요',
                     },
                     descriptions: {
-                        required: true,
+                        required: '프로젝트 설명을 잊으셨어요!',
                     },
                 },
             };
