@@ -1,10 +1,13 @@
 <template>
     <div class="project-register-step01-wrapper">
-        <b-form @submit.prevent="moveNextStep">
-            <!-- 프로젝트 썸네일 등록 폼 -->
+        <b-form>
             <b-form-group label="프로젝트 썸네일">
                 <div class="project-register-step01-wrapper--image-wrapper is-large">
-                    <image-preview></image-preview>
+                    <image-uploader
+                        :base64="true"
+                        :preview="true"
+                        @change="onChangeThumbnail">
+                    </image-uploader>
                 </div>
             </b-form-group>
             <b-form-group label="프로젝트 이름">
@@ -25,10 +28,6 @@
                 <b-form-invalid-feedback>{{ errors.first('title') }}</b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label="프로젝트 내용">
-                <!--<b-form-select-->
-                    <!--v-model="selectedCategory"-->
-                    <!--:options="projectCategory">-->
-                <!--</b-form-select>-->
                 <question-answer-formset></question-answer-formset>
             </b-form-group>
             <b-form-group label="프로젝트 썸네일">
@@ -45,7 +44,8 @@
                     type="text"
                     name="videoAddress"
                     placeholder="동영상 주소 입력"
-                    v-model="videoLinkUrl" />
+                    v-model="videoLinkUrl">
+                </b-form-input>
             </b-form-group>
         </b-form>
     </div>
@@ -96,27 +96,38 @@
     import { Vue, Component } from 'vue-property-decorator';
     import Validate from '@/helpers/Validate';
     import { FormComponent } from '@/interfaces/Form.interface';
-    import ImagePreview from '@/components/utils/ImagePreview.vue';
+    import ImageUploader from '@/components/utils/ImageUploader.vue';
     import QuestionAnswerFormset from '@/components/forms/QuestionAnswer.formset.vue';
 
     @Component({
         name: 'ProjectInfoForm',
         components: {
-            ImagePreview,
+            ImageUploader,
             QuestionAnswerFormset,
         },
     })
     class ProjectInfoForm extends Vue implements FormComponent {
-        selectedCategory: string = '';
-        projectTitle: string = '';
-        videoLinkUrl: string = '';
+        projectThumbnailFile: File;
+        projectThumbnailData: string;
+        projectTitle: string;
+        videoLinkUrl: string;
         regex: any;
 
         constructor () {
             super();
+            this.projectThumbnailFile = null;
+            this.projectThumbnailData = '';
+            this.projectTitle = '';
+            this.videoLinkUrl = '';
+
             this.regex = {
                 name: Validate.getRegex('name'),
             };
+        }
+
+        onChangeThumbnail (res) {
+            this.projectThumbnailFile = res.file;
+            this.projectThumbnailData = res.dataURL;
         }
 
         async validate (): Promise<boolean> {
