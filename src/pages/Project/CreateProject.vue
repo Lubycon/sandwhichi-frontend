@@ -1,6 +1,6 @@
 <template>
     <b-container class="create-project">
-        <project-regist-form></project-regist-form>
+        <project-regist-formset></project-regist-formset>
     </b-container>
 </template>
 
@@ -14,12 +14,12 @@
      * @extends Vue
      */
     import { Vue, Component } from 'vue-property-decorator';
-    import ProjectRegistForm from '@/components/forms/project/ProjectRegist.form.vue';
+    import ProjectRegistFormset from '@/components/forms/project/ProjectRegist.formset.vue';
 
     @Component({
         name: 'CreateProject',
         components: {
-            ProjectRegistForm,
+            ProjectRegistFormset,
         },
     })
     class CreateProject extends Vue {}

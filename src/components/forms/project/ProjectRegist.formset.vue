@@ -71,7 +71,8 @@
     header[data-name="progress-bar"] {}
 
     div[data-name="regist-form"] {
-        // 임시로 잡아놓음
+        // @TODO
+        // 임시로 잡아놓음 100vh - (global-header-height + progressbar-height + footer-button-height)
         height: calc(100vh - (#{$global-header-height} + 6px + 33.5px));
         overflow-y: scroll;
     }
@@ -102,7 +103,7 @@
     import { Project } from '@/interfaces/Project.interface';
 
     @Component({
-        name: 'ProjectRegistForm',
+        name: 'ProjectRegistFormset',
         components: {
             ProgressBar,
             ProjectInfoForm,
@@ -111,7 +112,7 @@
             ProjectMeetingForm,
         },
     })
-    class ProjectRegistForm extends Vue {
+    class ProjectRegistFormset extends Vue {
         $refs: {
             projectForm0: any;
             projectForm1: any;
@@ -159,5 +160,5 @@
             }
         }
     }
-    export default ProjectRegistForm;
+    export default ProjectRegistFormset;
 </script>

@@ -300,7 +300,7 @@ class SigninForm extends Vue {
                 password: this.password,
             };
             const signinResponse = await APIAuth.signin(data);
-            this.$emit('submitted', {
+            this.$emit('submit', {
                 accessToken: signinResponse.result.access_token,
                 refreshToken: signinResponse.result.refresh_token,
             });
