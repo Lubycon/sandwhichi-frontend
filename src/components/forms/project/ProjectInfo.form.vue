@@ -1,6 +1,10 @@
 <template>
-    <b-form-row class="project-form" data-name="project-info">
-        <b-col cols="5" data-name="project-thumbnail">
+    <b-form-row
+        class="project-form"
+        data-name="project-info">
+        <b-col
+            cols="5"
+            data-name="project-thumbnail">
             <b-form-group
                 label="프로젝트 썸네일"
                 :state="!errors.has('thumbnail')">
@@ -13,7 +17,9 @@
                 <b-form-invalid-feedback>{{ errors.first('thumbnail') }}</b-form-invalid-feedback>
             </b-form-group>
         </b-col>
-        <b-col cols="12" data-name="project-title">
+        <b-col
+            cols="12"
+            data-name="project-title">
             <b-form-group
                 label="프로젝트 이름"
                 :state="!errors.has('title')">
@@ -26,7 +32,9 @@
                 <b-form-invalid-feedback>{{ errors.first('title') }}</b-form-invalid-feedback>
             </b-form-group>
         </b-col>
-        <b-col cols="12" data-name="project-description">
+        <b-col
+            cols="12"
+            data-name="project-description">
             <b-form-group
                 label="프로젝트 내용"
                 :state="!errors.has('descriptions')">
@@ -127,13 +135,10 @@
         projectThumbnailFile: File;
         projectThumbnailData: string;
         projectThumbnailURL: string;
-
         projectTitle: string;
-
         projectMediaFiles: File[];
         projectMediaThumbnails: string[];
         projectMediaURLs: string[];
-
         videoLinkUrl: string;
         regex: any;
 

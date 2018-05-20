@@ -15,7 +15,7 @@
             <div class="card-body">
                 <signin-form
                     ref="signinForm"
-                    @submitted="updateMember">
+                    @submit="updateMember">
                 </signin-form>
             </div>
         </b-col>
@@ -79,7 +79,7 @@ class Signin extends Vue {
 
     constructor () {
         super();
-        
+
         this.logo = VERTICAL_LOGO;
     }
 
