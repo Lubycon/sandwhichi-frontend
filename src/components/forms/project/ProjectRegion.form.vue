@@ -37,6 +37,13 @@
             { value: 'seoul', text: '서울' },
             { value: 'gyeonggi', text: '경기도' }
         ];
+
+        constructor () {
+            super();
+            this.region1 = '';
+            this.region2 = '';
+        }
+
         validate (): void {}
     }
 
