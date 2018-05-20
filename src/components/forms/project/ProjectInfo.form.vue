@@ -9,6 +9,7 @@
                 label="프로젝트 썸네일"
                 :state="!errors.has('thumbnail')">
                 <image-uploader
+                    ref="thumbnailUploader"
                     name="thumbnail"
                     :base64="true"
                     :preview="true"
@@ -117,6 +118,7 @@
     import { FormComponent } from '@/interfaces/Form.interface';
     import { ProjectInfo } from '@/interfaces/Project.interface';
     import Validate from '@/helpers/Validate';
+    import APIImage from '@/api/APIImage';
     import ImageUploader from '@/components/utils/ImageUploader.vue';
     import QuestionAnswerFormset from '@/components/forms/QuestionAnswer.formset.vue';
 
@@ -128,9 +130,11 @@
         },
     })
     class ProjectInfoForm extends Vue implements FormComponent {
+        $toasted: any;
         $refs: {
             qaFormSet: any;
             mediaUploader: any;
+            thumbnailUploader: any;
         };
         projectThumbnailFile: File;
         projectThumbnailData: string;
@@ -156,15 +160,50 @@
             };
         }
 
-        onChangeThumbnail (res: any): void {
-            this.projectThumbnailFile = res.file;
-            this.projectThumbnailData = res.dataURL;
+        async onChangeThumbnail (res: any): Promise<any> {
+            try {
+                const fileResponse = await APIImage.postImage(res.file);
+                this.projectThumbnailFile = res.file;
+                this.projectThumbnailData = res.dataURL;
+                this.projectThumbnailURL = fileResponse.url;
+
+                return fileResponse;
+            }
+            catch (e) {
+                this.$toasted.show('파일 업로드에 실패했습니다');
+                throw new Error(e);
+            }
         }
 
-        onChangeMedia (res: any): void {
-            this.projectMediaFiles.push(res.file);
-            this.projectMediaThumbnails.push(res.dataURL);
-            this.$refs.mediaUploader.reset();
+        async onChangeMedia (res: any): Promise<any> {
+            try {
+                const fileResponse = await APIImage.postImage(res.file);
+                this.projectMediaFiles.push(res.file);
+                this.projectMediaThumbnails.push(res.dataURL);
+                this.projectMediaURLs.push(fileResponse.url);
+                this.$refs.mediaUploader.reset();
+
+                return fileResponse;
+            }
+            catch (e) {
+                this.$toasted.show('파일 업로드에 실패했습니다');
+                throw new Error(e);
+            }
+        }
+
+        // @TODO 삭제버튼 만들고 바인딩
+        deleteThumbnail () {
+            this.projectThumbnailFile = null;
+            this.projectThumbnailData = '';
+            this.projectThumbnailURL = '';
+            this.$refs.thumbnailUploader.reset();
+        }
+
+        // @TODO 삭제버튼 만들고 바인딩
+        deleteMedia (index: number) {
+            this.projectMediaFiles.splice(index, 1);
+            this.projectMediaThumbnails.splice(index, 1);
+            this.projectMediaURLs.splice(index, 1);
         }
 
         getData (): ProjectInfo {

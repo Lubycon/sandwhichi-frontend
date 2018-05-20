@@ -40,6 +40,9 @@ Vue.use(NaverAuth, {
 if (process.browser) {
     const VueAwesomeSwiper = require('vue-awesome-swiper/dist/ssr');
     Vue.use(VueAwesomeSwiper);
+
+    const VueToasted = require('vue-toasted');
+    Vue.use(VueToasted);
 }
 
 // Service init

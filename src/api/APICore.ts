@@ -94,10 +94,17 @@ export class APICore {
         return defer.promise;
     }
 
-    protected async post (api: string, data?: any) {
+    protected async post (api: string, data?: any, options?: any) {
         const defer = Q.defer();
+        const defaultOptions = {
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+        };
+        const finalOptions = Object.assign({}, defaultOptions, options);
+
         try {
-            const response = await this.axios.post(api, data);
+            const response = await this.axios.post(api, data, finalOptions);
             defer.resolve(response.data);
         }
         catch (e) {
@@ -114,14 +121,21 @@ export class APICore {
         return defer.promise;
     }
 
-    protected async put (api: string, data?: any) {
+    protected async put (api: string, data?: any, options?: any) {
         const defer = Q.defer();
+        const defaultOptions = {
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+        };
+        const finalOptions = Object.assign({}, defaultOptions, options);
+
         try {
-            const response = await this.axios.put(api, data);
+            const response = await this.axios.put(api, data, finalOptions);
             defer.resolve(response.data);
         }
         catch (e) {
-            console.error(`API POST Error => ${e.stack}`);
+            console.error(`API PUT Error => ${e.stack}`);
             try {
                 const errorHandler = await this.errorHandler(e);
                 defer.resolve(errorHandler.data);
@@ -141,7 +155,7 @@ export class APICore {
             defer.resolve(response.data);
         }
         catch (e) {
-            console.error(`API POST Error => ${e.stack}`);
+            console.error(`API DELETE Error => ${e.stack}`);
             try {
                 const errorHandler = await this.errorHandler(e);
                 defer.resolve(errorHandler.data);
