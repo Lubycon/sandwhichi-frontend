@@ -4,13 +4,14 @@
         :style="{ 'background-image': `url(${previewDataURL})` }"
         @click="onClick">
         <span v-show="!previewDataURL">+</span>
-        <input
+        <b-form-file
             v-show="false"
             type="file"
             ref="fileInput"
             accept="image/jpeg, image/png"
-            :plane="true"
-            @change="onChangeUploadedFile" />
+            :plain="true"
+            @change="onChangeUploadedFile">
+        </b-form-file>
     </div>
 </template>
 
@@ -48,6 +49,9 @@
         name: 'ImageUploader',
     })
     class ImageUploader extends Vue {
+        $refs: {
+            fileInput: any;
+        };
         previewDataURL: string;
 
         constructor () {
@@ -62,7 +66,11 @@
         preview: boolean;
 
         onClick () {
-            $(this.$refs.fileInput).trigger('click');
+            $(this.$refs.fileInput.$el).trigger('click');
+        }
+
+        reset () {
+            return this.$refs.fileInput.reset();
         }
 
         async onChangeUploadedFile (e) {
@@ -89,7 +97,7 @@
             catch (e) {
                 console.error(e);
             }
-            
+
             this.$emit('input', result);
             this.$emit('change', result);
         }
