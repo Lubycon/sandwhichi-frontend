@@ -6,7 +6,7 @@
             cols="5"
             data-name="project-thumbnail">
             <b-form-group
-                label="프로젝트 썸네일"
+                label="프로젝트 썸네일*"
                 :state="!errors.has('thumbnail')">
                 <image-uploader
                     ref="thumbnailUploader"
@@ -22,7 +22,7 @@
             cols="12"
             data-name="project-title">
             <b-form-group
-                label="프로젝트 이름"
+                label="프로젝트 이름*"
                 :state="!errors.has('title')">
                 <b-form-input
                     type="text"
@@ -37,7 +37,7 @@
             cols="12"
             data-name="project-description">
             <b-form-group
-                label="프로젝트 내용"
+                label="프로젝트 내용*"
                 :state="!errors.has('descriptions')">
                 <question-answer-formset ref="qaFormSet"></question-answer-formset>
                 <b-form-invalid-feedback>{{ errors.has('descriptions') }}</b-form-invalid-feedback>
