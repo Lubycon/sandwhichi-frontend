@@ -24,7 +24,7 @@ type ProjectMedia = {
     url: string;
 };
 
-export type ProejctInfo = {
+export type ProjectInfo = {
     title: string;
     description: Answer[];
     profileImageUrl: string;

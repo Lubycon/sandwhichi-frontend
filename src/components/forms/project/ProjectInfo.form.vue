@@ -1,6 +1,6 @@
 <template>
     <b-form-row class="project-form" data-name="project-info">
-        <b-col cols="12" data-name="project-thumbnail">
+        <b-col cols="5" data-name="project-thumbnail">
             <b-form-group
                 label="프로젝트 썸네일"
                 :state="!errors.has('thumbnail')">
@@ -26,7 +26,7 @@
                 <b-form-invalid-feedback>{{ errors.first('title') }}</b-form-invalid-feedback>
             </b-form-group>
         </b-col>
-        <b-col cols="12">
+        <b-col cols="12" data-name="project-description">
             <b-form-group
                 label="프로젝트 내용"
                 :state="!errors.has('descriptions')">
@@ -34,12 +34,31 @@
                 <b-form-invalid-feedback>{{ errors.has('descriptions') }}</b-form-invalid-feedback>
             </b-form-group>
         </b-col>
-        <b-col cols="12">
+        <b-col cols="12" data-name="project-media">
             <b-form-group label="프로젝트 미디어">
-                <image-uploader
-                    :base64="true"
-                    @change="onChangeMedia">
-                </image-uploader>
+                <b-row tag="ul" :no-gutters="true">
+                    <b-col
+                        cols="4"
+                        tag="li"
+                        data-name="media-uploader">
+                        <image-uploader
+                            ref="mediaUploader"
+                            :base64="true"
+                            @change="onChangeMedia">
+                        </image-uploader>
+                    </b-col>
+                    <b-col
+                        v-for="(media, index) in projectMediaThumbnails"
+                        :key="index"
+                        cols="4"
+                        tag="li"
+                        data-name="media-data">
+                        <div
+                            data-name="media-thumbnail"
+                            :style="{ 'background-image': `url(${media})` }">
+                        </div>
+                    </b-col>
+                </b-row>
             </b-form-group>
         </b-col>
         <b-col cols="12">
@@ -55,8 +74,29 @@
     </b-form-row>
 </template>
 <style lang="scss" scoped>
+    @import 'src/styles/utils/__module__';
     div[data-name="project-thumbnail"] {
         width: 125px;
+    }
+    div[data-name="project-media"] {
+        $gutter: 0.5rem;
+        ul {
+            margin: {
+                right: -$gutter;
+                left: -$gutter;
+                bottom: 0;
+            }
+            li {
+                padding: {
+                    left: $gutter;
+                    right: $gutter;
+                }
+                & > div {
+                    @include backgroundCover;
+                    height: 100%;
+                }
+            }
+        }
     }
 </style>
 <script lang="ts">
@@ -67,6 +107,7 @@
      */
     import { Vue, Component } from 'vue-property-decorator';
     import { FormComponent } from '@/interfaces/Form.interface';
+    import { ProjectInfo } from '@/interfaces/Project.interface';
     import Validate from '@/helpers/Validate';
     import ImageUploader from '@/components/utils/ImageUploader.vue';
     import QuestionAnswerFormset from '@/components/forms/QuestionAnswer.formset.vue';
@@ -81,10 +122,18 @@
     class ProjectInfoForm extends Vue implements FormComponent {
         $refs: {
             qaFormSet: any;
+            mediaUploader: any;
         };
         projectThumbnailFile: File;
         projectThumbnailData: string;
+        projectThumbnailURL: string;
+
         projectTitle: string;
+
+        projectMediaFiles: File[];
+        projectMediaThumbnails: string[];
+        projectMediaURLs: string[];
+
         videoLinkUrl: string;
         regex: any;
 
@@ -93,6 +142,8 @@
             this.projectThumbnailFile = null;
             this.projectThumbnailData = '';
             this.projectTitle = '';
+            this.projectMediaFiles = [];
+            this.projectMediaThumbnails = [];
             this.videoLinkUrl = '';
 
             this.regex = {
@@ -106,7 +157,20 @@
         }
 
         onChangeMedia (res: any): void {
-            console.log('media -> ', res);
+            this.projectMediaFiles.push(res.file);
+            this.projectMediaThumbnails.push(res.dataURL);
+            this.$refs.mediaUploader.reset();
+        }
+
+        getData (): ProjectInfo {
+            const data: ProjectInfo = {
+                title: this.projectTitle,
+                description: [],
+                profileImageUrl: '',
+                media: [],
+            };
+
+            return data;
         }
 
         async validate (): Promise<boolean> {
