@@ -2,18 +2,26 @@
 <b-form-row class="project-form" data-name="project-region">
     <b-col cols="12">
         <b-form-group
-            label="지역 1">
+            label="지역 1"
+            :state="!errors.has('region1')">
             <b-form-select
                 v-model="region1"
+                name="region1"
+                v-validate="'required'"
                 :options="regionOptions">
             </b-form-select>
+            <b-form-invalid-feedback>{{ errors.first('region1') }}</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
-            label="지역 2">
+            label="지역 2"
+            :state="!errors.has('region2')">
             <b-form-select
                 v-model="region2"
+                name="region2"
+                v-validate="'required'"
                 :options="regionOptions">
             </b-form-select>
+            <b-form-invalid-feedback>{{ errors.first('region2') }}</b-form-invalid-feedback>
         </b-form-group>
     </b-col>
 </b-form-row>
@@ -44,9 +52,16 @@
             this.region2 = '';
         }
 
-        validate (): void {}
-    }
+        async validate (): Promise<boolean> {
+            const regionValidate1 = await this.$validator.validate('region1', this.region1);
+            const regionValidate2 = await this.$validator.validate('region2', this.region2);
+            const result = regionValidate1 && regionValidate2;
 
+            this.$emit('validate', result);
+            return result;
+        }
+    }
+/**/
     export default ProjectRegionForm;
 </script>
 <style lang="scss" scoped>
