@@ -42,8 +42,11 @@
      */
 
     import { Vue, Component, Prop } from 'vue-property-decorator';
-    import $ from 'jquery';
     import Q from 'q';
+    let $ = null;
+    if (process.browser) {
+        $ = require('jquery');
+    }
 
     @Component({
         name: 'ImageUploader',
