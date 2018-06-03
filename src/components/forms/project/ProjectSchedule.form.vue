@@ -113,9 +113,16 @@
         },
     })
     class ProjectScheduleForm extends Vue implements FormComponent {
-        startDate: Moment = moment();
-        finishDate: Moment = moment();
-        selectedCategory: string = '';
+        startDate: string;
+        finishDate: string;
+        selectedCategory: string;
+
+        constructor () {
+            super();
+            this.startDate = moment().format('YYYY-MM-DD');
+            this.finishDate = moment().format('YYYY-MM-DD');
+            this.selectedCategory = '';
+        }
         projectCategory: IprojectCategoryOption[] = [
             { value: 1, text: '어떤 주제를 다루는 프로젝트 인가요?' },
             { value: 2, text: '어떤 사람들이 필요한지 궁금해요?' },
@@ -124,18 +131,18 @@
         ];
 
         get periodOfProject (): string {
-            const startDate: Moment = this.startDate;
-            const finishDate: Moment = this.finishDate;
-            const periodDifference: number = finishDate.diff(startDate, 'day') + 1;
+            const startDateToMoment: Moment = moment(this.startDate, 'YYYY-MM-DD');
+            const finishDateToMoment: Moment = moment(this.finishDate, 'YYYY-MM-DD');
+            const periodDifference: number = finishDateToMoment.diff(startDateToMoment, 'day') + 1;
 
             return `${periodDifference} 일의 여정`;
         }
 
-        updateStartDate (startDate: Moment): void {
+        updateStartDate (startDate: string): void {
             this.startDate = startDate;
         }
 
-        updateFinishDate (finishDate: Moment): void {
+        updateFinishDate (finishDate: string): void {
             this.finishDate = finishDate;
         }
 

@@ -1,8 +1,10 @@
 <template>
     <div>
-        <!--<vue-datepicker-local v-model="localDate"-->
-                              <!--:local="local"></vue-datepicker-local>-->
-        테스트
+        <input
+            type="text"
+            class="form-control"
+            v-model="localDate"
+            ref="datepicker"/>
     </div>
 </template>
 
@@ -25,43 +27,42 @@
      * @extends Vue
      */
 
-    import moment, { Moment } from 'moment';
-    // import VueDatepickerLocal from 'vue-datepicker-local';
+    import moment from 'moment';
     import { Vue, Component, Prop } from 'vue-property-decorator';
-    // import { VuePicker } from 'vuejs-datepicker';
-
-    interface IdatePickerConfig {
-        dow: number,
-        monthsHead: Array<string>,
-        months: Array<string>,
-        weeks: Array<string>,
+    const $ = process.browser ? require('jquery') : null;
+    if (process.browser) {
+        require('bootstrap-datepicker');
     }
 
     @Component({
         name: 'DatePicker',
-        components: {
-            // VueDatepickerLocal,
-        },
     })
     class DatePicker extends Vue {
-        @Prop() date: Moment;
+        @Prop() date: string;
+        localDate: string;
 
-        get localDate (): string {
-            return this.date.format('YYYY-MM-DD');
+        constructor () {
+            super();
+            this.localDate = this.date;
         }
 
-        set localDate (selectedDate) {
-            this.$emit('updateDate', moment(selectedDate));
+        mounted () {
+            this.initialize();
         }
 
-        local: IdatePickerConfig = {
-            dow: 0,
-            monthsHead: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
-            months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
-            weeks: '일_월_화_수_목_금_토'.split('_'),
+        initialize (): void {
+            $(this.$refs.datepicker)
+                .datepicker({
+                    format: 'yyyy-mm-dd',
+                    autoclose: true,
+                })
+                .on('changeDate', this.changeDate);
+        }
+
+        changeDate (e): void {
+            this.$emit('updateDate', moment(e.date).format('YYYY-MM-DD'));
         }
     }
 
     export default DatePicker;
 </script>
-
