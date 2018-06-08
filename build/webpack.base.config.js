@@ -23,6 +23,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '../dist'),
         publicPath: '/dist/',
+        chunkFilename: 'chunks/[name].[chunkhash].js',
         filename: 'client-bundle.[chunkhash].js'
     },
     module: {
