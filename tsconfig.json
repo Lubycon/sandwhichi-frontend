@@ -1,32 +1,32 @@
 {
-    "baseUrl": "src",
-    "paths": {
-        "*": ["*"],
-        "@": ["src"],
-        "assets": ["src/assets"],
-        "components": ["src/components"],
-        "stores": ["src/stores"]
-    },
-    "compilerOptions": {
-        "module": "esnext",
-        "moduleResolution": "node",
-        "types": [
-            "vue-typescript-import-dts",
-            "node"
-        ],
-        "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
-        "allowJs": true,
-        "lib": [ "dom", "es5", "es2015.promise" ],
-        "target": "es5"
-    },
-    "include": [
-        "src/**/*.ts"
-    ],
-    "compileOnSave": false,
-    "files": [
-        "./src/typings/node.d.ts",
-        "./src/typings/mocha.d.ts",
-        "./src/typings/object.d.ts"
-    ]
+	"compilerOptions": {
+		"baseUrl": "src",
+		"paths": {
+			"*": ["*"],
+			"@/*": ["./*"],
+			"assets/*": ["./assets/*"],
+			"components/*": ["./components/*"],
+			"stores/*": ["./stores/*"]
+		},
+		"module": "es2015",
+		"moduleResolution": "node",
+		"types": [
+			"vue-typescript-import-dts",
+			"node"
+		],
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"allowJs": true,
+		"lib": [ "dom", "es5", "es2015.promise" ],
+		"target": "es5"
+	},
+	"include": [
+		"src/**/*.ts"
+	],
+	"compileOnSave": false,
+	"files": [
+		"./src/typings/node.d.ts",
+		"./src/typings/mocha.d.ts",
+		"./src/typings/object.d.ts"
+	]
 }
