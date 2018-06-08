@@ -8,7 +8,7 @@
 			"components/*": ["./components/*"],
 			"stores/*": ["./stores/*"]
 		},
-		"module": "es2015",
+		"module": "esnext",
 		"moduleResolution": "node",
 		"types": [
 			"vue-typescript-import-dts",
