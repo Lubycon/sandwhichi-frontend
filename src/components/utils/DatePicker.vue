@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div data-name="date-picker">
+        <i class="far fa-calendar-alt"></i>
         <input
             type="text"
             class="form-control"
@@ -9,14 +10,15 @@
 </template>
 
 <style lang="scss" scoped>
-    .progress-bar{
-        height: 6px;
-        background-color: #f5f5f5;
-        div{
-            overflow: hidden;
-            height: 100%;
-            background-color: #52bad5;
-            text-indent: -10000em;
+    div[data-name="date-picker"] {
+        position: relative;
+        i {
+            position: absolute;
+            left: 2px;
+            top: 8px;
+        }
+        input[type="text"] {
+            padding-left: 20px;
         }
     }
 </style>
