@@ -7,4 +7,9 @@
             color: $white;
         }
     }
+    &.btn-secondary-outline {
+        background-color: #ffffff;
+        border: solid 1px #cccccc;
+        color: #373a3c;
+    }
 }
