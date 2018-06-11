@@ -27,6 +27,11 @@
             ref="projectForm3"
             class="col-12">
         </project-meeting-form>
+        <project-open-chat-form
+            v-show="pageIndex === 4"
+            ref="projectForm4"
+            class="col-12">
+        </project-open-chat-form>
     </b-row>
     <b-row tag="footer" data-name="control-panel">
         <b-col v-show="pageIndex > 0">
@@ -100,6 +105,7 @@
     import ProjectRegionForm from '@/components/forms/project/ProjectRegion.form.vue';
     import ProjectScheduleForm from '@/components/forms/project/ProjectSchedule.form.vue';
     import ProjectMeetingForm from '@/components/forms/project/ProjectMeeting.form.vue';
+    import ProjectOpenChatForm from '@/components/forms/project/ProjectOpenChat.form.vue';
     import { Project } from '@/interfaces/Project.interface';
 
     @Component({
@@ -108,8 +114,9 @@
             ProgressBar,
             ProjectInfoForm,
             ProjectRegionForm,
-            ProjectScheduleForm,
             ProjectMeetingForm,
+            ProjectScheduleForm,
+            ProjectOpenChatForm,
         },
     })
     class ProjectRegistFormset extends Vue {
