@@ -32,8 +32,13 @@
             ref="projectForm4"
             class="col-12">
         </project-open-chat-form>
+        <project-complete-form
+            v-show="pageIndex === 5"
+            ref="projectForm5"
+            class="col-12">
+        </project-complete-form>
     </b-row>
-    <b-row tag="footer" data-name="control-panel">
+    <b-row tag="footer" data-name="control-panel" v-if="pageIndex !== 5">
         <b-col v-show="pageIndex > 0">
             <b-button
                 data-name="prev-button"
@@ -106,6 +111,7 @@
     import ProjectScheduleForm from '@/components/forms/project/ProjectSchedule.form.vue';
     import ProjectMeetingForm from '@/components/forms/project/ProjectMeeting.form.vue';
     import ProjectOpenChatForm from '@/components/forms/project/ProjectOpenChat.form.vue';
+    import ProjectCompleteForm from '@/components/forms/project/ProjectComplete.form.vue';
     import { Project } from '@/interfaces/Project.interface';
 
     @Component({
@@ -117,6 +123,7 @@
             ProjectMeetingForm,
             ProjectScheduleForm,
             ProjectOpenChatForm,
+            ProjectCompleteForm,
         },
     })
     class ProjectRegistFormset extends Vue {
@@ -126,8 +133,9 @@
             projectForm2: any;
             projectForm3: any;
             projectForm4: any;
+            projectForm5: any;
         };
-        pageIndex: number = 0;
+        pageIndex: number = 1;
         maxPageIndex: number = 5;
         project: Project;
 
