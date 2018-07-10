@@ -38,7 +38,7 @@ function getEnv (env: string): ENV_CONFIG {
         gaId = 'UA-112072597-1';
     }
     else if (env === 'local' || env === 'test') {
-        apiBaseUrl = 'http://local.api.sandwhichi.com/v1';
+        apiBaseUrl = 'http://local.sandwhichi.com:8081';
         imageUploadLambda = 'https://igo4lrrvwe.execute-api.ap-northeast-2.amazonaws.com/dev/images/';
         s3BaseUrl = 'https://s3.ap-northeast-2.amazonaws.com/dev.sandwhichi';
         googleClientId = '910544055896-tiucajkqq3pt6l38v7kge5h6q20cs3ai.apps.googleusercontent.com';
