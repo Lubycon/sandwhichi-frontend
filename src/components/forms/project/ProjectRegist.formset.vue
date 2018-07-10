@@ -15,11 +15,13 @@
         <project-region-form
             v-show="pageIndex === 1"
             ref="projectForm1"
+            @setData="setLocationData"
             class="col-12">
         </project-region-form>
         <project-schedule-form
             v-show="pageIndex === 2"
             ref="projectForm2"
+            @setData="setScheduleData"
             class="col-12">
         </project-schedule-form>
         <project-meeting-form
@@ -128,15 +130,18 @@
     })
     class ProjectRegistFormset extends Vue {
         $refs: {
-            projectForm0: any;
-            projectForm1: any;
-            projectForm2: any;
+            projectForm0: ProjectInfoForm;
+            projectForm1: ProjectRegionForm;
+            projectForm2: ProjectScheduleForm;
             projectForm3: any;
             projectForm4: any;
             projectForm5: any;
         };
         pageIndex: number = 1;
         maxPageIndex: number = 5;
+        locationCode: string = '';
+        startAt: string = '';
+        endsAt: string = '';
         project: Project;
 
         async nextStep (): Promise<number> {
@@ -145,6 +150,7 @@
             const validation = await this.$refs[`projectForm${pageIndex}`].validate();
 
             if (validation) {
+                this.$refs[`projectForm${pageIndex}`].setData();
                 if (pageIndex < maxPageIndex) {
                     pageIndex++;
                     this.$set(this, 'pageIndex', pageIndex);
@@ -152,6 +158,15 @@
             }
 
             return this.pageIndex;
+        }
+
+        setLocationData (code: string): void {
+            this.locationCode = code;
+        }
+
+        setScheduleData (payload: { startAt: string, endsAt: string}): void {
+            this.startAt = payload.startAt;
+            this.endsAt = payload.endsAt;
         }
 
         prevStep (): number {

@@ -78,6 +78,11 @@
         updateFinishDate (finishDate: string): void {
             this.finishDate = finishDate;
         }
+        setData (): void {
+            const startAt = this.startDate;
+            const endsAt = this.finishDate;
+            this.$emit('setData', { startAt, endsAt });
+        }
 
         validate (): boolean {
             const isInvalidPeriod = this.periodOfProject < 0;

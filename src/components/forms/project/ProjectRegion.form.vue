@@ -36,39 +36,49 @@
     import { Vue, Component, Watch } from 'vue-property-decorator';
     import { FormComponent } from '@/interfaces/Form.interface';
     import APIAddress from '@/api/APIAddress';
+    // import { IHTTPResponse } from '@/interfaces/utils/HTTP.interface';
+    import { IAddressCode } from '@/interfaces/utils/Address.interface';
 
     @Component({
         name: 'ProjectRegionForm',
     })
     class ProjectRegionForm extends Vue implements FormComponent {
-        province: string;
         city: string;
-        provinceOptions: Object[];
         cityOptions: Object[];
+        province: string;
+        provinceOptions: Object[];
 
         constructor () {
             super();
-            this.province = '';
             this.city = '';
-            this.provinceOptions = [];
             this.cityOptions = [];
+            this.province = '';
+            this.provinceOptions = [];
         }
         @Watch('province')
         fetchCity (value: string) {
-            APIAddress.fetchAddress(value)
-                .then(res => {
-                    for (let i = 0; i < res.result.length; i++) {
-                        this.cityOptions.push({ text: res.result[i], value: res.result[i] });
+            APIAddress.fetchProvinceAddress(value)
+                // .then((res:IHTTPResponse<IAddressCode[]>) => {
+                .then((res:IAddressCode[]) => {
+                    this.cityOptions.push({ text: '지역2를 선택해주세요.', value: '' });
+                    for (let i = 0; i < res.length; i++) {
+                        this.cityOptions.push({ text: res[i].address, value: res[i].code });
                     }
                 });
         }
+
         created () {
-            APIAddress.fetchAddress()
-                .then(res => {
-                    for (let i = 0; i < res.result.length; i++) {
-                        this.provinceOptions.push({ text: res.result[i], value: res.result[i] });
+            APIAddress.fetchCityAddress()
+                // .then((res:IHTTPResponse<IAddressCode[]>) => {
+                .then((res:IAddressCode[]) => {
+                    this.provinceOptions.push({ text: '지역1를 선택해주세요.', value: '' });
+                    for (let i = 0; i < res.length; i++) {
+                        this.provinceOptions.push({ text: res[i].address, value: res[i].code });
                     }
                 });
+        }
+        setData (): void {
+            this.$emit('setData', this.province);
         }
 
         async validate (): Promise<boolean> {
@@ -80,7 +90,7 @@
             return result;
         }
     }
-/**/
+
     export default ProjectRegionForm;
 </script>
 <style lang="scss" scoped>

@@ -217,6 +217,11 @@
             return data;
         }
 
+        liftData (): void {
+            const projectTitle = this.projectTitle;
+            this.$emit('liftData', { projectTitle });
+        }
+
         async validate (): Promise<boolean> {
             const thumbnailValidation = await this.$validator.validate('thumbnail', this.projectThumbnailFile);
             const titleValidation = await this.$validator.validate('title', this.projectTitle);
