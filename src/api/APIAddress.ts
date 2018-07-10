@@ -4,7 +4,10 @@
  */
 
 import { APICore } from '@/api/APICore';
+
 import { API_BASE_URL } from '@/constants/env.constant';
+import { IHTTPResponse } from '@/interfaces/utils/HTTP.interface';
+import { IAddressCode } from '@/interfaces/utils/Address.interface';
 
 class APIAddress extends APICore {
     constructor () {
@@ -13,8 +16,18 @@ class APIAddress extends APICore {
         })
     }
 
-    public fetchAddress (cityCode: string = ''): Promise<any> {
-        const endpoint: string = `/locations/${cityCode}`;
+    public fetchCityAddress (): Promise<IAddressCode[]> {
+        const endpoint: string = `/locations/`;
+        return this.get(endpoint);
+    }
+
+    public fetchProvinceAddress (cityCode: string): Promise<IAddressCode[]> {
+        const endpoint: string = `/locations/${cityCode}/`;
+        return this.get(endpoint);
+    }
+
+    public fetchDistrictAddress (cityCode: string, provinceCode: string): Promise<IAddressCode[]> {
+        const endpoint: string = `/locations/${cityCode}/${provinceCode}/`;
         return this.get(endpoint);
     }
 }
