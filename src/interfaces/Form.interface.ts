@@ -24,6 +24,7 @@ export type Answer = {
 };
 
 export type Question = {
+    value: number;
     text: string;
 }
 

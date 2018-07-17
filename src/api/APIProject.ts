@@ -27,6 +27,26 @@ class APIProject extends APICore {
         const endpoint: string = `/abilities/${ability}`;
         return this.post(endpoint);
     }
+
+    public fetchQuestionSet (): Promise<any> {
+        const endpoint: string = `/projects/questions/`;
+        return this.get(endpoint)
+            .then(res => {
+                if (res) {
+                    const questions = res.reduce((questions, question) => {
+                        questions.push({
+                            value: question.id,
+                            text: question.content
+                        });
+                        return questions;
+                    }, new Array());
+                    return Promise.resolve(questions);
+                } else {
+                    return Promise.reject(res.message);
+                }
+            });
+    }
+
 }
 
 const instance = new APIProject();

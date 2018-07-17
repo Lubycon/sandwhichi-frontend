@@ -2,14 +2,9 @@
     <div class="question-answer-form">
         <b-form-select
             v-model="selectedQuestion"
+            :options="questions"
             data-name="form-unit"
             :state="!errors.has('answer')">
-            <option
-                v-for="(question, index) in questions"
-                :key="index"
-                :value="question">
-                {{ question.text }}
-            </option>
         </b-form-select>
         <b-form-textarea
             v-model="answerString"
@@ -42,7 +37,6 @@
     import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
     import {
         Question,
-        Answer,
         FormComponent
     } from '@/interfaces/Form.interface';
 
@@ -50,14 +44,14 @@
         name: 'QuestionAnswerForm',
     })
     class QuestionAnswerForm extends Vue implements FormComponent {
-        selectedQuestion: Question;
+        selectedQuestion: number;
         questionString: string;
         answerString: string;
 
         constructor () {
             super();
 
-            this.selectedQuestion = this.questions[0];
+            this.selectedQuestion = 1;
             this.questionString = '';
             this.answerString = '';
         }
@@ -66,23 +60,20 @@
         questions: Question[];
 
         get placeholder (): string {
-            if (this.selectedQuestion) {
-                return this.selectedQuestion.text;
-            }
-            else {
-                return '자유롭게 설명해주세요';
-            }
-        }
+            const selectedIndex = this.questions.findIndex(v => v.value === this.selectedQuestion);
 
-        get answer (): Answer {
-            const question = this.selectedQuestion.text;
-            const answer = {
-                question,
-                answer: this.answerString,
-            };
-
-            return answer;
+            return selectedIndex > -1 ? this.questions[selectedIndex].text : '';
         }
+        //
+        // get answer (): Answer {
+        //     const question = this.selectedQuestion.text;
+        //     const answer = {
+        //         question,
+        //         answer: this.answerString,
+        //     };
+        //
+        //     return answer;
+        // }
 
         @Watch('answer')
         async onChangeAnswer (answer) {

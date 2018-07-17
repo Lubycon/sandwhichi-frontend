@@ -55,6 +55,9 @@
      */
     import { Vue, Component } from 'vue-property-decorator';
     import Q from 'q';
+
+    import APIProject from '@/api/APIProject';
+
     import {
         Question,
         Answer,
@@ -78,13 +81,14 @@
             this.maxAnswerCount = 4;
             this.answerCount = 1;
             this.answers = [];
-            this.questions = [{
-                text: '어떤 주제를 다루는 프로젝트 인가요?',
-            }, {
-                text: '어떤 사람들이 필요한지 궁금해요',
-            }, {
-                text: '이 프로젝트를 한마디로 표현한다면?',
-            }];
+            this.questions = [];
+        }
+
+        mounted () {
+            APIProject.fetchQuestionSet()
+                .then(questions => {
+                    this.questions = questions;
+                });
         }
 
         addAnswer (): void {
