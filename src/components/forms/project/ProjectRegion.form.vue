@@ -3,18 +3,6 @@
     <b-col cols="12">
         <b-form-group
             label="지역 1"
-            :state="!errors.has('province')">
-            <b-form-select
-                v-model="province"
-                name="province"
-                v-validate="'required'"
-                :options="provinceOptions">
-            </b-form-select>
-            <b-form-invalid-feedback>{{ errors.first('province') }}</b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group
-            v-show="province"
-            label="지역 2"
             :state="!errors.has('city')">
             <b-form-select
                 v-model="city"
@@ -23,6 +11,18 @@
                 :options="cityOptions">
             </b-form-select>
             <b-form-invalid-feedback>{{ errors.first('city') }}</b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group
+            v-show="city"
+            label="지역 2"
+            :state="!errors.has('province')">
+            <b-form-select
+                v-model="province"
+                name="province"
+                v-validate="'required'"
+                :options="provinceOptions">
+            </b-form-select>
+            <b-form-invalid-feedback>{{ errors.first('province') }}</b-form-invalid-feedback>
         </b-form-group>
     </b-col>
 </b-form-row>
@@ -53,25 +53,24 @@
             this.province = '';
             this.provinceOptions = [];
         }
-        @Watch('province')
+        @Watch('city')
         fetchCity (value: string) {
             APIAddress.fetchProvinceAddress(value)
                 .then(provinceAddress => {
-                    this.cityOptions = provinceAddress;
+                    this.provinceOptions = provinceAddress;
                 });
         }
 
         created () {
             APIAddress.fetchCityAddress()
                 .then(cityAddress => {
-                    this.provinceOptions = cityAddress;
+                    this.cityOptions = cityAddress;
                 });
         }
         setData (): void {
-            const cityAddress = this.city;
             const provinceAddress = this.province;
 
-            this.$emit('setData', { cityAddress, provinceAddress });
+            this.$emit('setData', provinceAddress);
         }
 
         async validate (): Promise<boolean> {

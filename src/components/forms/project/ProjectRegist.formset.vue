@@ -114,7 +114,6 @@
     import ProjectMeetingForm from '@/components/forms/project/ProjectMeeting.form.vue';
     import ProjectOpenChatForm from '@/components/forms/project/ProjectOpenChat.form.vue';
     import ProjectCompleteForm from '@/components/forms/project/ProjectComplete.form.vue';
-    import { Project } from '@/interfaces/Project.interface';
 
     @Component({
         name: 'ProjectRegistFormset',
@@ -137,12 +136,24 @@
             projectForm4: any;
             projectForm5: any;
         };
-        pageIndex: number = 1;
-        maxPageIndex: number = 5;
-        locationCode: string = '';
-        startAt: string = '';
-        endsAt: string = '';
-        project: Project;
+        questionSet: any;
+        pageIndex: number;
+        maxPageIndex: number;
+        locationCode: string;
+        startAt: string;
+        endsAt: string;
+        project: any;
+
+        constructor () {
+            super();
+            this.questionSet = '';
+            this.pageIndex = 1;
+            this.maxPageIndex = 5;
+            this.locationCode = '';
+            this.startAt = '';
+            this.endsAt = '';
+            this.project = null;
+        }
 
         async nextStep (): Promise<number> {
             const maxPageIndex = this.maxPageIndex;
