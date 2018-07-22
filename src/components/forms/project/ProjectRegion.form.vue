@@ -36,8 +36,6 @@
     import { Vue, Component, Watch } from 'vue-property-decorator';
     import { FormComponent } from '@/interfaces/Form.interface';
     import APIAddress from '@/api/APIAddress';
-    // import { IHTTPResponse } from '@/interfaces/utils/HTTP.interface';
-    import { IAddressCode } from '@/interfaces/utils/Address.interface';
 
     @Component({
         name: 'ProjectRegionForm',
@@ -58,27 +56,22 @@
         @Watch('province')
         fetchCity (value: string) {
             APIAddress.fetchProvinceAddress(value)
-                // .then((res:IHTTPResponse<IAddressCode[]>) => {
-                .then((res:IAddressCode[]) => {
-                    this.cityOptions.push({ text: '지역2를 선택해주세요.', value: '' });
-                    for (let i = 0; i < res.length; i++) {
-                        this.cityOptions.push({ text: res[i].address, value: res[i].code });
-                    }
+                .then(provinceAddress => {
+                    this.cityOptions = provinceAddress;
                 });
         }
 
         created () {
             APIAddress.fetchCityAddress()
-                // .then((res:IHTTPResponse<IAddressCode[]>) => {
-                .then((res:IAddressCode[]) => {
-                    this.provinceOptions.push({ text: '지역1를 선택해주세요.', value: '' });
-                    for (let i = 0; i < res.length; i++) {
-                        this.provinceOptions.push({ text: res[i].address, value: res[i].code });
-                    }
+                .then(cityAddress => {
+                    this.provinceOptions = cityAddress;
                 });
         }
         setData (): void {
-            this.$emit('setData', this.province);
+            const cityAddress = this.city;
+            const provinceAddress = this.province;
+
+            this.$emit('setData', { cityAddress, provinceAddress });
         }
 
         async validate (): Promise<boolean> {
