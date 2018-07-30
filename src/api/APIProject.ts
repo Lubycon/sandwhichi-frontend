@@ -5,7 +5,7 @@
 import { APICore } from '@/api/APICore';
 import { API_BASE_URL } from '@/constants/env.constant';
 import { Project } from '@/interfaces/Project.interface';
-import {ISelectbox} from "@/interfaces/utils/Selectbox.interface";
+import { ISelectbox } from "@/interfaces/utils/Selectbox.interface";
 
 class APIProject extends APICore {
     constructor () {
@@ -70,5 +70,4 @@ class APIProject extends APICore {
 
 }
 
-const instance = new APIProject();
-export default instance;
+export const apiProject = new APIProject();

@@ -106,7 +106,7 @@
      * @extends Vue
      */
     import { Vue, Component } from 'vue-property-decorator';
-    import APIProject from '@/api/APIProject';
+    import { apiProject } from '@/api/APIProject';
     import ProgressBar from '@/components/utils/ProgressBar.vue';
     import ProjectInfoForm from '@/components/forms/project/ProjectInfo.form.vue';
     import ProjectRegionForm from '@/components/forms/project/ProjectRegion.form.vue';
@@ -193,7 +193,7 @@
         async submit (): Promise<any> {
             try {
                 const data = this.project;
-                const response = await APIProject.createProject(data);
+                const response = await apiProject.createProject(data);
                 return response;
             }
             catch (e) {

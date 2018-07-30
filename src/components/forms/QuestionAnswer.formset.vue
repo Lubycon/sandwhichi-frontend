@@ -56,7 +56,7 @@
     import { Vue, Component } from 'vue-property-decorator';
     import Q from 'q';
 
-    import APIProject from '@/api/APIProject';
+    import { apiProject } from '@/api/APIProject';
 
     import {
         Question,
@@ -85,7 +85,7 @@
         }
 
         mounted () {
-            APIProject.fetchQuestionSet()
+            apiProject.fetchQuestionSet()
                 .then(questions => {
                     this.questions = questions;
                 });

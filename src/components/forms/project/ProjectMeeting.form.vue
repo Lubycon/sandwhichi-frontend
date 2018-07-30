@@ -54,7 +54,7 @@
     import { Vue, Component } from 'vue-property-decorator';
     import { FormComponent } from '@/interfaces/Form.interface';
     import DayCheckbox from '@/components/utils/DayCheckbox.vue';
-    import APIProject from '@/api/APIProject';
+    import { apiProject } from '@/api/APIProject';
     import {ISelectbox} from '@/interfaces/utils/Selectbox.interface';
     import timesetHelper from '@/helpers/TimeSet';
 
@@ -88,8 +88,8 @@
             this.setupOption = '';
             this.isAvailConsultation = false;
         }
-        created () {
-            APIProject.fetchRecurringtypes()
+        mounted () {
+            apiProject.fetchRecurringtypes()
                 .then(recurringTypes => {
                     this.setupOptions = recurringTypes;
                 });
