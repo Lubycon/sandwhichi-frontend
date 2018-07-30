@@ -38,7 +38,6 @@
     "axios": "^0.16.2",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.0.0-beta.2",
-    "bootstrap-datepicker": "^1.8.0",
     "bootstrap-vue": "^1.4.0",
     "cookie-parser": "^1.4.3",
     "cross-env": "^3.1.4",
@@ -62,12 +61,12 @@
     "vue-router": "^3.0.0",
     "vue-server-renderer": "^2.5.0",
     "vue-toasted": "^1.1.24",
+    "vue2-datepicker": "^2.0.4",
     "vuex": "^3.0.0",
     "vuex-class": "^0.3.0",
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "@types/bootstrap-datepicker": "0.0.13",
     "@types/jquery": "^3.3.2",
     "@types/lodash": "^4.14.109",
     "@types/node": "^8.5.1",
