@@ -18,16 +18,6 @@
                 </date-picker>
             </b-form-group>
             <!--// 프로젝트 종료 폼 -->
-
-            <!-- 프로젝트 여정 기간-->
-            <b-form-group label="프로젝트 종료일">
-                <b-form-input
-                    type="text"
-                    :value="periodOfProject + '일의 여정'"
-                    name="projectName"
-                    readonly="readonly">
-                </b-form-input>
-            </b-form-group>
         </b-form>
     </div>
 </template>
