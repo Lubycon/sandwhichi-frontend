@@ -1,24 +1,53 @@
 <template>
-    <div class="progress-bar">
-        <div
-            data-name="progress-value"
-            :style="{ 'width': progressWidth }">
-            {{ progressWidth }} 작성되었습니다.
-        </div>
+    <div data-name="progress-bar">
+        <ul>
+            <li :class="{ 'is-active': addclass(0) }">1</li>
+            <li :class="{ 'is-active': addclass(1) }">2</li>
+            <li :class="{ 'is-active': addclass(2) }">3</li>
+            <li :class="{ 'is-active': addclass(3) }">4</li>
+        </ul>
     </div>
 </template>
 
 <style lang="scss" scoped>
-    .progress-bar{
+    div[data-name="progress-bar"]{
         width: 100%;
-        height: 6px;
-        background-color: #f5f5f5;
-        div[data-name="progress-value"] {
-            overflow: hidden;
-            height: 100%;
-            background-color: #52bad5;
-            text-indent: -10000em;
-            transition: width 0.2s ease-in-out;
+        padding-top: 16px;
+        ul {
+            display: flex;
+            justify-content: center;
+            li {
+                box-sizing: border-box;
+                position: relative;
+                width: 32px;
+                height: 32px;
+                margin-right: 40px;
+                padding-top: 5px;
+                border-radius: 20px;
+                background-color: #f5f5f5;
+                text-align: center;
+                color: #cccccc;
+                &.is-active {
+                    background-color: #52bad5;
+                    color: #fff;
+                    &:not(:first-child):before {
+                        background-color: #52bad5;
+                    }
+                }
+                &:not(:first-child):before {
+                    content: '';
+                    position: absolute;
+                    left: -50%;
+                    top: 50%;
+                    width: 24px;
+                    height: 2px;
+                    margin: -1px 0 0 -16px;
+                    background-color: #ccc;
+                }
+                &:last-child{
+                    margin-right: 0;
+                }
+            }
         }
     }
 </style>
@@ -35,18 +64,18 @@
         name: 'ProgressBar',
     })
     class ProgressBar extends Vue {
+        @Prop({ default: 1 })
+        grade: number;
         @Prop({ default: 100 })
         max: number;
 
         @Prop({ default: 0 })
         value: number;
 
-        get progressWidth (): string {
-            const max = this.max;
-            const value = this.value;
-            const result = (value / max) * 100;
-            return `${result.toFixed(0)}%`;
+        addclass (grade: number): boolean {
+            return grade <= this.grade;
         }
+
     }
     export default ProgressBar;
 </script>

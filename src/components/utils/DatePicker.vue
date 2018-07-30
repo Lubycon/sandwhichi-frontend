@@ -1,7 +1,9 @@
 <template>
     <div data-name="date-picker">
         <no-ssr>
-            <vue-datepicker :lang="lang"></vue-datepicker>
+            <vue-datepicker v-model="date"
+                            :lang="lang"
+                            :not-before="notBefore"></vue-datepicker>
         </no-ssr>
     </div>
 </template>
@@ -28,7 +30,7 @@
 
     import moment from 'moment';
     import NoSsr from 'vue-no-ssr';
-    import { Vue, Component, Prop } from 'vue-property-decorator';
+    import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 
     @Component({
         name: 'DatePicker',
@@ -38,13 +40,14 @@
         },
     })
     class DatePicker extends Vue {
-        @Prop() date: string;
-        localDate: string;
+        @Prop({ default: moment().format() }) value: string;
+        @Prop() notBefore: Date;
+        date: Date;
         lang: any;
 
         constructor () {
             super();
-            this.localDate = this.date;
+            this.date = moment(this.value, 'YYYY-MM-DD').toDate();
             this.lang = {
                 days: ['일', '월', '화', '수', '목', '금', '토'],
                 months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -52,15 +55,9 @@
             };
         }
 
-        mounted () {
-            this.initialize();
-        }
-
-        initialize (): void {
-        }
-
-        changeDate (e): void {
-            this.$emit('updateDate', moment(e.date).format('YYYY-MM-DD'));
+        @Watch('date')
+        updateDate (value: Date) {
+            this.$emit('input', moment(value).format('YYYY-MM-DD'));
         }
     }
 
