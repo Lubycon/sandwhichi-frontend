@@ -55,7 +55,7 @@ class APIAuth extends APICore {
     }
 
     public sendPasswordMail (email: string): Promise<any> {
-        const endpoint = '/members/password/mail';
+        const endpoint = '/mail/password/change/';
         return this.post(endpoint, { email });
     }
 
@@ -64,9 +64,9 @@ class APIAuth extends APICore {
         return this.post(endpoint, data);
     }
 
-    public checkPasswordCertCode (code: string): Promise<any> {
-        const endpoint = '/certs/password/code';
-        return this.post(endpoint, { code });
+    public checkPasswordCertCode (email: string, token: string): Promise<any> {
+        const endpoint = '/auth/token/verify/password/change/email/';
+        return this.post(endpoint, { email, token });
     }
 
     public createPasswordToken () {
