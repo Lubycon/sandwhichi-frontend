@@ -24,7 +24,7 @@ class AuthPasswordLanding extends Vue {
     async created () {
         try {
             const certCodeResponse = await APIAuth.checkPasswordCertCode(this.code);
-            if (certCodeResponse.result.validity) {
+            if (certCodeResponse.results.validity) {
                 this.$router.push({
                     name: 'user-setting-password',
                     params: { code: this.code },

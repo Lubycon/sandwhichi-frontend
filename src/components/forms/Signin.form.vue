@@ -27,20 +27,6 @@
                 <span v-show="!isBusyIsValidaEmail">다음</span>
                 <i v-show="isBusyIsValidaEmail" class="fas fa-spin fa-circle-notch"></i>
             </b-button>
-            <b-button
-                type="button"
-                variant="naver"
-                data-sns="naver"
-                @click="authNaver">
-                네이버 계정으로 계속하기
-            </b-button>
-            <b-button
-                type="button"
-                variant="google"
-                data-sns="google"
-                @click="authGoogle">
-                구글 계정으로 계속하기
-            </b-button>
             <div class="signup-field">
                 <p>아직 회원이 아니신가요?</p>
                 <router-link :to="{ name: 'signup' }">회원가입</router-link>
@@ -301,8 +287,7 @@ class SigninForm extends Vue {
             };
             const signinResponse = await APIAuth.signin(data);
             this.$emit('submit', {
-                accessToken: signinResponse.result.access_token,
-                refreshToken: signinResponse.result.refresh_token,
+                accessToken: signinResponse.results.auth_token,
             });
             return signinResponse;
         }
@@ -320,48 +305,13 @@ class SigninForm extends Vue {
     }
 
     /**
-     * @method authGoogle
-     * @desc 구글 계정을 사용한 인증을 진행한다
-     */
-    async authGoogle () {
-        try {
-            const googleSigninResponse = await this.$googleAuth.signin();
-            const token = googleSigninResponse.token;
-            this.setGoogleToken(token);
-            const signinResponse = await APIAuth.signinGoogle(token);
-            this.$emit('submitted', {
-                accessToken: signinResponse.result.access_token,
-                refreshToken: signinResponse.result.refresh_token,
-            });
-            return signinResponse;
-        }
-        catch (e) {
-            if (e.status === 401) {
-                const googleUser = this.$googleAuth.getMyInfo();
-                this.$router.push({
-                    name: 'signup',
-                    query: {
-                        email: googleUser.email,
-                        name: googleUser.name,
-                        lastName: googleUser.familyName,
-                        social: 'google',
-                    },
-                });
-            }
-            else {
-                alert('구글 계정 정보를 받아오는 데 실패했습니다.');
-                return;
-            }
-        }
-    }
-
-    /**
      * @method authNaver
      * @desc 네이버 계정을 사용한 인증을 진행한다
+     * @not_supported
      */
-    authNaver () {
-        this.$naverAuth.signin('/auth/naver');
-    }
+    // authNaver () {
+    //     this.$naverAuth.signin('/auth/naver');
+    // }
 
     /**
      * @method setReCaptcha
@@ -384,7 +334,6 @@ class SigninForm extends Vue {
      * @desc 리캡챠 인증이 성공했을 시 콜백
      */
     onVertifyReCaptcha (response: string): void {
-        console.log('signin -> ', response);
         this.reCaptchaToken = response;
     }
 

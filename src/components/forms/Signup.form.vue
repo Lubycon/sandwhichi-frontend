@@ -102,10 +102,9 @@ div[data-name="terms-agree"] {
  * @member { SignupTerms } terms
  */
 import { Vue, Component } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 import { PasswordMixin } from '@/mixins/Password.mixin';
-import { UserSignupData, GoogleUserSignupData, NaverUserSignupData } from '@/interfaces/User.interface';
+import { UserSignupData } from '@/interfaces/User.interface';
 import { SignupTerms } from '@/interfaces/Form.interface';
 import APIAuth from '@/api/APIAuth';
 import Validate from '@/helpers/Validate';
@@ -128,7 +127,6 @@ class SignupForm extends Vue {
     getPasswordLevel: Function;
     signupData: UserSignupData;
     passwordRepeat: string;
-    socialAccount: string;
     isBusy: boolean;
     errors: any;
     regex: any;
@@ -147,16 +145,12 @@ class SignupForm extends Vue {
         };
 
         this.passwordRepeat = null;
-        this.socialAccount = '';
         this.isBusy = false;
         this.regex = {
             name: Validate.getRegex('name'),
         };
         this.terms = null;
     }
-
-    @Getter('getGoogleToken') getGoogleToken;
-    @Getter('getNaverToken') getNaverToken;
 
     get passwordLevelText (): string {
         const level = this.getPasswordLevel(this.signupData.password);
@@ -201,44 +195,15 @@ class SignupForm extends Vue {
     }
 
     async signup (): Promise<any> {
-        const social: string = this.socialAccount;
         const model: UserSignupData = this.signupData;
         const terms: SignupTerms = this.terms;
         try {
-            if (social === 'google') {
-                const data: GoogleUserSignupData = {
-                    email: model.email,
-                    password: model.password,
-                    name: model.name,
-                    privacyPolicyAccepted: terms.privacyPolicy,
-                    termsOfServiceAccepted: terms.terms,
-                    emailAccepted: terms.sendEmail,
-                    id_token: this.getGoogleToken,
-                };
-                const response = await APIAuth.signupGoogle(data);
-                return response;
-            }
-            else if (social === 'naver') {
-                const data: NaverUserSignupData = {
-                    email: model.email,
-                    password: model.password,
-                    name: model.name,
-                    privacyPolicyAccepted: terms.privacyPolicy,
-                    termsOfServiceAccepted: terms.terms,
-                    emailAccepted: terms.sendEmail,
-                    accessToken: this.getNaverToken,
-                };
-                const response = await APIAuth.signupNaver(data);
-                return response;
-            }
-            else {
-                const data: UserSignupData = model;
-                data.privacyPolicyAccepted = terms.privacyPolicy;
-                data.termsOfServiceAccepted = terms.terms;
-                data.emailAccepted = terms.sendEmail;
-                const response = await APIAuth.signup(data);
-                return response;
-            }
+            const data: UserSignupData = model;
+            data.privacyPolicyAccepted = terms.privacyPolicy;
+            data.termsOfServiceAccepted = terms.terms;
+            data.emailAccepted = terms.sendEmail;
+            const response = await APIAuth.signup(data);
+            return response;
         }
         catch (e) {}
     }
@@ -264,10 +229,6 @@ class SignupForm extends Vue {
      */
     setLoading (bool: boolean): void {
         this.isBusy = bool;
-    }
-
-    created () {
-        this.socialAccount = this.$route.query.social;
     }
 
     mounted () {

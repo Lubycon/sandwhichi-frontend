@@ -53,7 +53,7 @@ class AuthPassword extends Vue {
 
         try {
             const checkPasswordResponse = await this.checkPassword(data);
-            if (checkPasswordResponse.result.validity) {
+            if (checkPasswordResponse.results.validity) {
                 this.createToken();
             }
             else {
@@ -74,7 +74,7 @@ class AuthPassword extends Vue {
             const tokenResponse = await APIAuth.createPasswordToken();
             this.$router.push({
                 name: 'user-setting-password',
-                params: { code: tokenResponse.result.token },
+                params: { code: tokenResponse.results.token },
             });
         }
         catch (e) {

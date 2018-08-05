@@ -72,7 +72,7 @@ class AuthGrade extends Vue {
     async fetchLeftTime (): Promise<any> {
         try {
             const timeResponse = await APIAuth.getSignupLeftTime();
-            this.leftTime = timeResponse.result.time * 1000;
+            this.leftTime = timeResponse.results.time * 1000;
             this.countDownStart();
             return timeResponse;
         }

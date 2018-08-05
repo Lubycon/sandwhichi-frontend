@@ -1,17 +1,9 @@
-import { Getter, GetterTree } from 'vuex';
+import { GetterTree } from 'vuex';
 import { AuthState } from './state';
 import { User } from '@/interfaces/User.interface';
 
 export function getToken (state: AuthState): string {
     return state.accessToken;
-}
-
-export function getNaverToken (state: AuthState): string {
-    return state.naverAccessToken;
-}
-
-export function getGoogleToken (state: AuthState): string {
-    return state.googleAccessToken;
 }
 
 export function isAuthorized (state: AuthState): boolean {
@@ -32,8 +24,6 @@ export function hasProfileSrc (state: AuthState): boolean {
 
 export default <GetterTree<AuthState, any>> {
     getToken,
-    getNaverToken,
-    getGoogleToken,
     getUser,
     getUserProfileSrc,
     isAuthorized,

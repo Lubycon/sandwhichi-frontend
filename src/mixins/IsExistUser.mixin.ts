@@ -20,7 +20,7 @@ export class isExistUserMixin extends Vue {
         const defer = Q.defer();
         try {
             const response = await APIUser.isExistEmail(email);
-            defer.resolve(response.result);
+            defer.resolve(response.results.is_exist);
         }
         catch (e) {
             defer.reject(false);

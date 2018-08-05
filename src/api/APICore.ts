@@ -22,13 +22,11 @@ export class APICore {
 
     private static APIList: APICore[] = [];
     private static _authToken: string;
-    private static _refreshToken: string;
     private router: any;
 
     constructor (options) {
         this.axios = axios.create(options);
         APICore._authToken = '';
-        APICore._refreshToken = '';
         APICore.APIList.push(this);
     }
 
@@ -37,26 +35,12 @@ export class APICore {
         APICore.APIList.forEach(instance => instance.authToken = newToken);
     }
 
-    public static setRefreshToken (newToken: string) {
-        APICore._refreshToken = newToken;
-        APICore.APIList.forEach(instance => instance.refreshToken = newToken);
-    }
-
     public set authToken (newToken: string) {
         if (newToken) {
-            this.axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+            this.axios.defaults.headers.common.Authorization = `JWT ${newToken}`;
         }
         else {
             delete this.axios.defaults.headers.common.Authorization;
-        }
-    }
-
-    public set refreshToken (newToken: string) {
-        if (newToken) {
-            this.axios.defaults.headers.common[`${CUSTOM_HEADER_PREFIX}refresh-token`] = newToken;
-        }
-        else {
-            delete this.axios.defaults.headers.common[`${CUSTOM_HEADER_PREFIX}refresh-token`];
         }
     }
 
@@ -64,13 +48,8 @@ export class APICore {
         return APICore._authToken;
     }
 
-    public static get refreshToken () {
-        return APICore._refreshToken;
-    }
-
     public static destroyToken () {
         APICore._authToken = '';
-        APICore._refreshToken = '';
     }
 
     protected async get (api: string, params?: any) {
@@ -189,7 +168,7 @@ export class APICore {
         console.log('[log] Reissuance Start...');
 
         const defer = Q.defer();
-        const endpoint: string = `${API_BASE_URL}/members/token/refresh`;
+        const endpoint: string = `${API_BASE_URL}/auth/token/refresh/`;
 
         console.log(`ENDPOINT -> ${endpoint}`);
 
@@ -197,12 +176,10 @@ export class APICore {
             const response = await this.axios.get(endpoint);
 
             console.log('[log] Reissuance Success....');
-            console.log(`[log] New Auth Token => ${response.data.result}`);
-            console.log(`[log] Refresh Token => ${this.refreshToken}`);
+            console.log(`[log] New Auth Token => ${response.data.results.auth_token}`);
 
             APICore.store.dispatch('setToken', {
-                accessToken: response.data.result,
-                refreshToken: this.refreshToken,
+                accessToken: response.data.results.auth_token,
             }).then(res => {
                 defer.resolve();
             });

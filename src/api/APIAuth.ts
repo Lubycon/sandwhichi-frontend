@@ -17,32 +17,12 @@ class APIAuth extends APICore {
     }
 
     public signin (data: UserSigninData): Promise<any> {
-        const endpoint: string = '/users/signin';
+        const endpoint: string = '/auth/signin/';
         return this.post(endpoint, data);
-    }
-
-    public signinGoogle (token: string): Promise<any> {
-        const endpoint: string = '/users/google/signin';
-        return this.post(endpoint, { id_token: token });
-    }
-
-    public signinNaver (token: string): Promise<any> {
-        const endpoint: string = '/users/naver/signin';
-        return this.post(endpoint, { access_token: token });
     }
 
     public signup (data: UserSignupData): Promise<any> {
-        const endpoint: string = '/users/signup';
-        return this.post(endpoint, data);
-    }
-
-    public signupGoogle (data: GoogleUserSignupData) {
-        const endpoint: string = 'users/google/signup';
-        return this.post(endpoint, data);
-    }
-
-    public signupNaver (data: NaverUserSignupData) {
-        const endpoint: string = 'users/naver/signup';
+        const endpoint: string = '/auth/signup/';
         return this.post(endpoint, data);
     }
 

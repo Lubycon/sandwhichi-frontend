@@ -72,7 +72,7 @@ class AuthGradeLanding extends Vue {
         try {
             const certCodeResponse = await APIAuth.checkSignupCertCode(this.code);
             this.isLoaded = true;
-            this.validity = certCodeResponse.result.validity;
+            this.validity = certCodeResponse.results.validity;
         }
         catch (e) {
             this.isLoaded = true;

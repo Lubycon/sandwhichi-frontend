@@ -15,9 +15,6 @@ const AuthGradeLanding = () => import('@/pages/Auth/AuthGradeLanding.vue');
 const AuthPassword = () => import('@/pages/Auth/AuthPassword.vue');
 const AuthPasswordLanding = () => import('@/pages/Auth/AuthPasswordLanding.vue');
 
-const AuthNaverLanding = () => import('@/pages/Auth/NaverAuthLanding.vue');
-
-
 export const AuthRouters = [{
     path: '/signin',
     name: 'signin',
@@ -84,10 +81,4 @@ export const AuthRouters = [{
     props: {
         content: true,
     },
-}, {
-    path: '/auth/naver',
-    name: 'auth-naver-landing',
-    components: {
-        content: AuthNaverLanding,
-    }
 }];

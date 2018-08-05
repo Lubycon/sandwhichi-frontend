@@ -46,7 +46,7 @@ class SigndropForm extends Vue {
     async fetchOptions (): Promise<any> {
         try {
             const surveyResponse = await APIAuth.getSigndropSurvey();
-            this.$set(this, 'options', surveyResponse.result);
+            this.$set(this, 'options', surveyResponse.results);
             return surveyResponse;
         }
         catch (e) {}

@@ -92,9 +92,9 @@ class Signin extends Vue {
      * @return { Promise<any> }
      * @desc 인자로 넘겨받은 토큰을 사용하여 auth스토어에 유저 데이터를 주입한다.
      */
-    async updateMember ({ accessToken, refreshToken }): Promise<any> {
+    async updateMember ({ accessToken }): Promise<any> {
         try {
-            this.setToken({ accessToken, refreshToken });
+            this.setToken({ accessToken });
             const userDataResponse = await this.setUserByAPI();
 
             this.signinResolve();

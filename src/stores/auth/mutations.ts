@@ -5,27 +5,13 @@ import { User } from '@/interfaces/User.interface';
 import { APICore } from '@/api/APICore';
 import Cookie from '@/helpers/Cookie';
 
-export function SET_TOKEN (state: AuthState, { accessToken, refreshToken }) {
+export function SET_TOKEN (state: AuthState, { accessToken }) {
     state.accessToken = accessToken;
-    state.refreshToken = refreshToken;
     APICore.setAuthToken(accessToken);
-    APICore.setRefreshToken(refreshToken);
     Cookie.save({
         key: 'auth',
         value: accessToken,
     });
-    Cookie.save({
-        key: 'refresh',
-        value: refreshToken,
-    });
-}
-
-export function SET_NAVER_TOKEN (state: AuthState, token: string) {
-    state.naverAccessToken = token;
-}
-
-export function SET_GOOGLE_TOKEN (state: AuthState, token: string) {
-    state.googleAccessToken = token;
 }
 
 export function SET_USER (state: AuthState, user: User) {
@@ -45,7 +31,6 @@ declare var process; // 임시방편, 지울 것 @evan
 
 export function DESTROY_TOKEN (state: AuthState, { reload }) {
     state.accessToken = null;
-    state.refreshToken = null;
     state.user = {
         id: null,
         email: null,
@@ -65,8 +50,6 @@ export function DESTROY_TOKEN (state: AuthState, { reload }) {
 
 export default <MutationTree<AuthState>> {
     SET_TOKEN,
-    SET_NAVER_TOKEN,
-    SET_GOOGLE_TOKEN,
     SET_USER,
     DESTROY_TOKEN
 }

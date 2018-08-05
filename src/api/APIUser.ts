@@ -13,7 +13,7 @@ class APIUser extends APICore {
     }
 
     public getMyData (): Promise<any> {
-        const endpoint = '/users/me';
+        const endpoint = '/users/me/';
         return this.get(endpoint);
     }
 
@@ -23,7 +23,7 @@ class APIUser extends APICore {
     }
 
     public isExistEmail (email: string): Promise<any> {
-        const endpoint = '/users/exists/email';
+        const endpoint = '/users/exists/email/';
         return this.post(endpoint, { email });
     }
 }
