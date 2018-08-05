@@ -2,20 +2,21 @@
  * @name router.auth
  */
 
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+const Header = () => import('@/components/Header.vue');
+const Footer = () => import('@/components/Footer.vue');
 
-import Signin from '@/pages/Auth/Signin.vue';
-import Signup from '@/pages/Auth/Signup.vue';
-import Signdrop from '@/pages/Auth/Signdrop.vue';
-import AuthSendMail from '@/pages/Auth/AuthSendMail.vue';
+const Signin = () => import('@/pages/Auth/Signin.vue');
+const Signup = () => import('@/pages/Auth/Signup.vue');
+const Signdrop = () => import('@/pages/Auth/Signdrop.vue');
+const AuthSendMail = () => import('@/pages/Auth/AuthSendMail.vue');
 
-import AuthGrade from '@/pages/Auth/AuthGrade.vue';
-import AuthGradeLanding from '@/pages/Auth/AuthGradeLanding.vue';
-import AuthPassword from '@/pages/Auth/AuthPassword.vue';
-import AuthPasswordLanding from '@/pages/Auth/AuthPasswordLanding.vue';
+const AuthGrade = () => import('@/pages/Auth/AuthGrade.vue');
+const AuthGradeLanding = () => import('@/pages/Auth/AuthGradeLanding.vue');
+const AuthPassword = () => import('@/pages/Auth/AuthPassword.vue');
+const AuthPasswordLanding = () => import('@/pages/Auth/AuthPasswordLanding.vue');
 
-import AuthNaverLanding from '@/pages/Auth/NaverAuthLanding.vue';
+const AuthNaverLanding = () => import('@/pages/Auth/NaverAuthLanding.vue');
+
 
 export const AuthRouters = [{
     path: '/signin',

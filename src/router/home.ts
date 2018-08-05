@@ -2,11 +2,11 @@
  * @name router.home
  */
 
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+const Header = () => import('@/components/Header.vue');
+const Footer = () => import('@/components/Footer.vue');
 
-import Home from '@/pages/Home.vue';
-import ErrorView from '@/pages/ErrorView.vue';
+const Home = () => import('@/pages/Home.vue');
+const ErrorView = () => import('@/pages/ErrorView.vue');
 
 export const HomeRouters = [{
     path: '/',
