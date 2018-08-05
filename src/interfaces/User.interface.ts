@@ -1,41 +1,25 @@
 import { Image } from '@/interfaces/Image.interface';
 
+export type UserProfile = {
+    abilities: string[],
+    keywords: string[],
+    profile_image: string,
+}
+
 export type User = {
     id: string;
     email: string;
-    name: string;
-    status: string;
-    profileImg: Image;
-    newsletterAccepted?: number;
+    username: string;
+    profile?: UserProfile,
 };
 
 export type UserSignupData = {
     email: string;
     password: string;
-    name: string;
-    privacyPolicyAccepted: boolean;
-    termsOfServiceAccepted: boolean;
-    emailAccepted: boolean;
-};
-
-export type GoogleUserSignupData = {
-    email: string;
-    password: string;
-    name: string;
-    privacyPolicyAccepted: boolean;
-    termsOfServiceAccepted: boolean;
-    emailAccepted: boolean;
-    id_token: string;
-};
-
-export type NaverUserSignupData = {
-    email: string;
-    password: string;
-    name: string;
-    privacyPolicyAccepted: boolean;
-    termsOfServiceAccepted: boolean;
-    emailAccepted: boolean;
-    accessToken: string;
+    username: string;
+    has_privacy_policy: boolean;
+    has_terms: boolean;
+    email_accepted: boolean;
 };
 
 export type UserSigninData = {

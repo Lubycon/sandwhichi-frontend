@@ -22,21 +22,24 @@ export function SET_USER (state: AuthState, user: User) {
         value: user,
     });
 
-    if(user.profileImg) {
-        state.userProfileSrc = user.profileImg.file + '320';
+    if(user.profile.profile_image) {
+        state.userProfileSrc = user.profile.profile_image;
         state.hasProfileSrc = true;
     }
 }
-declare var process; // 임시방편, 지울 것 @evan
 
+declare var process; // 임시방편, 지울 것 @evan
 export function DESTROY_TOKEN (state: AuthState, { reload }) {
     state.accessToken = null;
     state.user = {
         id: null,
         email: null,
-        name: null,
-        status: null,
-        profileImg: null,
+        username: null,
+        profile: {
+            abilities: [],
+            keywords: [],
+            profile_image: null,
+        },
     };
     state.isAuthorized = false;
     APICore.destroyToken();

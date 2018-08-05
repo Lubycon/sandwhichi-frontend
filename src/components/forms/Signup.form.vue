@@ -40,7 +40,7 @@
             </b-col>
             <name-form
                 class="col-12"
-                v-model="signupData.name"
+                v-model="signupData.username"
                 ref="nameForm"
                 v-validate="{
                     rules: {
@@ -138,10 +138,10 @@ class SignupForm extends Vue {
         this.signupData = {
             email: null,
             password: null,
-            name: null,
-            privacyPolicyAccepted: false,
-            termsOfServiceAccepted: false,
-            emailAccepted: false,
+            username: null,
+            has_privacy_policy: false,
+            has_terms: false,
+            email_accepted: false,
         };
 
         this.passwordRepeat = null;
@@ -181,8 +181,7 @@ class SignupForm extends Vue {
                 this.setLoading(true);
                 const signupResponse = await this.signup();
                 this.$emit('submitted', {
-                    accessToken: signupResponse.result.access_token,
-                    refreshToken: signupResponse.result.refresh_token,
+                    accessToken: signupResponse.results.auth_token,
                 });
             }
             else {
@@ -199,9 +198,10 @@ class SignupForm extends Vue {
         const terms: SignupTerms = this.terms;
         try {
             const data: UserSignupData = model;
-            data.privacyPolicyAccepted = terms.privacyPolicy;
-            data.termsOfServiceAccepted = terms.terms;
-            data.emailAccepted = terms.sendEmail;
+            data.has_privacy_policy = terms.privacyPolicy;
+            data.has_terms = terms.terms;
+            data.email_accepted = terms.sendEmail;
+            console.log('data -> ', data);
             const response = await APIAuth.signup(data);
             return response;
         }

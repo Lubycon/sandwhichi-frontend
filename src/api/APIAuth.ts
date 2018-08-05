@@ -5,8 +5,7 @@
 import { APICore } from '@/api/APICore';
 import { API_BASE_URL } from '@/constants/env.constant';
 import {
-    UserSigninData, UserSigndropData,
-    UserSignupData, GoogleUserSignupData, NaverUserSignupData,
+    UserSigninData, UserSigndropData, UserSignupData
 } from '@/interfaces/User.interface';
 
 class APIAuth extends APICore {
