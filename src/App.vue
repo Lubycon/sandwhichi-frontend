@@ -1,10 +1,10 @@
 <template>
 <div id="app">
-    <router-view id="app-header" name="header" />
+    <no-ssr placholder="Loading Header...">
+        <router-view id="app-header" name="header" />
+    </no-ssr>
     <div id="app-body">
-        <transition name="fade">
-            <router-view name="content" />
-        </transition>
+        <router-view name="content" />
     </div>
     <router-view id="app-footer" name="footer" />
 </div>
@@ -16,6 +16,7 @@
 
 <script>
 import config from '@/app.config.json';
+import NoSsr from 'vue-no-ssr';
 const { app, copyrights, og, ld } = config;
 
 export default {
@@ -120,5 +121,6 @@ export default {
             type: 'application/ld+json',
         }],
     },
+    components: { NoSsr },
 };
 </script>

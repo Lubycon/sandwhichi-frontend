@@ -54,9 +54,10 @@ nav {
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { State, Getter, Action } from 'vuex-class';
+import { State, Getter } from 'vuex-class';
 import { TYPE_LOGO } from '@/constants';
 import APIAuth from '@/api/APIAuth';
+import { GET_IS_AUTHORIZED } from '@/stores/auth/config';
 
 @Component({
     name: 'GlobalHeader',
@@ -67,14 +68,13 @@ class GlobalHeader extends Vue {
 
     constructor () {
         super();
-        
+
         this.logoSrc = TYPE_LOGO;
         this.msg = 'This is Global Header';
     }
 
     @State('auth') AuthState;
-    @Getter('isAuthorized') isAuthorized;
-    @Action('destroy') destoryToken;
+    @Getter(GET_IS_AUTHORIZED) isAuthorized;
 
     signout () {
         APIAuth.signout();

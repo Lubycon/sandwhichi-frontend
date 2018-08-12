@@ -13,8 +13,8 @@
 import axios from 'axios';
 import Q from 'q';
 import { Store } from 'vuex';
-import { CUSTOM_HEADER_PREFIX } from '@/constants';
 import { API_BASE_URL } from '@/constants/env.constant';
+import { DESTROY_AUTH_TOKEN, SET_AUTH_TOKEN } from '@/stores/auth/config';
 
 export class APICore {
     public static store: Store<any>;
@@ -178,19 +178,13 @@ export class APICore {
             console.log('[log] Reissuance Success....');
             console.log(`[log] New Auth Token => ${response.data.results.auth_token}`);
 
-            APICore.store.dispatch('setToken', {
-                accessToken: response.data.results.auth_token,
-            }).then(res => {
-                defer.resolve();
-            });
+            await APICore.store.dispatch(SET_AUTH_TOKEN, response.data.results.auth_token);
+            defer.resolve();
         }
         catch (e) {
             console.log('[log] Reissuance is failed.');
-            APICore.store.dispatch('destroyToken', {
-                reload: false
-            }).then(res => {
-                defer.resolve();
-            });
+            await APICore.store.dispatch(DESTROY_AUTH_TOKEN, false);
+            defer.resolve();
         }
 
         return defer.promise;

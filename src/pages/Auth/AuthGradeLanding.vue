@@ -42,6 +42,7 @@ div[data-name="error"] {
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import APIAuth from '@/api/APIAuth';
+import { GET_IS_AUTHORIZED } from '@/stores/auth/config';
 
 @Component({
     name: 'AuthGradeLanding',
@@ -66,7 +67,7 @@ class AuthGradeLanding extends Vue {
     @Prop({ required: true })
     code: string;
 
-    @Getter('isAuthorized') isAuthorized;
+    @Getter(GET_IS_AUTHORIZED) isAuthorized;
 
     async created () {
         try {
