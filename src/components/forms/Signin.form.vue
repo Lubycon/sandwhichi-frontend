@@ -156,7 +156,6 @@ button.btn[type="submit"] {
  */
 
 import { Vue, Component, Watch } from 'vue-property-decorator';
-import { Action } from 'vuex-class';
 import { isExistUserMixin } from '@/mixins/IsExistUser.mixin';
 import { UserSigninData } from '@/interfaces/User.interface';
 import APIAuth from '@/api/APIAuth';
@@ -173,8 +172,6 @@ class SigninForm extends Vue {
         passwordInput: any,
         recaptcha: any,
     }
-    $googleAuth: any;
-    $naverAuth: any;
     errors: any;
     checkIsExistEmail: Function;
     email: string;
@@ -200,8 +197,6 @@ class SigninForm extends Vue {
         this.invalidCount = 0;
         this.maxInvalidCount = 5;
     }
-
-    @Action('setGoogleToken') setGoogleToken;
 
     /**
      * @event onChangeInvalidCount
@@ -303,15 +298,6 @@ class SigninForm extends Vue {
             return '';
         }
     }
-
-    /**
-     * @method authNaver
-     * @desc 네이버 계정을 사용한 인증을 진행한다
-     * @not_supported
-     */
-    // authNaver () {
-    //     this.$naverAuth.signin('/auth/naver');
-    // }
 
     /**
      * @method setReCaptcha

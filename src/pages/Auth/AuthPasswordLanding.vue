@@ -22,21 +22,18 @@ class AuthPasswordLanding extends Vue {
     code: string;
 
     async created () {
+        const userEmail = this.$route.query.email;
         try {
-            const certCodeResponse = await APIAuth.checkPasswordCertCode(this.code);
-            if (certCodeResponse.results.validity) {
-                this.$router.push({
-                    name: 'user-setting-password',
-                    params: { code: this.code },
-                });
-            }
-            else {
-                console.error('Failed cert code in password landing');
-            }
+            await APIAuth.checkPasswordCertCode(userEmail, this.code);
+            this.$router.push({
+                name: 'user-setting-password',
+                params: { code: this.code },
+            });
         }
         catch (e) {
             this.isLoaded = true;
             this.$set(this, 'errCode', e.status);
+            console.error('Failed cert code in password landing');
         }
     }
 }

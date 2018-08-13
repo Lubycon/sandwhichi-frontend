@@ -65,6 +65,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
 import { VERTICAL_LOGO } from '@/constants';
+import { SET_AUTH_TOKEN, SET_MY_USER } from '@/stores/auth/config';
 import SigninForm from '@/components/forms/Signin.form.vue';
 
 @Component({
@@ -83,8 +84,8 @@ class Signin extends Vue {
         this.logo = VERTICAL_LOGO;
     }
 
-    @Action('setToken') setToken;
-    @Action('setUserByAPI') setUserByAPI;
+    @Action(SET_AUTH_TOKEN) setToken;
+    @Action(SET_MY_USER) setMyUser;
 
     /**
      * @method updateMember
@@ -94,8 +95,8 @@ class Signin extends Vue {
      */
     async updateMember ({ accessToken }): Promise<any> {
         try {
-            this.setToken({ accessToken });
-            const userDataResponse = await this.setUserByAPI();
+            this.setToken(accessToken);
+            const userDataResponse = await this.setMyUser();
 
             this.signinResolve();
 

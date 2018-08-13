@@ -24,6 +24,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
+import { GET_MY_USER } from '@/stores/auth/config';
 import { UserSigninData } from '@/interfaces/User.interface';
 import APIAuth from '@/api/APIAuth';
 
@@ -41,7 +42,7 @@ class AuthPassword extends Vue {
         this.isBusy = false;
     }
 
-    @Getter('getAuthUser') me;
+    @Getter(GET_MY_USER) me;
 
     async submit (): Promise<any> {
         const data: UserSigninData = {

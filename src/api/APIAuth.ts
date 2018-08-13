@@ -7,6 +7,7 @@ import { API_BASE_URL } from '@/constants/env.constant';
 import {
     UserSigninData, UserSigndropData, UserSignupData
 } from '@/interfaces/User.interface';
+import { DESTROY_AUTH_TOKEN } from 'stores/auth/config';
 
 class APIAuth extends APICore {
     constructor () {
@@ -26,7 +27,7 @@ class APIAuth extends APICore {
     }
 
     public signout (reload: boolean = true): void {
-        APICore.store.dispatch('destroyToken', { reload });
+        APICore.store.dispatch(DESTROY_AUTH_TOKEN, { reload });
     }
 
     public signdrop (data: UserSigndropData): Promise<any> {
@@ -55,7 +56,7 @@ class APIAuth extends APICore {
     }
 
     public sendPasswordMail (email: string): Promise<any> {
-        const endpoint = '/members/password/mail';
+        const endpoint = '/mail/password/change/';
         return this.post(endpoint, { email });
     }
 
@@ -64,9 +65,9 @@ class APIAuth extends APICore {
         return this.post(endpoint, data);
     }
 
-    public checkPasswordCertCode (code: string): Promise<any> {
-        const endpoint = '/certs/password/code';
-        return this.post(endpoint, { code });
+    public checkPasswordCertCode (email: string, token: string): Promise<any> {
+        const endpoint = '/auth/token/verify/password/change/email/';
+        return this.post(endpoint, { email, token });
     }
 
     public createPasswordToken () {

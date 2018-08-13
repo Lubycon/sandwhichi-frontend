@@ -1,48 +1,36 @@
-import { Store, ActionTree, ActionContext } from 'vuex';
+import { ActionTree, ActionContext } from 'vuex';
 import { AuthState } from './state';
+import {
+    SET_AUTH_TOKEN,
+    DESTROY_AUTH_TOKEN,
+    SET_MY_USER,
+    DESTROY_MY_USER
+} from './config';
 import { User } from '@/interfaces/User.interface';
-import Q from 'q';
 import APIUser from '@/api/APIUser';
 
-export function setToken (store: ActionContext<AuthState, any>, { accessToken }) {
-    const defer = Q.defer();
-    store.commit('SET_TOKEN', { accessToken });
-    defer.resolve();
-    return defer.promise;
-}
+const actions = <ActionTree<AuthState, any>> {
+    [SET_AUTH_TOKEN] (store: ActionContext<AuthState, any>, accessToken: string) {
+        store.commit(SET_AUTH_TOKEN, accessToken);
+    },
+    async [SET_MY_USER] (store: ActionContext<AuthState, any>) {
+        try {
+            const myDataResponse = await APIUser.getMyData();
+            const myUserData: User = myDataResponse.results;
+            store.commit(SET_MY_USER, myUserData);
+            return myUserData;
+        }
+        catch (e) {
+            console.error(e);
+            throw new Error(e);
+        }
+    },
+    [DESTROY_AUTH_TOKEN] (store: ActionContext<AuthState, any>, reload: boolean) {
+        store.commit(DESTROY_AUTH_TOKEN, reload);
+    },
+    [DESTROY_MY_USER] (store: ActionContext<AuthState, any>) {
+        store.commit(DESTROY_MY_USER);
+    },
+};
 
-export async function setUserByAPI (store: ActionContext<AuthState, any>) {
-    const defer = Q.defer();
-    try {
-        const myDataResponse = await APIUser.getMyData();
-        const myData = myDataResponse.results;
-        store.commit('SET_USER', myData);
-        defer.resolve();
-    }
-    catch (e) {
-        console.error(e);
-        defer.reject();
-    }
-    return defer.promise;
-}
-
-export function setUser (store: ActionContext<AuthState, any>, user: User) {
-    let defer = Q.defer();
-    store.commit('SET_USER', user);
-    defer.resolve();
-    return defer.promise;
-}
-
-export function destroyToken (store: ActionContext<AuthState, any>, { reload }) {
-    let defer = Q.defer();
-    store.commit('DESTROY_TOKEN', { reload });
-    defer.resolve();
-    return defer.promise;
-}
-
-export default <ActionTree<AuthState, any>> {
-    setToken,
-    setUserByAPI,
-    setUser,
-    destroyToken
-}
+export default actions;

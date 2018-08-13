@@ -5,8 +5,7 @@
             <b-form-input
                 type="email"
                 v-model="email"
-                placeholder="ex) john0102@pixelstairs.com"
-            />
+                placeholder="ex) john0102@pixelstairs.com" />
         </b-form-group>
         <b-button type="submit">
             <span v-show="!isBusy">Submit</span>
@@ -32,9 +31,6 @@ class SendMailForm extends Vue {
 
     @Prop({ default: false })
     isBusy: boolean;
-
-    @Prop({ required: true })
-    type: string;
 
     submit (): void {
         this.$emit('submit', { email: this.email });

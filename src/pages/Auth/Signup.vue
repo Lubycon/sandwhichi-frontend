@@ -137,6 +137,7 @@ div[data-name="signup-form"] {
 import { Vue, Component } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 import { ICON_LOGO, ICON_LOGO_WHITE } from '@/constants';
+import { SET_AUTH_TOKEN, SET_MY_USER } from '@/stores/auth/config';
 import { SIGNUP_CONTENTS } from '@/constants/form.constant';
 import { SignupContent } from '@/interfaces/Form.interface';
 import SignupForm from '@/components/forms/Signup.form.vue';
@@ -173,8 +174,8 @@ class Signup extends Vue {
     }
 
     @State('auth') AuthState;
-    @Action('setToken') setToken;
-    @Action('setUserByAPI') setUserByAPI;
+    @Action(SET_AUTH_TOKEN) setToken;
+    @Action(SET_MY_USER) setMyUser;
 
     /**
      * @method updateMember
@@ -184,8 +185,8 @@ class Signup extends Vue {
      */
     async updateMember ({ accessToken }): Promise<any> {
         try {
-            this.setToken({ accessToken });
-            const userDataResponse = await this.setUserByAPI();
+            this.setToken(accessToken);
+            const userDataResponse = await this.setMyUser();
 
             this.signupResolve();
 
