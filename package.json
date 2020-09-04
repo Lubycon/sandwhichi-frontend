@@ -55,7 +55,7 @@
     "vue-awesome-swiper": "^3.1.2",
     "vue-class-component": "^6.1.1",
     "vue-meta": "^1.2.0",
-    "vue-moment": "^2.0.2",
+    "vue-moment": "^4.1.0",
     "vue-no-ssr": "^0.2.0",
     "vue-property-decorator": "^6.0.0",
     "vue-router": "^3.0.0",
